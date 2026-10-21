@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Slide Pack Module B: Core technical skills</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Slide Pack Module B</span></div>
+<section class="slide"><div class="kick">Slide pack</div><h1>Module B: Core technical skills</h1><p class="sub">3 units, 76 slides. Use the arrows or the Back and Next buttons.</p></section>
+<section class="slide"><div class="kick">Unit 02 of 14</div><h1>Core technical skills I: IP protocols and network architectures</h1><p class="sub">The deck for this unit follows.</p></section>
+<section class="slide"><div class="kick">Session 2 of 14</div><h1>Core Technical Skills I: IP Protocols &amp; Network Architectures</h1><p class="sub">The protocols and topologies that carry every intrusion — and that every network-level analysis rests on.</p><div class="tags"><span class="tag">Group B</span><span class="tag">IP Protocols</span><span class="tag">Architectures</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group B</div><h2>Group B: Core Technical Skills across three sessions</h2><table><thead><tr>
+<th>Session</th>
+<th>Areas</th>
+<th>Focus</th>
+</tr></thead><tbody>
+<tr><td>2</td><td>B1 IP Protocols, B2 Network Architectures</td><td>TCP/IP, HTTP(S), DNS, email, cabling, NAT</td></tr>
+<tr><td>3</td><td>B3–B6 Tools, Fingerprinting &amp; NAC</td><td>Tool classes, OS/application fingerprinting, NAC</td></tr>
+<tr><td>4</td><td>B7–B11 Crypto, Permissions &amp; Host</td><td>Crypto, permissions, host analysis, data formats</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Compare IPv4 and IPv6</b> address formats, sizes and address classes</li>
+<li><b>Explain TCP, UDP and ICMP</b> their roles, headers and trade-offs</li>
+<li><b>Describe the application protocols</b> HTTP(S), SMTP, DNS and how the web and email work</li>
+<li><b>State the fundamental protocols</b> IRC, DHCP, FTP, SMB, SNMP and their security implications</li>
+<li><b>Recognise network architectures</b> cabling, domains, NAT, 802.11, VLANs, subnets and routing</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · Protocols</div><h2>Understanding protocols</h2><ul>
+<li><b>Protocols govern exchange</b> networking protocols define how systems and devices exchange data</li>
+<li><b>SMTP</b> defines how email applications send email</li>
+<li><b>FTP</b> defines how files are transferred to a server</li>
+<li><b>The OSI model</b> a seven-layer reference model that frames protocol interactions</li>
+<li><b>Protocol awareness</b> is the foundation for reading captures and reconstructing attacks</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · IP</div><h2>The Internet Protocol (IP)</h2><ul>
+<li><b>Routes data</b> IP routes data from source to destination using special network addresses</li>
+<li><b>Unique numerical identifiers</b> assigned to all devices on the network, e.g. 192.168.10.2</li>
+<li><b>Two standards in use</b> IPv4 and IPv6</li>
+<li><b>IPv4</b> 32-bit address, about 4 billion addresses, split into four sections</li>
+<li><b>IPv6</b> 128-bit address, 2^128 addresses, split into eight sections</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · IP</div><h2>IPv4 address classes</h2><table><thead><tr>
+<th>Class</th>
+<th>Public range</th>
+<th>Private range</th>
+</tr></thead><tbody>
+<tr><td>A</td><td>0.0.0.0 – 126.255.255.255</td><td>10.0.0.0 – 10.255.255.255</td></tr>
+<tr><td>B</td><td>128.0.0.0 – 191.255.255.255</td><td>172.16.0.0 – 172.31.255.255</td></tr>
+<tr><td>C</td><td>192.0.0.0 – 223.255.255.255</td><td>192.168.0.0 – 192.168.255.255</td></tr>
+<tr><td>D</td><td>224.0.0.0 – 239.255.255.255</td><td>Multicast</td></tr>
+<tr><td>E</td><td>240.0.0.0 – 255.255.255.255</td><td>Reserved</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B1 · IP</div><h2>IPv6 addressing</h2><ul>
+<li><b>128-bit address</b> vast address space — 2^128 possible addresses</li>
+<li><b>Eight sections</b> an IPv6 address is written as eight groups of hex digits</li>
+<li><b>Three categories</b> unicast, multicast and anycast</li>
+<li><b>Zero compression</b> consecutive zeros are represented with &#x27;::&#x27;</li>
+<li><b>Example</b> FE80::FFFF:C0A8:0A02 (link-local address)</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · IP</div><h2>Unicast, multicast and anycast</h2><table><thead><tr>
+<th>Type</th>
+<th>Relationship</th>
+<th>Meaning</th>
+</tr></thead><tbody>
+<tr><td>Unicast</td><td>One-to-one</td><td>Packet delivered to the single network interface with that address</td></tr>
+<tr><td>Broadcast</td><td>One-to-all</td><td>Delivered to every host on the network segment</td></tr>
+<tr><td>Multicast</td><td>One-to-many</td><td>Address designates a subset of hosts that joined the group</td></tr>
+<tr><td>Anycast</td><td>One-to-nearest</td><td>Delivered to the nearest interface that is part of the group</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B1 · ICMP</div><h2>Internet Control Message Protocol</h2><ul>
+<li><b>Error reporting and diagnosis</b> ICMP provides error-reporting and helps solve network problems</li>
+<li><b>Used by ping</b> echo request/reply underpins connectivity testing</li>
+<li><b>Attacker abuse</b> attackers use ICMP to launch Denial-of-Service (DoS) attacks</li>
+<li><b>Smurf-style floods</b> broadcast amplification and ping floods are ICMP-borne</li>
+<li><b>Analyst value</b> ICMP in captures can reveal probing, reachability and covert channels</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · TCP</div><h2>Transmission Control Protocol</h2><ul>
+<li><b>Works alongside IP</b> TCP sends packets to other network devices reliably</li>
+<li><b>Three-way handshake</b> SYN, SYN-ACK, ACK establishes a connection</li>
+<li><b>Packets</b> data is divided into packets for transmission</li>
+<li><b>Checksums</b> ensure data is not corrupted in transit</li>
+<li><b>Sequence numbers</b> detect loss and rebuild data in the correct order</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · TCP/UDP</div><h2>Common uses of TCP and the UDP contrast</h2><table><thead><tr>
+<th>Protocol</th>
+<th>Reliability</th>
+<th>Common uses</th>
+</tr></thead><tbody>
+<tr><td>TCP</td><td>Reliable: handshake, checksums, sequencing</td><td>HTTP(S) port 80/443, FTP 20/21, SMTP 25</td></tr>
+<tr><td>UDP</td><td>Unreliable: no error detection, no sequencing</td><td>Online gaming, media streaming, VoIP</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B1 · DNS</div><h2>Domain Name System</h2><ul>
+<li><b>Maps names to addresses</b> www.cybercoaching.com = 198.185.159.145</li>
+<li><b>Hierarchical, distributed database</b> no single server holds all records</li>
+<li><b>Query types</b> DNS lookups and reverse DNS lookups</li>
+<li><b>Used by many applications</b> web browsers, email and utilities such as ping</li>
+<li><b>Resolution order</b> host file → local/internal DNS → public DNS (ISP)</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · HTTP</div><h2>Hypertext Transfer Protocol</h2><ul>
+<li><b>Web protocol</b> exchanges information while browsing the World Wide Web</li>
+<li><b>Runs over TCP/IP</b> port 80 by default</li>
+<li><b>GET</b> retrieve HTML documents, scripts and images</li>
+<li><b>HEAD</b> retrieve meta-information in the response headers</li>
+<li><b>POST</b> send data from web pages such as login forms</li>
+<li><b>Response codes</b> 401 Unauthorised, 404 File not found, 500 Internal server error</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · Web &amp; email</div><h2>The Internet, the WWW, and email</h2><ul>
+<li><b>Internet vs WWW</b> the Internet is the network of networks; the WWW is the collection of hypertext documents and media</li>
+<li><b>Browsing</b> the browser resolves DNS, opens a TCP connection and issues HTTP requests</li>
+<li><b>Send email</b> SMTP (Simple Mail Transfer Protocol) on port 25</li>
+<li><b>Retrieve email</b> POP (Post Office Protocol) on port 110, or IMAP on port 143</li>
+<li><b>Analyst relevance</b> Trojan malware commonly uses HTTP(S), SMTP and DNS for command and control</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · Fundamental protocols</div><h2>IRC, DHCP, FTP, SMB and SNMP</h2><table><thead><tr>
+<th>Protocol</th>
+<th>Purpose</th>
+<th>Security note</th>
+</tr></thead><tbody>
+<tr><td>IRC</td><td>Messaging and data-file exchange between users</td><td>Often abused for botnet command and control</td></tr>
+<tr><td>DHCP</td><td>Automatically assigns IP configuration to devices</td><td>Rogue DHCP can redirect traffic</td></tr>
+<tr><td>FTP</td><td>Transfers files; ports 20 (data) and 21 (control)</td><td>Unencrypted — credentials sent in clear</td></tr>
+<tr><td>SMB</td><td>Shares files, printers and ports on a LAN; port 445</td><td>Historically vulnerable; &#x27;Shares&#x27; are key evidence</td></tr>
+<tr><td>SNMP</td><td>Monitors and manages network devices</td><td>&#x27;A gold mine for hackers&#x27; — information gathering</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Topic B2 · Architectures</div><h2>Network architectures you will encounter</h2><ul>
+<li><b>CAT 5/6 and fibre</b> the physical layer fundamentals of every network</li>
+<li><b>10/100/1000baseT</b> twisted-pair Ethernet speeds over IEEE 802.3</li>
+<li><b>Windows domains</b> central directory service with domain controllers</li>
+<li><b>NAT</b> Network Address Translation to reuse IP addresses</li>
+<li><b>802.11 wireless</b> Wi-Fi standards across 2.4 GHz and 5 GHz</li>
+<li><b>VLANs, subnets, routing</b> segmentation and the path packets take</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B2 · Cabling</div><h2>CAT 5/6 and Ethernet</h2><ul>
+<li><b>CAT 5</b> ANSI/TIA/EIA-568-A with clarification in TSB-95; 8P8C (RJ45) connectors</li>
+<li><b>Termination</b> T568A or T568B wiring schemes</li>
+<li><b>CAT 6</b> Gigabit Ethernet (1 Gbps), backwards compatible, faster performance</li>
+<li><b>Reduced length</b> CAT 6 is limited to 100 metres</li>
+<li><b>10/100/1000baseT</b> 10, 100 and 1000 Mbps over twisted pair (IEEE 802.3)</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B2 · Fibre</div><h2>Fibre optic cabling</h2><table><thead><tr>
+<th>Type</th>
+<th>Characteristics</th>
+<th>Typical use</th>
+</tr></thead><tbody>
+<tr><td>Single-mode</td><td>Carries a single wavelength of light; long distances (~40 km); up to 100 Gbps</td><td>WAN bearers, submarine cables</td></tr>
+<tr><td>Multi-mode</td><td>Carries multiple wavelengths; cheaper than single-mode</td><td>100 Mbps (2 km), 1 Gbps (1 km), 10 Gbps (550 m)</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B2 · Domains &amp; NAT</div><h2>Windows domains and NAT</h2><ul>
+<li><b>Windows domain</b> a central database/directory service managing a set of resources</li>
+<li><b>Domain controllers</b> authenticate users and enforce policy</li>
+<li><b>NAT</b> first defined in RFC 1631 as a short-term fix for IP address depletion</li>
+<li><b>Address reuse</b> only a subset of internal addresses need translation when talking outside</li>
+<li><b>NAT architectures</b> full cone, address-restricted cone, port-restricted cone, symmetric</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B2 · Wireless</div><h2>802.11 wireless LANs</h2><ul>
+<li><b>Standards</b> 802.11 a/b/g/n across 2.4 GHz and 5 GHz (others exist)</li>
+<li><b>New naming</b> 802.11b=Wi-Fi 1, 802.11a=Wi-Fi 2, 802.11g=Wi-Fi 3, 802.11n=Wi-Fi 4, 802.11ac=Wi-Fi 5, 802.11ax=Wi-Fi 6</li>
+<li><b>Shared media concerns</b> copyright, theft, synchronisation and infection on shared media</li>
+<li><b>VLANs</b> data-link-layer segmentation providing security and traffic management</li>
+<li><b>Analyst value</b> rogue access points and weak wireless crypto are common findings</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B2 · Subnets &amp; routing</div><h2>IP subnets and routing</h2><ul>
+<li><b>Subnet</b> an identifiable separate part of a network</li>
+<li><b>Subnet mask</b> separates the network portion from the host portion</li>
+<li><b>IPv4 subnets</b> 32-bit addresses; IPv6 uses 128 bits</li>
+<li><b>IP forwarding algorithm</b> determines how packets are routed across interconnected networks</li>
+<li><b>Routing protocols</b> BGP, IS-IS, OSPF, and RIP (15 hops maximum)</li>
+</ul></section>
+<section class="slide"><div class="kick">Consolidation · Group B</div><h2>B1 and B2 at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Topic</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>B1</td><td>IP Protocols</td><td>IPv4/IPv6, TCP/UDP/ICMP, HTTP(S), SMTP, DNS, IRC/DHCP/FTP/SMB/SNMP</td></tr>
+<tr><td>B2</td><td>Network Architectures</td><td>CAT5/6, fibre, domains, NAT, 802.11, VLANs, subnets, routing</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;IP has two flavours&#x27;, &#x27;IPv4 (32-bit, four sections) and IPv6 (128-bit, eight sections)&#x27;)</li><li>(&#x27;TCP is reliable, UDP is fast&#x27;, &#x27;handshake, checksums and sequencing versus no guarantees&#x27;)</li><li>(&#x27;Web and email&#x27;, &#x27;HTTP(S) port 80/443; SMTP 25 send; POP 110 / IMAP 143 retrieve&#x27;)</li><li>(&#x27;Protocols are attack surfaces&#x27;, &#x27;IRC, DHCP, FTP, SMB and SNMP are commonly abused&#x27;)</li><li>(&#x27;Architectures shape analysis&#x27;, &#x27;cabling, domains, NAT, wireless, VLANs, subnets and routing&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (B1 · B2)</h2><ul><li>Which protocol uses a three-way handshake to establish a connection?</li><li>An IPv6 address is how many bits long?</li><li>Which protocol sends email on port 25?</li><li>What does the subnet mask separate?</li><li>Which routing protocol is limited to 15 hops?</li></ul></section>
+<section class="slide"><h2>Next session: Core Technical Skills II</h2></section>
+<section class="slide"><div class="kick">Unit 03 of 14</div><h1>Core technical skills II: tooling, fingerprinting and NAC</h1><p class="sub">The deck for this unit follows.</p></section>
+<section class="slide"><div class="kick">Session 3 of 14</div><h1>Core Technical Skills II: Tools, Fingerprinting &amp; Network Access Control</h1><p class="sub">The tools of the trade, how to identify a target&#x27;s operating system and applications from evidence, and the role of network access control.</p><div class="tags"><span class="tag">Group B</span><span class="tag">Tools</span><span class="tag">Fingerprinting</span><span class="tag">NAC</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group B</div><h2>Group B continues: tools, fingerprinting and NAC</h2><table><thead><tr>
+<th>Area</th>
+<th>Ref</th>
+<th>Focus</th>
+</tr></thead><tbody>
+<tr><td>Common Classes of Tools</td><td>B3</td><td>Network monitoring, memory acquisition, forensic analysis</td></tr>
+<tr><td>OS Fingerprinting</td><td>B4</td><td>Passive/active techniques; p0f, NetworkMiner</td></tr>
+<tr><td>Application Fingerprinting</td><td>B5</td><td>Metadata, banners, user-agent strings, email headers</td></tr>
+<tr><td>Network Access Control</td><td>B6</td><td>Assessing device authentication and posture before network access</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Describe the common tool classes</b> network monitoring, memory acquisition, live collection and forensic analysis</li>
+<li><b>Name and compare key tools</b> Wireshark, NetworkMiner, FTK Imager Lite, Volatility, Memoryze, Autopsy, TSK</li>
+<li><b>Explain passive OS fingerprinting</b> and how packet values reveal the target OS</li>
+<li><b>Apply application fingerprinting</b> via metadata, service banners, user-agent strings and email headers</li>
+<li><b>Analyse network access control</b> device authentication and posture assessment</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B3 · Tools</div><h2>Common classes of tools</h2><ul>
+<li><b>Network monitoring</b> capture and inspect network traffic</li>
+<li><b>Memory acquisition</b> capture volatile memory for analysis</li>
+<li><b>Forensic analysis</b> examine artifacts and reconstruct events</li>
+<li><b>These three categories</b> form the foundation of any intrusion analysis or reverse engineering engagement</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B3 · Network tools</div><h2>Network capturing and monitoring tools</h2><table><thead><tr>
+<th>Tool</th>
+<th>Description</th>
+</tr></thead><tbody>
+<tr><td>Wireshark</td><td>Free, open source; monitor, capture and analyse network packets</td></tr>
+<tr><td>NetworkMiner</td><td>Similar to Wireshark; presents data in a human-readable format; adds fingerprinting techniques</td></tr>
+<tr><td>MS Network Monitor / Message Analyzer</td><td>Microsoft tools to troubleshoot and decipher network protocols; capture, view and analyse data</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B3 · Memory tools</div><h2>Memory acquisition tools</h2><table><thead><tr>
+<th>Tool</th>
+<th>Key features</th>
+</tr></thead><tbody>
+<tr><td>FTK Imager Lite</td><td>GUI-based; acquires physical memory and the pagefile</td></tr>
+<tr><td>Volatility</td><td>Free, open source; supports 32- and 64-bit systems; acquires and analyses live memory; Windows, Linux and macOS</td></tr>
+<tr><td>Memoryze</td><td>Free command-line utility; live memory analysis; MemoryDD acquires physical memory, ProcessDD acquires a process address space</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B3 · Live collection</div><h2>Live data collection on Windows (1)</h2><table><thead><tr>
+<th>Goal</th>
+<th>Command</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr><td>System info</td><td>systeminfo</td><td>OS details, hardware and network information</td></tr>
+<tr><td>User accounts</td><td>net user</td><td>List all local user accounts</td></tr>
+<tr><td>Groups</td><td>net group</td><td>List groups on a local server</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B3 · Live collection</div><h2>Live data collection on Windows (2)</h2><table><thead><tr>
+<th>Goal</th>
+<th>Command</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr><td>Processes</td><td>tasklist</td><td>List the current processes</td></tr>
+<tr><td>Ports &amp; processes</td><td>netstat -aon</td><td>Identify ports and their owning processes</td></tr>
+<tr><td>Scripting</td><td>PowerShell</td><td>CLI and scripting language for admins and power users</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B3 · Live collection</div><h2>Autoruns, opened files and the registry</h2><ul>
+<li><b>Autoruns</b> shows automatic startup programs, services and drivers</li>
+<li><b>Opened Files View</b> lists all files currently opened on the system</li>
+<li><b>Windows Registry</b> acquire with FTK Imager Lite, analyse with Registry Browser</li>
+<li><b>Persistence insight</b> startup entries and open files reveal malware footholds</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B3 · Password &amp; forensics</div><h2>Password recovery and forensic analysis tools</h2><ul>
+<li><b>Password recovery</b> recover Windows user account passwords from the SAM and SYSTEM registry files using Ophcrack</li>
+<li><b>Autopsy</b> an open-source forensic analysis tool</li>
+<li><b>The Sleuth Kit (TSK)</b> volume and file system analysis with a plug-in framework</li>
+<li><b>Reconstruct events</b> these tools examine artifacts and rebuild what happened</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B4 · OS fingerprinting</div><h2>Passive OS fingerprinting</h2><ul>
+<li><b>Stealthy capture</b> stealthily capture network packets to avoid detection</li>
+<li><b>Gather intelligence</b> learn more information about a target without touching it</li>
+<li><b>Not 100% accurate</b> the results provide a foundation rather than certainty</li>
+<li><b>Used by attackers too</b> the same technique feeds reconnaissance</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B4 · OS fingerprinting</div><h2>Packet value matching</h2><ul>
+<li><b>Match known values</b> passive fingerprinting matches well-known values in packets</li>
+<li><b>TTL</b> time-to-live values differ by OS</li>
+<li><b>Window size</b> TCP window sizes are characteristic</li>
+<li><b>Other fields</b> don&#x27;t-fragment flag, type of service, presence or absence of options</li>
+<li><b>Tool databases</b> accuracy depends entirely on the signatures stored in the tool&#x27;s database</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B4 · p0f</div><h2>The p0f OS fingerprinting tool</h2><ul>
+<li><b>Developer</b> Michal Zalewski</li>
+<li><b>Platform</b> Linux, command-line based</li>
+<li><b>Capabilities</b> monitors, captures and examines traffic without sending any packets to the target</li>
+<li><b>Command</b> p0f -i eth0 -p</li>
+<li><b>Truly passive</b> because it sends nothing, it stays stealthy</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B4 · NetworkMiner</div><h2>NetworkMiner as a passive fingerprinting tool</h2><ul>
+<li><b>Developer</b> Netresec</li>
+<li><b>Platform</b> Windows, graphical user interface</li>
+<li><b>Passive OS fingerprinting</b> identifies the target operating system from observed traffic</li>
+<li><b>Two versions</b> an open-source version with few limitations and a professional version with additional features</li>
+<li><b>Complement to p0f</b> a GUI alternative for Windows-based analysis</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B4 · Active vs passive</div><h2>Active versus passive fingerprinting</h2><table><thead><tr>
+<th>Aspect</th>
+<th>Passive</th>
+<th>Active</th>
+</tr></thead><tbody>
+<tr><td>Traffic sent</td><td>None — observes existing traffic</td><td>Sends crafted packets to the target</td></tr>
+<tr><td>Detection risk</td><td>Low, stealthy</td><td>Higher — target may notice</td></tr>
+<tr><td>Examples</td><td>p0f, NetworkMiner passive analysis</td><td>Tools that probe and read responses</td></tr>
+<tr><td>Analyst use</td><td>Safe for sensitive engagements</td><td>Useful but noisier</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Topic B5 · Application fingerprinting</div><h2>Application fingerprinting</h2><ul>
+<li><b>Identify applications and versions</b> determine server types and application versions from evidential data</li>
+<li><b>Four main methods</b> metadata, service banners, user-agent strings, email headers</li>
+<li><b>Client software</b> versions identified from metadata within common document types</li>
+<li><b>Server software</b> versions identified from banners and headers</li>
+<li><b>Legitimate and illegitimate</b> the same techniques serve both defence and attack</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B5 · Metadata</div><h2>Document metadata</h2><ul>
+<li><b>Rich in information</b> metadata yields extensive application information, often hidden from view</li>
+<li><b>Word Metadata Dumper</b> a Perl script that extracts metadata from Office documents (not the latest formats)</li>
+<li><b>DOCX files</b> latest Office types can simply be extracted with a compression tool</li>
+<li><b>app.xml</b> the docProps\app.xml file holds the application name</li>
+<li><b>PDF</b> pdfinfo is a portable document information extractor for Windows and Linux</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B5 · Banners</div><h2>Banner grabbing</h2><ul>
+<li><b>Information-gathering technique</b> gather the application name and version number</li>
+<li><b>Assess security risk</b> the banner reveals how dated or vulnerable a service may be</li>
+<li><b>Example</b> FTP on an open port returning &#x27;FileZilla 0.9.41 beta&#x27;</li>
+<li><b>Server identification</b> banners identify the application, e.g. the web server software</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B5 · User agents</div><h2>User-agent strings and spoofing</h2><ul>
+<li><b>Why they exist</b> browsers advertise themselves so servers can optimise layout, e.g. mobile versus PC</li>
+<li><b>Contains system info</b> the user-agent string includes browser and OS details</li>
+<li><b>Easily spoofed</b> anyone can modify the user-agent to pretend to be another browser or device</li>
+<li><b>Content gating</b> spoofing can reveal content restricted to certain browsers or devices</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B5 · Email headers</div><h2>Email headers</h2><ul>
+<li><b>Two parts</b> an email has a header and a body</li>
+<li><b>Tracing the sender</b> headers can be used to trace the location of the sender</li>
+<li><b>Basic fields</b> FROM, TO, DATE, SUBJECT, CC (carbon copy) and BC (blind copy)</li>
+<li><b>Viewing headers</b> Gmail &#x27;Show original&#x27;; Thunderbird &#x27;Message Source&#x27;; Outlook &#x27;Properties&#x27;</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B6 · NAC</div><h2>Network Access Control (NAC) analysis</h2><ul>
+<li><b>What NAC does</b> authenticates and authorises devices before granting network access</li>
+<li><b>Posture assessment</b> checks that a device meets policy (patches, antivirus, compliance)</li>
+<li><b>Common mechanisms</b> 802.1X port-based access control, endpoint agents, RADIUS backends</li>
+<li><b>Analyst relevance</b> assess whether NAC logs capture who and what connected, and any bypass</li>
+<li><b>Evidence value</b> NAC records tie a device identity to a time and place on the network</li>
+</ul></section>
+<section class="slide"><div class="kick">Consolidation · Group B</div><h2>B3 to B6 at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Topic</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>B3</td><td>Common Classes of Tools</td><td>Network monitoring, memory acquisition, live collection, forensic analysis</td></tr>
+<tr><td>B4</td><td>OS Fingerprinting</td><td>Passive packet-value matching; p0f, NetworkMiner</td></tr>
+<tr><td>B5</td><td>Application Fingerprinting</td><td>Metadata, banners, user-agent strings, email headers</td></tr>
+<tr><td>B6</td><td>Network Access Control</td><td>Device authentication and posture assessment</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Tool classes&#x27;, &#x27;network monitoring, memory acquisition and forensic analysis cover most work&#x27;)</li><li>(&#x27;Live collection&#x27;, &quot;systeminfo, net user, tasklist and netstat -aon reveal a host&#x27;s state&quot;)</li><li>(&#x27;Passive fingerprinting&#x27;, &#x27;p0f and NetworkMiner identify the OS from packet values without sending traffic&#x27;)</li><li>(&#x27;Application fingerprinting&#x27;, &#x27;metadata, banners, user-agent strings and email headers reveal software versions&#x27;)</li><li>(&#x27;NAC analysis&#x27;, &#x27;device authentication and posture logs tie identity to time and place&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (B3 · B6)</h2><ul><li>Which tool acquires physical memory and the pagefile with a GUI?</li><li>Which OS fingerprinting tool sends no packets to the target?</li><li>Where does a DOCX file store its application name?</li><li>Which live-collection command lists current processes?</li><li>What is the core purpose of network access control?</li></ul></section>
+<section class="slide"><h2>Next session: Core Technical Skills III</h2></section>
+<section class="slide"><div class="kick">Unit 04 of 14</div><h1>Core technical skills III: cryptography, permissions and host analysis</h1><p class="sub">The deck for this unit follows.</p></section>
+<section class="slide"><div class="kick">Session 4 of 14</div><h1>Core Technical Skills III: Cryptography, Permissions &amp; Host Analysis</h1><p class="sub">The final core-technical session: how cryptography protects data and how it is attacked, what permissions control access, and how to interrogate a live host.</p><div class="tags"><span class="tag">Group B</span><span class="tag">Cryptography</span><span class="tag">Permissions</span><span class="tag">Host Analysis</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group B</div><h2>Completing Group B: crypto, permissions, host analysis</h2><table><thead><tr>
+<th>Area</th>
+<th>Ref</th>
+<th>Focus</th>
+</tr></thead><tbody>
+<tr><td>Cryptography</td><td>B7</td><td>Encoding vs encryption, symmetric/asymmetric, hashes, HMAC</td></tr>
+<tr><td>Applications of Crypto</td><td>B8</td><td>SSL/TLS, IPSec, SSH, PGP, WEP and WPA/WPA2</td></tr>
+<tr><td>File System Permissions</td><td>B9</td><td>NTFS permissions, ACLs, ownership and inheritance</td></tr>
+<tr><td>Host Analysis Techniques</td><td>B10</td><td>Processes, ports, patch levels, drivers, services, shares</td></tr>
+<tr><td>Common Data Formats</td><td>B11</td><td>Text, binary, timestamps, magic bytes, encodings</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Distinguish encryption from encoding</b> and state the core security services</li>
+<li><b>Explain symmetric and asymmetric ciphers</b> and the algorithms DES, 3DES, AES, RSA, RC4</li>
+<li><b>Describe hashes and HMAC</b> SHA, MD5 and message integrity</li>
+<li><b>Apply cryptography in the real world</b> SSL/TLS, IPSec, SSH, PGP, WEP and WPA/WPA2</li>
+<li><b>Analyse file system permissions</b> and interrogate a live Windows host</li>
+<li><b>Recognise common data formats</b> text, binary, timestamps and encodings</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Crypto</div><h2>Encryption versus encoding</h2><ul>
+<li><b>Both transform data</b> encryption and encoding both change data into another format</li>
+<li><b>Both can be reversed</b> neither is a one-way operation by itself</li>
+<li><b>Encoding</b> transforms data to be used on a different system; not secret; decoding methods are public</li>
+<li><b>Encryption</b> data cannot be used by unauthorised users; relies on secret keys</li>
+<li><b>Key distinction</b> encoding is reversible without a secret; encryption requires a key</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Crypto</div><h2>Threats and security services</h2><ul>
+<li><b>Threats</b> unauthorised access, disclosure and modification of information</li>
+<li><b>More threats</b> misrepresentation of origin, repudiation of a message, replay of a message</li>
+<li><b>Cryptography counters threats</b> the core mechanism against these risks</li>
+<li><b>Security services</b> confidentiality, authentication, integrity, non-repudiation</li>
+<li><b>Mechanisms</b> symmetric ciphers, hashes and MACs, asymmetric ciphers, digital signatures</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Symmetric</div><h2>Symmetric ciphers</h2><ul>
+<li><b>Confidentiality protection</b> the primary purpose</li>
+<li><b>Same key</b> the same key value is used to encipher and to decipher</li>
+<li><b>Security in the key</b> assume the attacker knows the system and algorithm — secrecy relies on key protection</li>
+<li><b>Random key generation</b> keys should be generated randomly</li>
+<li><b>Examples</b> DES, 3DES, AES and RC4</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Asymmetric</div><h2>Asymmetric ciphers</h2><ul>
+<li><b>Key pair</b> a single private key holder but many public key holders</li>
+<li><b>Mathematics</b> relies on factorisation of large primes and elliptic curves</li>
+<li><b>Dual purpose</b> provides both confidentiality and integrity protection</li>
+<li><b>Substitution risk</b> replacing the public key element requires protection</li>
+<li><b>Speed</b> very slow compared with symmetric cryptography</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Hashes</div><h2>Hash functions and HMAC</h2><ul>
+<li><b>Hashing equals integrity</b> a hash verifies data has not changed</li>
+<li><b>SHA</b> Secure Hash Algorithm family</li>
+<li><b>MD5</b> Message Digest algorithm, now considered weak</li>
+<li><b>HMAC</b> a keyed Message Authentication Code providing integrity and authentication</li>
+<li><b>Analyst use</b> hash files to verify evidence integrity during acquisition</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Signatures</div><h2>Digital signatures and certificates</h2><ul>
+<li><b>Sign and validate</b> only one entity can sign with the private key; many may validate with the public key</li>
+<li><b>Integrity and non-repudiation</b> signatures provide both and counter sender denials</li>
+<li><b>Certificates</b> hold public keys and identity, digitally signed by a trusted authority</li>
+<li><b>Why certificates</b> a bare public key is trivial to forge; a certificate ties key to identity</li>
+<li><b>Trust</b> the signing authority is recognised and trusted by the community</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Key exchange</div><h2>Key exchange and management</h2><ul>
+<li><b>Symmetric key exchange</b> manual or via PKI techniques</li>
+<li><b>Asymmetric key exchange</b> PKI, often with an LDAP server publishing certificates</li>
+<li><b>PGP</b> Pretty Good Privacy — supports signing and encrypting/decrypting</li>
+<li><b>Hybrid use</b> PGP uses both symmetric and asymmetric ciphers</li>
+<li><b>Web of trust</b> PGP&#x27;s trust model, distinct from a central CA</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Algorithms</div><h2>Encryption algorithms at a glance</h2><table><thead><tr>
+<th>Algorithm</th>
+<th>Type</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr><td>DES</td><td>Symmetric block cipher</td><td>Data Encryption Standard; legacy</td></tr>
+<tr><td>3DES (TDEA)</td><td>Symmetric block cipher</td><td>Applies DES three times per block</td></tr>
+<tr><td>AES</td><td>Symmetric block cipher</td><td>Advanced Encryption Standard; substitution-permutation network</td></tr>
+<tr><td>RSA</td><td>Asymmetric (public key)</td><td>Rivest, Shamir and Adleman; factorisation-based</td></tr>
+<tr><td>RC4</td><td>Symmetric stream cipher</td><td>Rivest Cipher 4</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B8 · Applications</div><h2>Applications of cryptography: SSL/TLS, IPSec, SSH, PGP</h2><ul>
+<li><b>SSL/TLS</b> encrypted link between client and server; SSL by Netscape, replaced by TLS</li>
+<li><b>IPSec</b> Internet Protocol Security; end-to-end scheme used in VPNs; transport and tunnel modes</li>
+<li><b>SSH</b> Secure Shell — securely log into another device via a network</li>
+<li><b>PGP</b> encrypt and decrypt email over the Internet; low-cost solution</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B8 · Wireless</div><h2>Wireless encryption: WEP, WPA/WPA2, TKIP</h2><table><thead><tr>
+<th>Scheme</th>
+<th>Encryption</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr><td>WEP</td><td>RC4 + CRC-32</td><td>Wired Equivalent Privacy; broken — passive/active decryption, injection, dictionary attacks</td></tr>
+<tr><td>WPA</td><td>TKIP/MIC</td><td>Personal uses PSK; enterprise uses 802.1X/EAP</td></tr>
+<tr><td>WPA2</td><td>AES-CCMP</td><td>Personal uses PSK; enterprise uses 802.1X/EAP</td></tr>
+<tr><td>TKIP</td><td>Temporal Key Integrity Protocol</td><td>part of IEEE 802.11i</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B9 · Permissions</div><h2>File system permissions</h2><ul>
+<li><b>NTFS permissions</b> control access to files and folders: read, write, execute, full control</li>
+<li><b>ACLs</b> access control lists bind users and groups to allowed actions</li>
+<li><b>Ownership and inheritance</b> permissions inherit down the tree; ownership grants full control</li>
+<li><b>Analyst relevance</b> permissions reveal what an intruder could read, modify or execute</li>
+<li><b>Shared vs NTFS</b> effective access is the intersection of share and NTFS permissions</li>
+</ul></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Topic B10 · Host analysis</div><h2>Sockets, ports and processes</h2><ul>
+<li><b>Sockets and ports</b> an endpoint of a two-way communication link; a point of entry into a system</li>
+<li><b>Multiple connections</b> a system can hold many simultaneous connections</li>
+<li><b>netstat -aon</b> run as administrator to identify ports and their owning processes</li>
+<li><b>tasklist</b> lists the current processes to cross-reference against netstat output</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B10 · Patch levels</div><h2>Assessing patch levels on a Windows host</h2><ul>
+<li><b>Service packs and hotfixes</b> not the whole OS receives updates</li>
+<li><b>wmic qfe list</b> use Windows Management Instrumentation to list hotfixes</li>
+<li><b>Export to HTML</b> wmic qfe list brief /format:htable &gt; output</li>
+<li><b>DISM</b> DISM /Online /Get-Packages lists installed packages</li>
+<li><b>Patch gaps</b> missing patches are a common intrusion vector</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B10 · Host state</div><h2>Drivers, services and network shares</h2><table><thead><tr>
+<th>Goal</th>
+<th>Command</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr><td>Drivers</td><td>driverquery</td><td>List the drivers installed on the host</td></tr>
+<tr><td>Services</td><td>net start</td><td>List running services</td></tr>
+<tr><td>Shares</td><td>net share</td><td>List the network shares on the host</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B10 · More commands</div><h2>Other useful commands</h2><ul>
+<li><b>systeminfo</b> OS, hardware and network details</li>
+<li><b>net file</b> shows open files on the network</li>
+<li><b>net session</b> lists active network sessions to the host</li>
+<li><b>net accounts</b> shows account and password policy settings</li>
+<li><b>Correlate them</b> combine these to reconstruct host state and attacker footholds</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B11 · Data formats</div><h2>Understanding common data formats</h2><ul>
+<li><b>Text vs binary</b> ASCII/Unicode text versus raw binary structures</li>
+<li><b>Timestamps</b> Unix epoch, Windows FILETIME and log formats need converting to reconstruct timelines</li>
+<li><b>Magic bytes / file signatures</b> the leading bytes of a file identify its true type</li>
+<li><b>Encodings</b> base64 and hex are common in malware and logs</li>
+<li><b>Analyst use</b> identify files and normalise timestamps across evidence sources</li>
+</ul></section>
+<section class="slide"><div class="kick">Consolidation · Group B</div><h2>B7 to B11 at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Topic</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>B7</td><td>Cryptography</td><td>Encryption vs encoding; symmetric/asymmetric; hashes, HMAC, signatures, certificates</td></tr>
+<tr><td>B8</td><td>Applications of Crypto</td><td>SSL/TLS, IPSec, SSH, PGP, WEP, WPA/WPA2</td></tr>
+<tr><td>B9</td><td>File System Permissions</td><td>NTFS, ACLs, ownership, inheritance</td></tr>
+<tr><td>B10</td><td>Host Analysis Techniques</td><td>Processes, ports, patch levels, drivers, services, shares</td></tr>
+<tr><td>B11</td><td>Common Data Formats</td><td>Text, binary, timestamps, magic bytes, encodings</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Encoding vs encryption&#x27;, &#x27;encoding is public and keyless; encryption needs a secret key&#x27;)</li><li>(&#x27;Symmetric vs asymmetric&#x27;, &#x27;one shared key versus a private/public key pair&#x27;)</li><li>(&#x27;Hashes give integrity&#x27;, &#x27;SHA, MD5 and HMAC verify data has not changed&#x27;)</li><li>(&#x27;Crypto in the wild&#x27;, &#x27;SSL/TLS, IPSec, SSH, PGP, WEP and WPA/WPA2 protect real traffic&#x27;)</li><li>(&#x27;Host analysis&#x27;, &quot;netstat -aon, tasklist, wmic qfe, driverquery, net start and net share reveal a host&#x27;s state&quot;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (B7 · B11)</h2><ul><li>Which algorithm is a symmetric stream cipher?</li><li>What does a hash function provide for evidence?</li><li>Which command lists hotfixes via WMI?</li><li>WPA2 personal mode uses which encryption?</li><li>What do magic bytes identify?</li></ul></section>
+<section class="slide"><h2>Next session: Background Information Gathering &amp; OSINT</h2></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 80</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>

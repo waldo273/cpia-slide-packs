@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Slide Pack Module A: Soft skills and incident handling</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Slide Pack Module A</span></div>
+<section class="slide"><div class="kick">Slide pack</div><h1>Module A: Soft skills and incident handling</h1><p class="sub">1 units, 21 slides. Use the arrows or the Back and Next buttons.</p></section>
+<section class="slide"><div class="kick">Unit 01 of 14</div><h1>Course introduction, soft skills and incident handling</h1><p class="sub">The deck for this unit follows.</p></section>
+<section class="slide"><div class="kick">Session 1 of 14</div><h1>Course Introduction &amp; Soft Skills / Incident Handling</h1><p class="sub">The analyst mindset, the IR lifecycle, and the law and threat models that frame every engagement.</p><div class="tags"><span class="tag">Group A</span><span class="tag">Soft Skills</span><span class="tag">Incident Handling</span></div></section>
+<section class="slide"><div class="kick">Welcome · The course</div><h2>Fourteen sessions, six knowledge groups, one certification</h2><table><thead><tr>
+<th>Knowledge Group</th>
+<th>Focus</th>
+<th>Sessions</th>
+</tr></thead><tbody>
+<tr><td>A · Soft Skills &amp; Incident Handling</td><td>Engagement, chronology, law, threat</td><td>1</td></tr>
+<tr><td>B · Core Technical Skills</td><td>Protocols, tools, fingerprinting, crypto, host analysis</td><td>2–4</td></tr>
+<tr><td>C · Background Info Gathering &amp; OSINT</td><td>WHOIS, DNS, open-source investigation</td><td>5</td></tr>
+<tr><td>D · Network Intrusion Analysis</td><td>Capture, logs, C2, exfiltration, attacks</td><td>6–8</td></tr>
+<tr><td>E · Analysing Host Intrusions</td><td>Acquisition, Windows FS, registry, memory, malware</td><td>9–11</td></tr>
+<tr><td>F · Reverse Engineering Malware</td><td>Anti-RE, PE format, obfuscation, behaviour</td><td>12–14</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Describe the CPIA exam</b> its six knowledge groups and how this course maps to them</li>
+<li><b>Explain the analyst role</b> the traits and experience that make a good analyst, and the impact of bias</li>
+<li><b>State the IR lifecycle</b> suspect, acquire, analyse, report, deploy countermeasures</li>
+<li><b>Explain the cyber kill chain</b> the seven phases of a targeted intrusion</li>
+<li><b>Apply law and compliance</b> to incident handling and evidence</li>
+<li><b>Use the TAME model</b> and risk treatment options in threat assessment</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic A1 · The analyst</div><h2>What makes a good analyst?</h2><ul>
+<li><b>Flexibility</b> adapt to changing circumstances</li>
+<li><b>Logical and independent mind</b> question assumptions and reason clearly</li>
+<li><b>Attention to detail</b> the small clues carry the investigation</li>
+<li><b>Objectivity and sensitivity</b> handle confidential information with care</li>
+<li><b>Concentration and patience</b> long analysis sessions, careful work</li>
+<li><b>Confidence in your own judgement</b> defensible conclusions</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic A1 · The analyst</div><h2>Where analyst skills come from</h2><table><thead><tr>
+<th>Background</th>
+<th>Transferable skill</th>
+</tr></thead><tbody>
+<tr><td>IT / troubleshooting</td><td>Diagnosing problems methodically</td></tr>
+<tr><td>Networking</td><td>Setup, configuration and protocol awareness</td></tr>
+<tr><td>IT hardware</td><td>Storage identification, component handling</td></tr>
+<tr><td>Software engineering</td><td>Low-level computing, scripting</td></tr>
+<tr><td>Law enforcement</td><td>Continuity, direction, human evidence sources</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic A1 · The analyst</div><h2>Analyst bias</h2><ul>
+<li><b>Conscious and unconscious bias</b> built through upbringing, culture, education and occupation</li>
+<li><b>Cognitive bias</b> systematic errors in thinking that distort judgement</li>
+<li><b>Forensic confirmation bias</b> pre-existing beliefs and motives shape how evidence is gathered</li>
+<li><b>The risk</b> prejudicial information — ethnicity, criminal record — compromises impartiality</li>
+<li><b>The guard</b> recognise and actively counter bias in your analysis</li>
+</ul></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Topic A1 · IR lifecycle</div><h2>Benefits and utility of incident response</h2><ul>
+<li><b>A framework for incidents</b> reduces errors and prevents loss of critical forensic data</li>
+<li><b>A clear path to the cause</b> establishes how the incident happened</li>
+<li><b>Legal and stakeholder notification</b> all parties informed when required</li>
+<li><b>Reduced reputational damage</b> effective management of the incident</li>
+<li><b>Rapid, systematic recovery</b> business impact kept to a minimum</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic A1 · IR lifecycle</div><h2>Preparation before an incident</h2><ul>
+<li><b>Establish an IR team</b> roles and responsibilities agreed in advance</li>
+<li><b>Conduct threat analysis</b> know the likely threat actors</li>
+<li><b>Outline response guidelines</b> and procedures for external communication</li>
+<li><b>Communicate with personnel</b> and understand the relevant policies</li>
+<li><b>Train employees</b> and test the IR plan</li>
+<li><b>Capture lessons learned</b> improve the plan after every exercise</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic A1 · IR lifecycle</div><h2>The IR lifecycle</h2><ol class="steps"><li><b>Suspect a compromise</b><br>human or machine detection of an anomaly</li><li><b>Acquire data</b><br>memory dumps, packet captures, logs, disk images</li><li><b>Analyse data</b><br>correlate and reconstruct the timeline</li><li><b>Report</b><br>a forensic, structured summary of the compromise</li><li><b>Deploy countermeasures</b><br>prevent recurrence and harden the posture</li></ol></section>
+<section class="slide"><div class="kick">Topic A1 · Kill chain</div><h2>The cyber kill chain</h2><ol class="steps"><li><b>Reconnaissance</b><br>research, identify and select targets</li><li><b>Weaponisation</b><br>pair remote-access malware with an exploit into a deliverable</li><li><b>Delivery</b><br>transmit the weapon to the target</li><li><b>Exploitation</b><br>the weapon executes and runs code</li><li><b>Installation</b><br>a backdoor is installed for persistence</li><li><b>Command and control</b><br>the code connects back for instructions</li><li><b>Actions on objective</b><br>the attacker pursues their aims</li></ol></section>
+<section class="slide"><h2>Activity: map the kill chain</h2><ul><li>A user opens a PDF that drops a backdoor — which kill chain phase?</li><li>The malware phones home for instructions — which phase?</li><li>The attacker pivots to steal data — which phase?</li><li>A spear-phishing email is crafted for a named victim — which phase?</li><li>Order the seven phases for a ransomware intrusion.</li></ul></section>
+<section class="slide"><div class="kick">Topic A2 · Chronology</div><h2>Incident chronology</h2><ul>
+<li><b>Reconstruct the timeline</b> order events from all evidence sources</li>
+<li><b>Correlate sources</b> network logs, host logs, captures, memory</li>
+<li><b>Establish a chain of events</b> what happened, when, and in what order</li>
+<li><b>Feed the bigger picture</b> cross-reference with historical reports</li>
+<li><b>Enable management metrics</b> and shared threat intelligence</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic A3 · Law &amp; compliance</div><h2>Law, compliance and evidence</h2><ul>
+<li><b>Engagement lifecycle</b> scope, legality and record-keeping</li>
+<li><b>Applicable legislation</b> Computer Misuse Act, Data Protection Act, GDPR</li>
+<li><b>Evidence integrity</b> do not change data; preserve the audit trail</li>
+<li><b>Independent review</b> a third party should reproduce your result</li>
+<li><b>Confidentiality</b> sensitive data handled appropriately</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic A5 · Threat assessment</div><h2>Risk ownership and the TAME model</h2><ul>
+<li><b>Risk ownership</b> each risk is owned by a named stakeholder</li>
+<li><b>Documentation</b> supports ISO 27001, ISO 9001 and other certifications</li>
+<li><b>TAME model</b> Threat Assessment Model for Electronic payment systems</li>
+<li><b>Four stages</b> assessment scope; threat agent &amp; vulnerability analysis; scenario construction &amp; system modelling; evaluation</li>
+<li><b>Scalable</b> built for payment systems, extensible to enterprise networks</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic A5 · Threat assessment</div><h2>Risk treatment options</h2><table><thead><tr>
+<th>Option</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr></thead><tbody>
+<tr><td>Acceptance</td><td>No action necessary</td><td>Low-risk, low-impact residual risk</td></tr>
+<tr><td>Avoidance</td><td>Risk is no longer present</td><td>Stop the activity entirely</td></tr>
+<tr><td>Reduction</td><td>Risk is less of a threat</td><td>Add controls to lower likelihood</td></tr>
+<tr><td>Transference</td><td>Risk is someone else&#x27;s problem</td><td>Insurance, outsourcing</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic A5 · Threat assessment</div><h2>Attribution: state vs non-state attackers</h2><table><thead><tr>
+<th>Attacker</th>
+<th>Characteristics</th>
+</tr></thead><tbody>
+<tr><td>State</td><td>Government / military / intelligence; very sophisticated; large budget; long-running campaigns; target national infrastructure</td></tr>
+<tr><td>Non-state</td><td>Individuals / organised groups / terrorists; lower sophistication; small or no budget; often profit or thrill driven</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Consolidation · Group A</div><h2>Group A at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Topic</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>A1</td><td>Engagement lifecycle management</td><td>Prepare, detect, acquire, analyse, report, countermeasure</td></tr>
+<tr><td>A2</td><td>Incident chronology</td><td>Reconstruct and correlate the timeline</td></tr>
+<tr><td>A3</td><td>Law &amp; compliance</td><td>Legal framework, evidence integrity, confidentiality</td></tr>
+<tr><td>A5</td><td>Threat assessment</td><td>TAME model, risk ownership, risk treatment</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;The analyst role&#x27;, &#x27;demands objectivity, attention to detail and active bias management&#x27;)</li><li>(&#x27;IR is a lifecycle&#x27;, &#x27;suspect → acquire → analyse → report → countermeasure&#x27;)</li><li>(&#x27;The kill chain&#x27;, &#x27;seven phases — recon to actions on objective&#x27;)</li><li>(&#x27;Law frames the work&#x27;, &#x27;evidence integrity, confidentiality and legality&#x27;)</li><li>(&#x27;Threats are assessed&#x27;, &#x27;with the TAME model and explicit risk treatment&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (Group A)</h2><ul><li>Which IR phase collects memory dumps and packet captures?</li><li>What is the key difference between a state and a non-state attacker?</li><li>Risk transference means the risk is:</li><li>Which kill chain phase follows &#x27;installation&#x27;?</li><li>Why does confirmation bias threaten an investigation?</li></ul></section>
+<section class="slide"><h2>Next session: Core Technical Skills I</h2></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 23</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>

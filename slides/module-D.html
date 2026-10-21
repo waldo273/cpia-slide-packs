@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Slide Pack Module D: Network intrusion analysis</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Slide Pack Module D</span></div>
+<section class="slide"><div class="kick">Slide pack</div><h1>Module D: Network intrusion analysis</h1><p class="sub">3 units, 67 slides. Use the arrows or the Back and Next buttons.</p></section>
+<section class="slide"><div class="kick">Unit 06 of 14</div><h1>Network intrusion analysis I: capture, logs and network configuration</h1><p class="sub">The deck for this unit follows.</p></section>
+<section class="slide"><div class="kick">Session 6 of 14</div><h1>Network Intrusion Analysis I: Capture, Logs &amp; Network Config</h1><p class="sub">Collecting the traffic, reading the logs, and spotting the misconfigurations that let attackers in.</p><div class="tags"><span class="tag">Group D</span><span class="tag">Capture</span><span class="tag">Logs</span><span class="tag">Config</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group D</div><h2>Three sessions on network intrusion analysis</h2><table><thead><tr>
+<th>Session</th>
+<th>Focus</th>
+<th>Skill areas</th>
+</tr></thead><tbody>
+<tr><td>6</td><td>Capture, logs &amp; network config</td><td>D1 Capture, D2 Log Sources, D3 Config Issues</td></tr>
+<tr><td>7</td><td>C2, exfiltration &amp; incoming attacks</td><td>D6 Encryption, D7 C2, D8 Exfiltration, D9 Incoming Attacks</td></tr>
+<tr><td>8</td><td>Recon, spread &amp; false positives</td><td>D10 Recon, D11 Internal Spread &amp; Privilege Escalation, D13 False Positives</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Collect network traffic</b> with packet analysers, sniffing tools and switches or routers</li>
+<li><b>Design a collection system</b> so enough data is captured without overwhelming devices</li>
+<li><b>Explain SPAN ports and TAPs</b> including aggregating TAPs and fibre access</li>
+<li><b>Estimate capture requirements</b> and choose deployment locations during scoping</li>
+<li><b>Identify data and log sources</b> proxy, syslog, firewall, DHCP, DNS, VPN, web, email and more</li>
+<li><b>Spot network configuration issues</b> routing, DNS leakage, firewall evasion</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Methods of data collection</h2><ul>
+<li><b>What we collect</b> packets of data on the network, carrying source and destination information</li>
+<li><b>Tools</b> packet analysers, sniffing tools, switches and routers</li>
+<li><b>Why we collect</b> intrusions, performance, quality of service (QoS)</li>
+<li><b>The goal</b> enough data to reconstruct the incident without overwhelming the capture device</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Capture tools</h2><table><thead><tr>
+<th>Tool</th>
+<th>Type</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr><td>Wireshark</td><td>GUI packet analyser</td><td>Live capture or historical .pcap; filtering; automatic protocol analysis</td></tr>
+<tr><td>tshark</td><td>Terminal interface</td><td>The command-line version of Wireshark</td></tr>
+<tr><td>tcpdump</td><td>Terminal based</td><td>Limited in what it can decode</td></tr>
+<tr><td>Netsniff-ng</td><td>Terminal based</td><td>High-performance Linux capture</td></tr>
+<tr><td>zANTI</td><td>Android based</td><td>Network analysis and man-in-the-middle testing; wireless capture</td></tr>
+<tr><td>SwitchProbe</td><td>Fibre monitoring</td><td>Monitor, map, report; can be configured to capture</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Filtering captured traffic</h2><ul>
+<li><b>Reduce network impact</b> filtering lowers the load on the network</li>
+<li><b>Reduce the data to analyse</b> only the relevant traffic is kept</li>
+<li><b>Work within storage limits</b> the capture device&#x27;s storage is finite</li>
+<li><b>Typically at analysis stage</b> filtering is usually performed when analysing</li>
+<li><b>Filter by</b> protocol, source and destination</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Impact of traffic capture</h2><ul>
+<li><b>Bridge capture?</b> is it necessary to place a device between the target and the network?</li>
+<li><b>Transparency</b> can the capture device be made transparent to the traffic?</li>
+<li><b>Attacker awareness</b> will the attacker be alerted to the sniffing?</li>
+<li><b>Design the system</b> so that capture does not alter the very behaviour we are observing</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>SPAN ports and network TAPs</h2><table><thead><tr>
+<th>Method</th>
+<th>How it works</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr><td>SPAN port</td><td>Switched Port ANalyzer — mirrors data on one port to another</td><td>Switch-device based</td></tr>
+<tr><td>Network TAP</td><td>Traffic Analysis Point — snoops on traffic in the network</td><td>Requires no external power source</td></tr>
+<tr><td>Aggregating TAP</td><td>Combines multiple streams into one</td><td>Can allow access to fibre-optic networks</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Scope of the analysis</h2><ul>
+<li><b>Focus on data required</b> and on the suspect machines</li>
+<li><b>Only capture what is needed</b> avoid drowning the analysis in noise</li>
+<li><b>Identify</b> ports in use, network topology, security devices</li>
+<li><b>Find available logs</b> that can assist the investigation</li>
+<li><b>Deployment location</b> use network diagrams and the scope to focus the capture</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Capture options</h2><table><thead><tr>
+<th>Option</th>
+<th>Description</th>
+</tr></thead><tbody>
+<tr><td>NetFlow</td><td>Only IP traffic; requires four components — exporter, collector, storage and analysis console</td></tr>
+<tr><td>Limited capture</td><td>Capture only the traffic that fits the scope</td></tr>
+<tr><td>Full packet capture</td><td>Capture everything — most data, most storage</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Preserving network security and integrity</h2><ul>
+<li><b>Encrypt captured files</b> protect the data at rest</li>
+<li><b>Secure the capture device</b> physical and logical protection</li>
+<li><b>Limit access to TAPs</b> only authorised personnel</li>
+<li><b>Remove SPAN ports after use</b> leave the network as it was found</li>
+<li><b>Assure integrity</b> arguments and evidence that the captured data is sound</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D2 · Log sources</div><h2>Data sources and network log sources</h2><ul>
+<li><b>Identification is challenging</b> every network differs from another</li>
+<li><b>Intruders leave a trace</b> the logs capture it if they are present and retained</li>
+<li><b>Types of data source</b> routers, switches, servers, computers, IDS, databases</li>
+<li><b>Use the data</b> to reconstruct the incident timeline</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D2 · Log sources</div><h2>Log source checklist</h2><table><thead><tr>
+<th>Log type</th>
+<th>Key information</th>
+</tr></thead><tbody>
+<tr><td>Proxy</td><td>Timestamps, IPs, URLs, bandwidth usage, proxy action</td></tr>
+<tr><td>syslog</td><td>Timestamps, IPs, severity levels, descriptive messages</td></tr>
+<tr><td>Email</td><td>Timestamps, server and client IPs, sender and recipient, delivery status, error codes</td></tr>
+<tr><td>Firewall</td><td>Network activities, threats, timestamps, IPs, ports, protocols</td></tr>
+<tr><td>DHCP</td><td>Assigned IPs, client hostnames, MAC addresses, event descriptions</td></tr>
+<tr><td>VPN</td><td>External access, timestamps, external and internal IPs, ports, protocols, usernames</td></tr>
+<tr><td>Web server</td><td>Visitor IPs, device types, OS and browser versions, requested files</td></tr>
+<tr><td>Antivirus</td><td>Last scan, signature updates, found malware, actions taken</td></tr>
+<tr><td>DNS</td><td>Queries, source and destination IPs, ports, statuses</td></tr>
+<tr><td>Database</td><td>Who accessed, when, and what transactions or modifications were made</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D2 · Log sources</div><h2>Syslog and Windows event logs</h2><ul>
+<li><b>Syslog</b> a method of logging messages about a system; records timestamps, IPs, severity and descriptive messages</li>
+<li><b>Syslog server</b> receives syslogs from network devices, listens and collects — assists the investigator</li>
+<li><b>Windows event logs</b> locally stored logs on each host</li>
+<li><b>Three well-known logs</b> Application, System and Security</li>
+<li><b>Domain logs</b> record user logins, machines, sessions, password changes and accessed resources</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D2 · Log sources</div><h2>Questions to ask of any data source</h2><ul>
+<li><b>How long is the data stored?</b> retention windows vary by source</li>
+<li><b>Is it overwritten after a period?</b> older data may be gone</li>
+<li><b>Is it stored securely?</b> could it have been tampered with?</li>
+<li><b>How will we handle volume?</b> excessive data needs a plan</li>
+<li><b>Correlate across sources</b> the complete picture comes from joining many logs</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D3 · Config issues</div><h2>Network configuration security issues</h2><table><thead><tr>
+<th>Issue</th>
+<th>Examples</th>
+</tr></thead><tbody>
+<tr><td>IP routing issues</td><td>IP address spoofing, source routing</td></tr>
+<tr><td>DNS information leakage</td><td>DNS spoofing, DNS cache poisoning</td></tr>
+<tr><td>Unexpected traffic routes</td><td>man-in-the-middle via ARP poisoning or DNS spoofing</td></tr>
+<tr><td>Email routing issues</td><td>misconfigured BIND, named log anomalies</td></tr>
+<tr><td>Firewalls / rules not working</td><td>SMB, NetBIOS, tftp, RPC, rlogin, rsh, rexec exposed</td></tr>
+<tr><td>Redundant firewall rules</td><td>stale rules weaken the security posture</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D3 · Config issues</div><h2>Detecting man-in-the-middle</h2><ul>
+<li><b>ARP poisoning</b> an attacker&#x27;s MAC replaces the gateway&#x27;s in the ARP table</li>
+<li><b>Test with arp -a</b> compare the gateway MAC against the known-good value</li>
+<li><b>DNS spoofing</b> a poisoned DNS response sends traffic to the attacker</li>
+<li><b>Test with DNS lookups</b> verify the resolved address matches the legitimate one</li>
+<li><b>Compare before and after</b> a changed gateway MAC is a red flag</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D3 · Config issues</div><h2>Detecting firewall and proxy evasion</h2><ul>
+<li><b>IP address spoofing</b> forging the source address to bypass filters</li>
+<li><b>Source routing</b> forcing traffic along an unexpected path</li>
+<li><b>Fragmentation</b> splitting packets so rules miss the payload</li>
+<li><b>IP addresses to access websites</b> bypassing name-based proxy controls</li>
+<li><b>Tunnelling</b> ICMP tunnelling, ACK tunnelling, HTTP tunnelling</li>
+</ul></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Consolidation · D1–D3</div><h2>Network intrusion analysis I at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Topic</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>D1</td><td>Network traffic capture</td><td>Wireshark, tshark, tcpdump, SPAN ports, TAPs, capture options</td></tr>
+<tr><td>D2</td><td>Data &amp; log sources</td><td>Proxy, syslog, firewall, DHCP, DNS, VPN, web, email, antivirus, event logs</td></tr>
+<tr><td>D3</td><td>Network config issues</td><td>Routing, DNS leakage, firewall evasion, man-in-the-middle</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Capture is a design decision&#x27;, &#x27;scope, filter and place devices so you collect enough without overwhelming&#x27;)</li><li>(&#x27;SPAN vs TAP&#x27;, &#x27;SPAN mirrors a port; TAPs and aggregating TAPs snoop without external power&#x27;)</li><li>(&#x27;Logs tell the story&#x27;, &#x27;proxy, firewall, DNS, DHCP, VPN, syslog and event logs must be correlated&#x27;)</li><li>(&#x27;Config flaws are findings&#x27;, &#x27;routing, DNS leakage and redundant rules weaken the network&#x27;)</li><li>(&#x27;Evasion is deliberate&#x27;, &#x27;spoofing, fragmentation and tunnelling bypass firewall and proxy rules&#x27;)</li><li>(&#x27;Protect the evidence&#x27;, &#x27;encrypt captures, secure the device, remove SPAN ports after use&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (D1–D3)</h2><ul><li>Which Wireshark tool is its terminal interface?</li><li>What does a SPAN port do?</li><li>Which log records the IP addresses assigned to hosts?</li><li>What does a changed gateway MAC in arp -a suggest?</li><li>Which technique tunnels data inside ICMP to evade a firewall?</li></ul></section>
+<section class="slide"><h2>Next session: Network Intrusion Analysis II</h2></section>
+<section class="slide"><div class="kick">Unit 07 of 14</div><h1>Network intrusion analysis II: command and control, exfiltration and incoming attacks</h1><p class="sub">The deck for this unit follows.</p></section>
+<section class="slide"><div class="kick">Session 7 of 14</div><h1>Network Intrusion Analysis II: C2, Exfiltration &amp; Incoming Attacks</h1><p class="sub">Encryption and flow analysis, command-and-control, data exfiltration, and detecting the attacks coming in.</p><div class="tags"><span class="tag">Group D</span><span class="tag">Encryption</span><span class="tag">C2</span><span class="tag">Exfiltration</span><span class="tag">Attacks</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group D</div><h2>This session: D6–D9</h2><table><thead><tr>
+<th>Ref</th>
+<th>Skill area</th>
+<th>Focus</th>
+</tr></thead><tbody>
+<tr><td>D6</td><td>Encryption</td><td>Flow analysis, fingerprinting, weak obfuscation</td></tr>
+<tr><td>D7</td><td>Command and Control Channels</td><td>Botnets, C2 architectures, detection</td></tr>
+<tr><td>D8</td><td>Exfiltration of Data</td><td>Covert and open exfiltration, behavioural analysis</td></tr>
+<tr><td>D9</td><td>Incoming Attacks</td><td>DoS, IDS/IPS, signature and statistical detection</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Analyse traffic flows</b> volume, direction, QoS, timing, custom or standard encryption</li>
+<li><b>Understand channel fingerprinting</b> one source, many destinations, increasing ports, SYN flags</li>
+<li><b>Identify weak obfuscation</b> XOR, ROL, codebooks — and approaches to deobfuscation</li>
+<li><b>Detect command-and-control</b> covert and open C2 via statistics, signatures and manual review</li>
+<li><b>Recognise data exfiltration</b> covert channels, behavioural analysis, watermarking, prevention</li>
+<li><b>Detect incoming attacks</b> DoS, signature and statistical systems, email attacks</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D6 · Encryption</div><h2>Analysis of traffic flows</h2><ul>
+<li><b>Flows</b> sequences of related packets examined for patterns</li>
+<li><b>Flow analysis</b> identify traffic patterns, isolate suspicious activity, analyse higher-layer protocols, extract data</li>
+<li><b>Flow definitions</b> quality of service (QoS), volume, directionality</li>
+<li><b>Follow TCP stream</b> reassemble a conversation in Wireshark</li>
+<li><b>Flow tools</b> tcpflow, pcapcat, tcpxtract for reconstruction and carving</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D6 · Encryption</div><h2>Flow analysis techniques</h2><ol class="steps"><li><b>List conversations and flows</b><br>get an overview of who talked to whom</li><li><b>Export a flow</b><br>extract the conversation of interest</li><li><b>File and data carving</b><br>recover files and data from the stream</li><li><b>Active pattern matching</b><br>IPs, ports, protocols and flags, directionality, volume</li></ol></section>
+<section class="slide"><div class="kick">Topic D6 · Encryption</div><h2>Fingerprinting</h2><ul>
+<li><b>Channel fingerprinting</b> a pattern that identifies a remote channel or tool</li>
+<li><b>One source IP address</b> a single host beaconing out</li>
+<li><b>One or more destination IPs</b> many targets from one source</li>
+<li><b>Increasing destination ports</b> ports climbing incrementally</li>
+<li><b>Volume of packets</b> unusual packet counts</li>
+<li><b>SYN flags outbound</b> a TCP protocol signature of scanning or probing</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D6 · Encryption</div><h2>Weak obfuscation and deobfuscation</h2><table><thead><tr>
+<th>Scheme</th>
+<th>Description</th>
+</tr></thead><tbody>
+<tr><td>XOR</td><td>Byte-wise exclusive-or with a key; reversible with the same key</td></tr>
+<tr><td>ADD / SUB</td><td>Arithmetic on bytes; used in tandem since they are not reversible alone</td></tr>
+<tr><td>ROL / ROR</td><td>Circular bit rotations; used together as they are not reversible</td></tr>
+<tr><td>ROT</td><td>Caesar cipher over A–Z or the 94 printable ASCII characters</td></tr>
+<tr><td>Multibyte</td><td>Longer keys, often 4 or 8 bytes, typically XOR per block</td></tr>
+<tr><td>Chained / loopback</td><td>Encoded output becomes the key for the next character</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D6 · Encryption</div><h2>Deobfuscation</h2><ul>
+<li><b>Deobfuscation</b> making sense of something that has been encoded</li>
+<li><b>XOR</b> apply the same key again to recover the plaintext</li>
+<li><b>BASE64</b> a common encoding layer to strip before analysis</li>
+<li><b>Codebooks</b> lookup tables replacing data with codes</li>
+<li><b>The goal</b> reduce weak obfuscation to readable content for the investigation</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D7 · C2</div><h2>Botnets and command-and-control</h2><ul>
+<li><b>Botnet</b> a large network of compromised computers, infected with malicious code and remotely controlled by one or more cybercriminals</li>
+<li><b>C&amp;C servers</b> the command-and-control infrastructure</li>
+<li><b>Types</b> centralised, distributed, and hybrid C&amp;C</li>
+<li><b>Uses</b> spam distribution, DDoS, identity theft, online advertising fraud</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D7 · C2</div><h2>C2 architectures compared</h2><table><thead><tr>
+<th>Type</th>
+<th>Advantages</th>
+<th>Weakness</th>
+</tr></thead><tbody>
+<tr><td>Centralised</td><td>Low reaction time, good coordination power, easy monitoring</td><td>Single point of failure</td></tr>
+<tr><td>Distributed</td><td>High anonymity for botmasters, difficult to disarticulate, more robust</td><td>More complex to manage</td></tr>
+<tr><td>Hybrid</td><td>Combines centralised control with distributed bot groups</td><td>Servant bots and client bots add complexity</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D7 · C2</div><h2>Botnet lifecycle and detection</h2><ul>
+<li><b>Lifecycle</b> conception, recruitment, connection, marketing, execution, maintenance</li>
+<li><b>Signature-based detection</b> IDS/IPS detection of known botnets</li>
+<li><b>Anomaly-based detection</b> high latency, unusual ports, unusual system behaviour</li>
+<li><b>DNS-based detection</b> analysis of DNS traffic for bot-related names</li>
+<li><b>Review traffic and logs</b> IDS, IPS, web server access.log and error.log</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D8 · Exfiltration</div><h2>Data exfiltration</h2><ul>
+<li><b>Manual</b> by an individual with physical access to a computer</li>
+<li><b>Automated</b> through malicious programming over a network</li>
+<li><b>Access points</b> the many ways data leaves the network</li>
+<li><b>Attack paths</b> obtained passwords, remote access, APTs — advanced persistent threats</li>
+<li><b>FTP misconfiguration</b> misconfigured servers, default passwords, plaintext credentials</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D8 · Exfiltration</div><h2>Exfiltration vectors</h2><ul>
+<li><b>Web applications</b> an attacker uses their own browser to access data directly — ordinary, hard to suspect</li>
+<li><b>WMI</b> Windows Management Instrumentation used to move data</li>
+<li><b>Covert channels</b> VOIP tunnels, ICMP tunnels, DNS tunnels, HTTP tunnels</li>
+<li><b>Encrypted transport</b> all of these protocols can carry encrypted data out of the network</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D8 · Exfiltration</div><h2>Behavioural analysis and prevention</h2><ul>
+<li><b>Behavioural analysis</b> automatically detect destinations that receive far more uploaded data than typical</li>
+<li><b>Relevant fields</b> bytes sent, client host/IP, destination host/IP (e.g. in proxy logs)</li>
+<li><b>Watermarking</b> an overt detection technique — track files and monitor what happens to them</li>
+<li><b>Prevention</b> secure endpoints, stronger IT controls, physical and logical security, DLP, inspection of traffic</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D9 · Incoming attacks</div><h2>Public-facing services under attack</h2><ul>
+<li><b>Public-facing services</b> web servers, FTP servers, mail servers — accessible via the internet</li>
+<li><b>Constant threat</b> a steady stream of approaches against these services</li>
+<li><b>Impact</b> interruption and destruction</li>
+<li><b>Detect via</b> manual review of traffic, system performance, firewall and web server logs</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D9 · Incoming attacks</div><h2>Detecting denial of service</h2><ul>
+<li><b>High volume of incoming traffic</b> a classic DoS signature</li>
+<li><b>Single or multiple source IPs</b> attackers may come from one or many addresses</li>
+<li><b>Protocol abuse</b> malformed handshakes, large ping packets</li>
+<li><b>SYN flood</b> an incomplete three-way handshake saturates the server</li>
+<li><b>System performance</b> excessive CPU and memory usage indicates an attack</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D9 · Incoming attacks</div><h2>Signature vs statistical detection</h2><table><thead><tr>
+<th>System</th>
+<th>How it works</th>
+<th>Limitations</th>
+</tr></thead><tbody>
+<tr><td>Statistical</td><td>Detects abnormal behaviour</td><td>Requires extensive configuration; false positives easy; malicious traffic may go unnoticed</td></tr>
+<tr><td>Signature</td><td>Detects known malicious activity from a signature database</td><td>Must be constantly updated; only as good as its database</td></tr>
+<tr><td>IDS / IPS</td><td>Combine statistical and signature approaches</td><td>Network-based (NIDS) or host-based (HIDS); e.g. Snort</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D9 · Incoming attacks</div><h2>Email attacks</h2><ul>
+<li><b>Problematic</b> for both individuals and organisations</li>
+<li><b>Range</b> malicious attachments, mail bombing, phishing emails</li>
+<li><b>Detect attachments</b> with email malware scanners</li>
+<li><b>Detect mail bombing</b> the usual signs of DoS plus an increase in inbox storage</li>
+<li><b>Manual phishing detection</b> scrutinise the email for tell-tale signs</li>
+</ul></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Consolidation · D6–D9</div><h2>Network intrusion analysis II at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Topic</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>D6</td><td>Encryption</td><td>Flow analysis, fingerprinting, XOR/ROL/codebook deobfuscation</td></tr>
+<tr><td>D7</td><td>Command and control</td><td>Botnets, centralised/distributed/hybrid C2, detection</td></tr>
+<tr><td>D8</td><td>Exfiltration</td><td>Covert channels, behavioural analysis, watermarking, DLP</td></tr>
+<tr><td>D9</td><td>Incoming attacks</td><td>DoS, signature vs statistical detection, email attacks</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Flows are the unit of analysis&#x27;, &#x27;follow TCP streams, list conversations, carve files&#x27;)</li><li>(&#x27;Fingerprint the channel&#x27;, &#x27;one source, many destinations, rising ports, SYN flags&#x27;)</li><li>(&#x27;Weak obfuscation is reversible&#x27;, &#x27;XOR, ROL, codebooks and BASE64 can be deobfuscated&#x27;)</li><li>(&#x27;C2 comes in three flavours&#x27;, &#x27;centralised, distributed and hybrid — each with strengths and weaknesses&#x27;)</li><li>(&#x27;Exfiltration hides in plain sight&#x27;, &#x27;covert tunnels, web apps, WMI; detect by volume and watermark&#x27;)</li><li>(&#x27;Detect by signature and statistics&#x27;, &#x27;IDS/IPS plus manual review of traffic and logs&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (D6–D9)</h2><ul><li>Which command reassembles a TCP conversation in Wireshark?</li><li>Which obfuscation scheme uses a Caesar shift over characters?</li><li>Which C2 architecture has a single point of failure?</li><li>Which detection technique tracks watermarked files?</li><li>What is a SYN flood?</li><li>Which detection approach needs constant signature updates?</li></ul></section>
+<section class="slide"><h2>Next session: Network Intrusion Analysis III</h2></section>
+<section class="slide"><div class="kick">Unit 08 of 14</div><h1>Network intrusion analysis III: reconnaissance, internal spread and false positives</h1><p class="sub">The deck for this unit follows.</p></section>
+<section class="slide"><div class="kick">Session 8 of 14</div><h1>Network Intrusion Analysis III: Recon, Internal Spread &amp; False Positives</h1><p class="sub">Mapping the network, moving through it, escalating privilege, and acknowledging what the evidence really shows.</p><div class="tags"><span class="tag">Group D</span><span class="tag">Reconnaissance</span><span class="tag">Privilege Escalation</span><span class="tag">False Positives</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group D</div><h2>This session: D10, D11, D13</h2><table><thead><tr>
+<th>Ref</th>
+<th>Skill area</th>
+<th>Focus</th>
+</tr></thead><tbody>
+<tr><td>D10</td><td>Reconnaissance</td><td>How attackers map the network before acting</td></tr>
+<tr><td>D11</td><td>Internal Spread &amp; Privilege Escalation</td><td>Vertical and horizontal escalation, spread, artefacts</td></tr>
+<tr><td>D13</td><td>False Positive Acknowledgement</td><td>Interpreting results honestly and corroborating</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Detect reconnaissance</b> the probing that maps the network before an attack</li>
+<li><b>Detect internal spread</b> malware moving laterally across the network</li>
+<li><b>Recognise privilege escalation</b> vertical and horizontal, and how to test for it</li>
+<li><b>Identify escalation artefacts</b> audit logs, event IDs, command history, scheduled tasks</li>
+<li><b>Acknowledge false positives</b> corroborate results and interpret evidence honestly</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D10 · Reconnaissance</div><h2>Reconnaissance in the kill chain</h2><ul>
+<li><b>The first kill-chain phase</b> research, identify and select targets</li>
+<li><b>External recon</b> WHOIS, DNS, OSINT — everything from Session 5</li>
+<li><b>Internal recon</b> after compromise, the attacker maps the environment</li>
+<li><b>Purpose</b> learn the network, find targets, plan the next move</li>
+<li><b>Detect the pattern</b> scans, probes, unusual lookups, enumeration traffic</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D10 · Reconnaissance</div><h2>Indicators of reconnaissance</h2><ul>
+<li><b>Scanning and probing</b> many connections, rising ports, SYN patterns</li>
+<li><b>Enumeration</b> banner grabbing, service identification</li>
+<li><b>DNS and WHOIS queries</b> bulk lookups before an attack</li>
+<li><b>Credential probing</b> repeated login attempts</li>
+<li><b>Correlate with logs</b> firewall, IDS and web logs reveal the pattern</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D11 · Spread &amp; escalation</div><h2>Privilege escalation: vertical and horizontal</h2><table><thead><tr>
+<th>Type</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr></thead><tbody>
+<tr><td>Vertical</td><td>Gaining higher privileges than intended</td><td>A standard user escalating to administrator or root</td></tr>
+<tr><td>Horizontal</td><td>Gaining the privileges of another user at the same level</td><td>User A accessing User B&#x27;s bank account</td></tr>
+<tr><td>Permission creep</td><td>Accumulated privileges beyond those required</td><td>Users keep old rights when roles change</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D11 · Spread &amp; escalation</div><h2>How privileges are escalated</h2><ul>
+<li><b>Vertical methods</b> user impersonation, Linux kernel manipulation, cross-zone scripting, shell injection, jailbreaking and rooting</li>
+<li><b>Exploit common weaknesses</b> theft or hijacking of session cookies, predictable session IDs, session fixation, cross-site scripting</li>
+<li><b>Weak credentials</b> easily guessable passwords</li>
+<li><b>Keystroke logging</b> capturing credentials as they are typed</li>
+<li><b>The result</b> an attacker with more privilege than they should hold</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D11 · Spread &amp; escalation</div><h2>Testing for privilege escalation</h2><ul>
+<li><b>Vertical testing</b> try to reach a higher privilege level than intended</li>
+<li><b>Horizontal testing</b> attempt to access another user&#x27;s account or data</li>
+<li><b>Session weaknesses</b> predictable session IDs, session fixation, cookie theft</li>
+<li><b>Web application flaws</b> cross-site scripting and access-control failures</li>
+<li><b>Weak credentials</b> guessable passwords and keystroke logging</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D11 · Spread &amp; escalation</div><h2>The compromise: from initial access to sensitive data</h2><ol class="steps"><li><b>Initial compromise</b><br>the attacker gains a foothold</li><li><b>Internal reconnaissance</b><br>obtain and learn about the environment</li><li><b>Seek additional targets</b><br>find other systems to move to</li><li><b>Escalate and move</b><br>raise privileges and move around the network</li><li><b>Gain access to sensitive resources</b><br>the attacker reaches their objective</li></ol></section>
+<section class="slide"><div class="kick">Topic D11 · Spread &amp; escalation</div><h2>Investigating escalation: audit logs</h2><ul>
+<li><b>Audit logs</b> Windows security logs, auth log, secure log</li>
+<li><b>What to look for</b> valid and invalid log-on attempts, newly created or modified user accounts</li>
+<li><b>Command execution history</b> ipconfig, ifconfig, tasklist, ps, traceroute, netstat</li>
+<li><b>Task scheduler and registry</b> scheduled tasks and registry entries</li>
+<li><b>Network traffic</b> review recent and active connections</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D11 · Spread &amp; escalation</div><h2>Windows event IDs to know</h2><table><thead><tr>
+<th>Event ID</th>
+<th>Meaning</th>
+</tr></thead><tbody>
+<tr><td>4624</td><td>Successful login</td></tr>
+<tr><td>4625</td><td>Failed login</td></tr>
+<tr><td>4768</td><td>Kerberos authentication (ticket granting)</td></tr>
+<tr><td>4769</td><td>Kerberos service ticket</td></tr>
+<tr><td>4776</td><td>NTLM authentication</td></tr>
+<tr><td>4672</td><td>Assignment of administrator rights</td></tr>
+<tr><td>106 / 140 / 141</td><td>Scheduled task registered / updated / removed</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D11 · Spread &amp; escalation</div><h2>Command history across platforms</h2><table><thead><tr>
+<th>Purpose</th>
+<th>Windows</th>
+<th>Unix</th>
+</tr></thead><tbody>
+<tr><td>Network config</td><td>ipconfig</td><td>ifconfig</td></tr>
+<tr><td>Connections</td><td>netstat</td><td>netstat</td></tr>
+<tr><td>Route trace</td><td>tracert</td><td>traceroute</td></tr>
+<tr><td>Processes</td><td>tasklist</td><td>ps</td></tr>
+<tr><td>System info</td><td>systeminfo</td><td>uname</td></tr>
+<tr><td>Identity</td><td>whoami</td><td>whoami / id / sudo -l</td></tr>
+<tr><td>List files</td><td>dir</td><td>ls</td></tr>
+<tr><td>View files</td><td>type</td><td>cat</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D11 · Spread &amp; escalation</div><h2>Scheduled tasks and registry</h2><ul>
+<li><b>Scheduled tasks</b> the use of &#x27;at&#x27; or &#x27;schtasks&#x27; to run code</li>
+<li><b>Gain SYSTEM privileges</b> tasks can run at high privilege</li>
+<li><b>Run code under a compromised account</b> persistence and execution</li>
+<li><b>Registry keys</b> can be modified easily — poor configuration leaves a system vulnerable</li>
+<li><b>Detect via event IDs</b> 106 registered, 140 updated, 141 removed</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D11 · Spread &amp; escalation</div><h2>Detecting malware spread within the network</h2><ul>
+<li><b>Review recent and active connections</b> current state of the network</li>
+<li><b>Manual review of traffic and logs</b> identify what is abnormal</li>
+<li><b>Review abnormal connections</b> unexpected destinations and protocols</li>
+<li><b>Correlate across hosts</b> the same infection on many systems indicates spread</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D13 · False positives</div><h2>False positive acknowledgement</h2><ul>
+<li><b>The risk</b> automated tools flag many benign items as malicious</li>
+<li><b>False dependence</b> over-reliance on a single commercial tool</li>
+<li><b>Acknowledge honestly</b> state clearly what is a true positive and what is not</li>
+<li><b>Corroborate</b> use multiple vendors&#x27; data and analyse the results yourself</li>
+<li><b>The professional standard</b> conclusions must be defensible and reproducible</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D13 · False positives</div><h2>Turning an alert into a finding</h2><ol class="steps"><li><b>Receive an alert</b><br>from IDS, antivirus, or a manual review</li><li><b>Validate the indicator</b><br>is the signature or anomaly genuine?</li><li><b>Corroborate across sources</b><br>traffic, logs, multiple vendors, manual analysis</li><li><b>Acknowledge the outcome</b><br>true positive or false positive, stated clearly</li><li><b>Document and report</b><br>a defensible, evidence-backed conclusion</li></ol></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Consolidation · D10–D13</div><h2>Network intrusion analysis III at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Topic</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>D10</td><td>Reconnaissance</td><td>Map the network before acting — scans, probes, enumeration</td></tr>
+<tr><td>D11</td><td>Internal spread &amp; escalation</td><td>Vertical and horizontal escalation; event IDs, command history, scheduled tasks</td></tr>
+<tr><td>D13</td><td>False positives</td><td>Acknowledge honestly, corroborate, make defensible conclusions</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Recon precedes attack&#x27;, &#x27;both externally and internally, the attacker maps before moving&#x27;)</li><li>(&#x27;Escalation is vertical or horizontal&#x27;, &quot;higher privilege, or another user&#x27;s privilege&quot;)</li><li>(&#x27;Artefacts reveal the move&#x27;, &#x27;event IDs 4624/4625/4768/4672, command history, scheduled tasks&#x27;)</li><li>(&#x27;Spread shows in correlation&#x27;, &#x27;the same infection across hosts indicates lateral movement&#x27;)</li><li>(&#x27;False positives are normal&#x27;, &#x27;acknowledge, corroborate, and never over-claim&#x27;)</li><li>(&#x27;Conclusions must be defensible&#x27;, &#x27;multi-source, reproducible and honestly reported&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (D10–D13)</h2><ul><li>Which kill-chain phase precedes weaponisation?</li><li>What does Event ID 4625 indicate?</li><li>What is horizontal privilege escalation?</li><li>Which Windows command shows network configuration?</li><li>How should an analyst handle a possible false positive?</li><li>What does Event ID 106 indicate?</li></ul></section>
+<section class="slide"><h2>Next session: Analysing Host Intrusions I</h2></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 71</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>

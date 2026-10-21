@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Slide Pack Module F: Malware analysis and reverse engineering</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Slide Pack Module F</span></div>
+<section class="slide"><div class="kick">Slide pack</div><h1>Module F: Malware analysis and reverse engineering</h1><p class="sub">3 units, 66 slides. Use the arrows or the Back and Next buttons.</p></section>
+<section class="slide"><div class="kick">Unit 12 of 14</div><h1>Reverse engineering malware I: functionality and executable formats</h1><p class="sub">The deck for this unit follows.</p></section>
+<section class="slide"><div class="kick">Session 12 of 14</div><h1>Reverse Engineering Malware I: Intro, Anti-RE &amp; Functionality</h1><p class="sub">The goals of malware analysis, indicators of compromise, OPSEC, and the anti-reverse-engineering arms race.</p><div class="tags"><span class="tag">Group F</span><span class="tag">Malware Analysis</span><span class="tag">Anti-RE</span></div></section>
+<section class="slide"><div class="kick">Knowledge Group F · The course</div><h2>Three sessions on reverse engineering malware</h2><table><thead><tr>
+<th>Session</th>
+<th>Focus</th>
+<th>Skill areas</th>
+</tr></thead><tbody>
+<tr><td>12 · Today</td><td>Introduction, anti-RE, functionality</td><td>F0, F1, F2</td></tr>
+<tr><td>13</td><td>Binary structure, crypto, processors, PE format</td><td>F3, F4, F5, F6, F7, F8</td></tr>
+<tr><td>14</td><td>Hiding, reporting, obfuscation, behaviour</td><td>F9, F10, F11, F12</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Explain the goals of malware analysis</b> determining if a file is malicious and what it can do</li>
+<li><b>Define indicators of compromise</b> the IOC types and the signatures built from them</li>
+<li><b>Share IOCs safely</b> using STIX, TAXII, CybOX and MAEC</li>
+<li><b>Apply OPSEC</b> the do&#x27;s and don&#x27;ts that keep analysis safe</li>
+<li><b>Describe anti-reverse engineering</b> anti-disassembly, anti-debugging, anti-virtualisation, anti-sandboxing</li>
+<li><b>Explain unpacking</b> static, automatic dynamic and manual, and the role of UPX</li>
+<li><b>Identify malware functionality</b> using static analysis, strings, import hashing and PEiD</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F0 · Terms &amp; acronyms</div><h2>The vocabulary of malware analysis</h2><table><thead><tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr></thead><tbody>
+<tr><td>APT</td><td>Advanced persistent threat — a sophisticated, long-running campaign</td></tr>
+<tr><td>C2</td><td>Command and control — the channel malware uses to receive instructions</td></tr>
+<tr><td>IDS</td><td>Intrusion detection system</td></tr>
+<tr><td>IOC</td><td>Indicator of compromise</td></tr>
+<tr><td>PE</td><td>Portable executable — the Windows executable format</td></tr>
+<tr><td>VM / Vbox</td><td>Virtual machine / VirtualBox — a sandbox for safe analysis</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F0 · Goals</div><h2>Goals of malware analysis</h2><ul>
+<li><b>Determine if a file is malicious</b> the first and most important judgement</li>
+<li><b>Extract indicators of compromise</b> the artefacts that allow detection elsewhere</li>
+<li><b>Create host-based signatures</b> for AV and host intrusion detection</li>
+<li><b>Create network signatures</b> to spot C2 and exfiltration traffic</li>
+<li><b>Determine the capabilities</b> what the malicious code can actually do</li>
+<li><b>Update existing signatures</b> when a sample exposes new behaviour</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F0 · Indicators of compromise</div><h2>What counts as an IOC?</h2><ul>
+<li><b>File hashes</b> cryptographic digests such as MD5, and fuzzy hashes such as SSDeep</li>
+<li><b>Filenames and folder locations</b> the paths the malware creates or persists in</li>
+<li><b>Registry keys</b> persistence and configuration locations</li>
+<li><b>Strings</b> URLs, domains, IP addresses, commands</li>
+<li><b>Network traffic patterns</b> the shape of C2 communication</li>
+<li><b>Binary functions and encryption</b> and developer toolmarks</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F0 · Signatures</div><h2>Signatures built from IOCs</h2><table><thead><tr>
+<th>Signature type</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr><td>Anti-virus signatures</td><td>Host-based detection of known files</td></tr>
+<tr><td>IDS signatures</td><td>Snort and Suricata rules for network detection</td></tr>
+<tr><td>File / fuzzy hash databases</td><td>Rapid matching of known-good and known-bad files</td></tr>
+<tr><td>YARA signatures</td><td>Flexible pattern and rule matching</td></tr>
+<tr><td>HIDS signatures</td><td>Host intrusion detection</td></tr>
+<tr><td>SIEM signatures</td><td>Correlation across security event logs</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F0 · Sharing IOC</div><h2>Sharing indicators: STIX, TAXII, CybOX &amp; MAEC</h2><table><thead><tr>
+<th>Format</th>
+<th>What it does</th>
+</tr></thead><tbody>
+<tr><td>STIX</td><td>Structured Threat Information eXpression — a language for sharing threat intelligence</td></tr>
+<tr><td>TAXII</td><td>Trusted Automated eXchange of Indicator Information — the transport for sharing it</td></tr>
+<tr><td>CybOX</td><td>Cyber Observable eXpression — describing the observable artefacts</td></tr>
+<tr><td>MAEC</td><td>Malware Attribute Enumeration and Characterisation — describing malware attributes</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F0 · Sharing IOC</div><h2>Common IOC file formats</h2><ul>
+<li><b>Snort and Suricata IDS signatures</b> network rule formats</li>
+<li><b>YARA signatures</b> pattern matching rules</li>
+<li><b>OpenIOC signatures</b> the Mandiant open format</li>
+<li><b>CSV</b> simple structured tabular sharing</li>
+<li><b>Stuxnet</b> a landmark case — four zero-days, industrial PLC targeting, discovered June 2010</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F0 · OPSEC</div><h2>Operations security — the don&#x27;ts</h2><ul>
+<li><b>Do not allow malware to connect back</b> to the attacker from your lab</li>
+<li><b>Do not manually connect</b> to attacker infrastructure</li>
+<li><b>Do not scan attacker infrastructure</b> no port or vulnerability scans</li>
+<li><b>Do not use discovered credentials</b> such as FTP usernames or passwords</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F0 · OPSEC</div><h2>Operations security — the do&#x27;s</h2><ul>
+<li><b>Neuter extensions</b> rename bad.exe to bad.exe_ so it cannot be run accidentally</li>
+<li><b>Password-protect archives</b> zip samples with the password &#x27;infected&#x27;</li>
+<li><b>Clearly label media</b> any portable media containing malicious code</li>
+<li><b>Use a throwaway VM</b> never your corporate gold build image</li>
+<li><b>Disable USB autorun</b> and beware browsers preloading links you search</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F0 · OPSEC</div><h2>OPSEC: staying anonymous</h2><ul>
+<li><b>Sometimes you must reach attacker infrastructure</b> for example to download exploit-kit payloads</li>
+<li><b>The Onion Router (TOR)</b> routes traffic through an anonymous overlay network</li>
+<li><b>VPN services</b> mask your true source address</li>
+<li><b>Cloud upload risk</b> files sent to VirusTotal are shared with subscribers and AV vendors</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F2 · Functionality identification</div><h2>Identifying what a sample does — statically</h2><ul>
+<li><b>Static analysis</b> examining code, binaries and headers without executing — safe and efficient</li>
+<li><b>Information extraction</b> embedded strings, imports, exports, file headers</li>
+<li><b>Strings utility</b> extracts printable ASCII and Unicode sequences — URLs, paths, commands</li>
+<li><b>Import hashing (imphash)</b> a Mandiant technique hashing libraries, API names and their order</li>
+<li><b>NSRL</b> National Software Reference Library — known-good hash sets to filter out</li>
+<li><b>PEiD</b> detects common packers, cryptors and compilers</li>
+</ul></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Topic F1 · Anti-reverse engineering</div><h2>The aim: conceal, but stay recoverable</h2><ul>
+<li><b>Concealment goals</b> most packers try to conceal information — intellectual property or malware</li>
+<li><b>Recovery requirement</b> the information must be recoverable at run time</li>
+<li><b>The unpacking code does the work</b> the packer ships a stub that restores the original code</li>
+<li><b>Anti-RE categories</b> anti-disassembly, anti-debugging, anti-virtualisation, anti-sandboxing</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F1 · Anti-disassembly</div><h2>Anti-disassembly methods</h2><ul>
+<li><b>Overlapping instructions</b> jumping into the middle of another instruction</li>
+<li><b>Linear disassembly abuse</b> garbage following a call, jump or conditional jump</li>
+<li><b>Stack abuse</b> modifying return addresses, e.g. call $+5; add [esp],5; retn</li>
+<li><b>Purpose</b> inhibits static analysis — disassembly and decompilation</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F1 · Anti-debugging</div><h2>Anti-debugging and anti-virtualisation</h2><ul>
+<li><b>Anti-debugging</b> inhibits dynamic analysis — debugging and tracing</li>
+<li><b>Anti-virtualisation</b> detects the VM and changes behaviour or refuses to run</li>
+<li><b>Anti-sandboxing</b> detects the analysis environment and evades it</li>
+<li><b>High-profile bugs</b> known flaws in common debuggers and disassemblers are weaponised</li>
+<li><b>Defeat</b> identify and neutralise the checks, then unpack and analyse</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F1 · Unpacking</div><h2>Unpacking the binary</h2><ol class="steps"><li><b>Load the packed binary in a debugger</b><br>start execution in a controlled way</li><li><b>Identify the unpacking code</b><br>and any anti-debugging code</li><li><b>Identify the original entry point (OEP)</b><br>the start of the real program</li><li><b>Run to the OEP</b><br>let the unpacking stub do its work</li><li><b>Dump the process</b><br>capture the unpacked image from memory</li><li><b>Reconstruct the import table</b><br>restore the functions called from other libraries</li></ol></section>
+<section class="slide"><div class="kick">Topic F1 · Unpacking</div><h2>Static, dynamic and manual unpacking</h2><table><thead><tr>
+<th>Approach</th>
+<th>How it works</th>
+<th>Examples</th>
+</tr></thead><tbody>
+<tr><td>Static unpacking</td><td>Reconstructs the original from the packed binary; packed code does not run</td><td>UPX (single), PE Explorer (multiple)</td></tr>
+<tr><td>Automatic dynamic</td><td>Uses the unpacking stub so packed code potentially runs</td><td>UnASPack (single), FUU (multiple)</td></tr>
+<tr><td>Manual</td><td>Debug, dump and rebuild imports by hand</td><td>Any packer, most effort</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Consolidation · Group F</div><h2>Group F at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Skill area</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>F0</td><td>Introduction to Malware Analysis</td><td>Goals, IOCs, sharing, OPSEC</td></tr>
+<tr><td>F1</td><td>Windows Anti-Reverse Engineering</td><td>Anti-disassembly, anti-debugging, anti-virtualisation, anti-sandboxing, unpacking</td></tr>
+<tr><td>F2</td><td>Functionality Identification</td><td>Static analysis, strings, import hashing, PEiD</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Malware analysis has goals&#x27;, &#x27;judge maliciousness, extract IOCs, build signatures, assess capability&#x27;)</li><li>(&#x27;IOCs drive detection&#x27;, &#x27;hashes, filenames, registry keys, strings, network patterns, signatures&#x27;)</li><li>(&#x27;Sharing uses standards&#x27;, &#x27;STIX, TAXII, CybOX and MAEC&#x27;)</li><li>(&#x27;OPSEC protects the work&#x27;, &#x27;neuter files, protect archives, never let samples connect out&#x27;)</li><li>(&#x27;Anti-RE is an arms race&#x27;, &#x27;anti-disassembly, anti-debugging, anti-virtualisation, anti-sandboxing — beaten by unpacking&#x27;)</li><li>(&#x27;Functionality is identified&#x27;, &#x27;statically, with strings, imports, hashing and PEiD&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (Group F I)</h2><ul><li>Which sharing standard transports threat intelligence between parties?</li><li>Why must you never allow malware to connect back to its C2?</li><li>What does the Strings utility extract from a binary?</li><li>What is the original entry point (OEP)?</li><li>Which anti-RE technique inhibits static analysis?</li></ul></section>
+<section class="slide"><h2>Next session: Binary Structure, Crypto, Processors &amp; PE</h2></section>
+<section class="slide"><div class="kick">Unit 13 of 14</div><h1>Reverse engineering malware II: binary structure and cryptographic techniques</h1><p class="sub">The deck for this unit follows.</p></section>
+<section class="slide"><div class="kick">Session 13 of 14</div><h1>Reverse Engineering Malware II: Binary Structure, Crypto, Processors &amp; PE</h1><p class="sub">Windows internals, the API, calling conventions, cryptography, the x86/x64 processor and the PE format.</p><div class="tags"><span class="tag">Group F</span><span class="tag">PE Format</span><span class="tag">Processors</span></div></section>
+<section class="slide"><div class="kick">Knowledge Group F · The course</div><h2>Session 13 covers six skill areas</h2><table><thead><tr>
+<th>Ref</th>
+<th>Skill area</th>
+<th>Focus</th>
+</tr></thead><tbody>
+<tr><td>F3</td><td>Windows NT Architecture</td><td>Kernel vs user mode, processes</td></tr>
+<tr><td>F4</td><td>Windows API Development</td><td>How code calls the OS</td></tr>
+<tr><td>F5</td><td>Binary Code Structure</td><td>Calling conventions, compiler constructs</td></tr>
+<tr><td>F6</td><td>Cryptographic Techniques</td><td>Encryption and encoding in malware</td></tr>
+<tr><td>F7</td><td>Processor Architectures</td><td>x86/x64 registers, virtual memory</td></tr>
+<tr><td>F8</td><td>Windows Executable File Formats</td><td>The PE format in detail</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Describe Windows NT architecture</b> kernel and user mode, privilege rings, processes</li>
+<li><b>Explain the Windows API</b> and how malware calls OS functions at load and run time</li>
+<li><b>Describe binary code structure</b> calling conventions, stack frames and virtual function tables</li>
+<li><b>Recognise cryptographic techniques</b> the encryption and encoding used in malware</li>
+<li><b>Describe the x86/x64 processor</b> registers, instruction set and virtual memory</li>
+<li><b>Read the PE format</b> headers, sections, imports, exports, resources and relocations</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F3 · Windows NT architecture</div><h2>Kernel mode and user mode</h2><ul>
+<li><b>Two privilege levels</b> the processor enforces rings that control access to resources</li>
+<li><b>Kernel mode (Ring 0)</b> highest privilege — drivers, the core of the OS, direct hardware access</li>
+<li><b>User mode (Ring 3)</b> applications run here with restricted access to hardware</li>
+<li><b>Context switching</b> transitions between modes are mediated by the OS</li>
+<li><b>Malware targeting</b> kernel-mode rootkits are far harder to detect than user-mode code</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F3 · Windows NT architecture</div><h2>Processes, threads and the executive</h2><table><thead><tr>
+<th>Component</th>
+<th>Role</th>
+</tr></thead><tbody>
+<tr><td>Process</td><td>An isolated address space; each process gets its own memory segment</td></tr>
+<tr><td>Thread</td><td>The unit of execution within a process</td></tr>
+<tr><td>Executive</td><td>The kernel-mode services — memory, I/O, process and object management</td></tr>
+<tr><td>Subsystems</td><td>Environment subsystems present the Win32 API to applications</td></tr>
+<tr><td>Registry</td><td>Configuration store malware abuses for persistence</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F4 · Windows API development</div><h2>How code calls the operating system</h2><ul>
+<li><b>The Win32 API</b> the set of functions applications call to use Windows services</li>
+<li><b>Imports at load time</b> functions resolved via the import table in the PE</li>
+<li><b>Imports at run time</b> LoadLibrary / GetModuleHandle plus GetProcAddress</li>
+<li><b>Malware preference</b> run-time resolution avoids obvious import strings</li>
+<li><b>API hashing</b> malware stores a hash of the function name and resolves it dynamically</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F4 · Windows API development</div><h2>API hashing in practice</h2><ul>
+<li><b>Avoids readable strings</b> no plain-text API names for an analyst to spot</li>
+<li><b>Less data to store</b> a single 32-bit hash replaces a long name</li>
+<li><b>Bespoke resolvers</b> custom GetModuleHandle and GetProcAddress replacements</li>
+<li><b>Typical hash</b> ROL(hash, 5) XOR each byte of the name</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F5 · Binary code structure</div><h2>Calling conventions</h2><table><thead><tr>
+<th>Convention</th>
+<th>Argument passing</th>
+<th>Stack cleanup</th>
+</tr></thead><tbody>
+<tr><td>cdecl</td><td>Arguments pushed on the stack, right to left</td><td>Caller cleans up</td></tr>
+<tr><td>stdcall</td><td>Arguments pushed on the stack, right to left</td><td>Callee cleans up</td></tr>
+<tr><td>fastcall</td><td>First arguments passed in registers (ECX, EDX)</td><td>Callee cleans up</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F5 · Binary code structure</div><h2>Compiler-generated constructs</h2><ul>
+<li><b>Function prologue and epilogue</b> setup and teardown of the stack frame</li>
+<li><b>Stack frames</b> local variables, saved registers and return addresses live here</li>
+<li><b>C++ objects</b> methods compiled as functions; objects carry a pointer to their data</li>
+<li><b>Virtual function table (vtable)</b> a table of pointers to the object&#x27;s virtual methods</li>
+<li><b>Recognising these</b> lets you reconstruct high-level intent from raw assembly</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F6 · Cryptographic techniques</div><h2>Crypto in malware</h2><ul>
+<li><b>Hashing</b> fingerprinting, integrity checks, API and string obfuscation</li>
+<li><b>Symmetric encryption</b> stream and block ciphers to hide payloads and C2 traffic</li>
+<li><b>Asymmetric encryption</b> public-key crypto for key exchange and secure C2</li>
+<li><b>Encoding vs encryption</b> Base64 is encoding, not encryption — it offers no real secrecy</li>
+<li><b>Custom algorithms</b> malware authors often invent bespoke ciphers to defeat signatures</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F7 · Processor architectures</div><h2>The x86 instruction set and registers</h2><ul>
+<li><b>Instruction set</b> the interface between CPU hardware and the software running on it</li>
+<li><b>An instruction</b> a binary message to the CPU to perform an action next cycle</li>
+<li><b>OpCode and operands</b> an operation code plus addresses, representable by mnemonics</li>
+<li><b>RAX</b> 64-bit general register; splits into EAX (32), AX (16), AH and AL (8-bit halves)</li>
+<li><b>RBX / RCX / RDX</b> RCX is the loop counter; RDX is the overflow for multiply and divide</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F7 · Processor architectures</div><h2>Stack and string registers</h2><table><thead><tr>
+<th>Register</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr><td>RBP</td><td>Base pointer — stack operations and location counters</td></tr>
+<tr><td>RSP</td><td>Stack pointer — top of the stack</td></tr>
+<tr><td>RSI</td><td>Source index — source for string commands, increments when used</td></tr>
+<tr><td>RDI</td><td>Destination index — destination for string commands, increments when used</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F7 · Processor architectures</div><h2>x64 and virtual memory</h2><ul>
+<li><b>x64 registers</b> identical to x86 plus R8 to R15 — 16 general-purpose registers total</li>
+<li><b>Physical memory</b> any storage device — cache, RAM, disk, SSD — each with a physical address</li>
+<li><b>Virtual memory</b> each process gets its own segment, possibly on different physical modules, appearing continuous</li>
+<li><b>The MMU</b> Memory Management Unit translates virtual addresses into physical ones</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F7 · Processor architectures</div><h2>Virtualisation and its flaws</h2><ul>
+<li><b>Virtualisation</b> hardware virtualisation of whole machines (VMs)</li>
+<li><b>Containerisation</b> operating-system-level virtualisation</li>
+<li><b>Privilege rings</b> the host OS lives at ring 0; the guest runs at a higher ring</li>
+<li><b>Meltdown</b> a flaw letting a malicious process access all of RAM</li>
+<li><b>Spectre</b> a flaw allowing access to protected data by observing processor actions</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F8 · Windows executable formats</div><h2>The Portable Executable (PE) format</h2><ul>
+<li><b>Common PE types</b> EXE, SCR, DLL, CPL, OCX, SYS</li>
+<li><b>Three data parts</b> a single header, multiple sections, and multiple data directories</li>
+<li><b>Data directories</b> may be stored within or after the sections</li>
+<li><b>PE types</b> EXE is an executable program; DLL is a dynamically-linkable library</li>
+<li><b>Reading a PE</b> is the first step in identifying malicious structure</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F8 · Headers</div><h2>DOS, NT, file and optional headers</h2><table><thead><tr>
+<th>Header</th>
+<th>Key contents</th>
+</tr></thead><tbody>
+<tr><td>IMAGE_DOS_HEADER</td><td>Starts with &#x27;MZ&#x27;; 16-bit DOS stub; pointer to the NT headers</td></tr>
+<tr><td>IMAGE_NT_HEADERS</td><td>Starts with &#x27;PE&#x27; plus two nulls; contains the file and optional headers</td></tr>
+<tr><td>IMAGE_FILE_HEADER</td><td>CPU required, number of sections, timestamp, symbol table, EXE/DLL flag</td></tr>
+<tr><td>IMAGE_OPTIONAL_HEADER</td><td>Versions, base addresses, size of image, entry point, data directories</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F8 · Sections</div><h2>PE sections</h2><ul>
+<li><b>Code</b> executable content; every EXE has at least one code section</li>
+<li><b>Data</b> information used by the code — read-only, read-write initialised or uninitialised</li>
+<li><b>Imports</b> functions resolved from other libraries at load or run time</li>
+<li><b>Exports</b> functions callable by other executables — mostly in DLLs</li>
+<li><b>Resources</b> dialog boxes, icons, images, strings, manifests</li>
+<li><b>Relocations</b> the changes needed when a file loads away from its preferred base</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F8 · Imports and relocations</div><h2>Imports by hash and ASLR</h2><ul>
+<li><b>Imports by hash</b> malware hashes API names to avoid readable strings</li>
+<li><b>Run-time resolving</b> missing imports indicate LoadLibrary / GetProcAddress</li>
+<li><b>Relocations</b> most PEs must be relocatable</li>
+<li><b>ASLR</b> address space layout randomisation loads at a random base, triggering relocations</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F8 · The PE loader and tools</div><h2>How a PE loads, and spotting bad ones</h2><ul>
+<li><b>The PE loader</b> parse headers, parse section table, map sections, resolve imports, call entry point</li>
+<li><b>Tools</b> DumpBin (command line), PE viewer GUI, hex editor</li>
+<li><b>Indicators of a bad PE</b> multiple or bogus headers, missing or extra sections, bogus section data</li>
+<li><b>Inspection</b> check timestamps, versions, data-directory sizes, section names and permissions</li>
+</ul></section>
+<section class="slide"><div class="kick">Consolidation · Group F</div><h2>F3 to F8 at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Skill area</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>F3</td><td>Windows NT Architecture</td><td>Kernel vs user mode, processes and threads</td></tr>
+<tr><td>F4</td><td>Windows API Development</td><td>Load-time and run-time imports, API hashing</td></tr>
+<tr><td>F5</td><td>Binary Code Structure</td><td>Calling conventions, stack frames, vtables</td></tr>
+<tr><td>F6</td><td>Cryptographic Techniques</td><td>Hashing, symmetric, asymmetric, encoding</td></tr>
+<tr><td>F7</td><td>Processor Architectures</td><td>x86/x64 registers, virtual memory, MMU</td></tr>
+<tr><td>F8</td><td>Executable File Formats</td><td>PE headers, sections, imports, exports, relocations</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Windows has two modes&#x27;, &#x27;kernel (ring 0) and user (ring 3), mediated by the OS&#x27;)</li><li>(&#x27;The API is the surface&#x27;, &#x27;malware imports at load or run time, often resolving by hash&#x27;)</li><li>(&#x27;Calling conventions matter&#x27;, &#x27;cdecl, stdcall and fastcall define who cleans the stack&#x27;)</li><li>(&#x27;Crypto hides and verifies&#x27;, &#x27;hashing, symmetric and asymmetric ciphers, and encoding&#x27;)</li><li>(&#x27;The processor exposes registers&#x27;, &#x27;x86/x64 registers, virtual memory and the MMU&#x27;)</li><li>(&#x27;The PE format is readable&#x27;, &#x27;headers, sections, imports, exports, resources and relocations&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (Group F II)</h2><ul><li>Which PE header starts with the &#x27;MZ&#x27; signature?</li><li>What does the MMU translate?</li><li>In the stdcall convention, who cleans up the stack?</li><li>Which register is used as the loop counter?</li><li>What does ASLR do that requires relocations?</li></ul></section>
+<section class="slide"><h2>Next session: Hiding, Reporting, Obfuscation &amp; Behaviour</h2></section>
+<section class="slide"><div class="kick">Unit 14 of 14</div><h1>Reverse engineering malware III: hiding, obfuscation and exam consolidation</h1><p class="sub">The deck for this unit follows.</p></section>
+<section class="slide"><div class="kick">Session 14 of 14</div><h1>Reverse Engineering Malware III &amp; Exam Consolidation</h1><p class="sub">Hiding, reporting, obfuscation and behaviour — then a full review of all six knowledge groups and exam preparation.</p><div class="tags"><span class="tag">Group F</span><span class="tag">Malware Reporting</span><span class="tag">Exam Consolidation</span></div></section>
+<section class="slide"><div class="kick">The final session</div><h2>Completing Group F, then the whole course</h2><ul>
+<li><b>Four remaining skill areas</b> F9 hiding, F10 reporting, F11 obfuscation, F12 behaviour</li>
+<li><b>Then the consolidation</b> a review of all six knowledge groups, A to F</li>
+<li><b>Exam preparation</b> strategy, question technique and a full-length quiz</li>
+<li><b>You have covered</b> the complete CREST CPIA syllabus across 14 sessions</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F9 · Hiding techniques</div><h2>What is a rootkit?</h2><ul>
+<li><b>Administrative privilege</b> rootkits obtain administrative privileges on the system</li>
+<li><b>Origins</b> originally used by network and system administrators</li>
+<li><b>Now stealth malware</b> widely referred to as stealth-type malware</li>
+<li><b>Capabilities</b> maintain presence, execute remote commands, disable security software, alter files, install more malware</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F9 · Hiding techniques</div><h2>How rootkits remain hidden</h2><ul>
+<li><b>Clear security logs</b> erase user audit logs to hide activity</li>
+<li><b>Delete generated evidence</b> and hide files and directories</li>
+<li><b>Timing attacks</b> sleep to avoid automated malware analysis</li>
+<li><b>Process injection</b> such as DLL injection into svchost.exe or explorer.exe</li>
+<li><b>SSDT patching</b> redirect kernel-mode function pointers</li>
+<li><b>Filter drivers and process list manipulation</b> to hide their own presence</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F9 · Process injection</div><h2>Process injection techniques</h2><table><thead><tr>
+<th>Technique</th>
+<th>Approach</th>
+</tr></thead><tbody>
+<tr><td>Classic DLL injection</td><td>Find target, allocate space, load code into the target, execute it remotely</td></tr>
+<tr><td>PE injection</td><td>Find target, allocate space, copy the malicious code in, execute it remotely</td></tr>
+<tr><td>Process hollowing</td><td>Find target, unmap its legitimate code, overwrite with malicious code, execute it remotely</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F9 · SSDT and filter drivers</div><h2>Kernel hiding mechanisms</h2><ul>
+<li><b>SSDT</b> the System Service Descriptor Table holds pointers to kernel-mode functions</li>
+<li><b>SSDT fields</b> ServiceTable, CounterTable, ServiceLimit, ArgumentTable</li>
+<li><b>SSDT patching</b> redirecting those pointers so the system lies about what exists</li>
+<li><b>Filter drivers</b> sit in the driver stack and filter requests, hiding files or resources</li>
+<li><b>Process list manipulation</b> image-name and parent-process exploitation, and process hollowing</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F10 · Malware reporting</div><h2>Signatures and fuzzy hashing</h2><ul>
+<li><b>SSDeep</b> fuzzy hashing that produces comparable hashes for similar files</li>
+<li><b>Signature identification</b> identifying a sample so it can be reported and detected</li>
+<li><b>YARA</b> open-source, multi-platform pattern, string and signature matching</li>
+<li><b>YARA rules</b> logical rules using Perl-based regular expressions</li>
+<li><b>Footprint and cleanup</b> recording the sample&#x27;s footprint to support removal</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F10 · YARA in practice</div><h2>Writing effective YARA rules</h2><ol class="steps"><li><b>Identify the target</b><br>select the executable to analyse</li><li><b>Extract packed strings</b><br>run string extraction in ASCII and Unicode modes</li><li><b>Extract unpacked strings</b><br>execute the malware and gather more strings with Process Explorer</li><li><b>Develop rules</b><br>create separate rules for the packed and unpacked states</li><li><b>Match on unique strings</b><br>malware-specific and incident-specific indicators</li></ol></section>
+<section class="slide"><div class="kick">Topic F10 · Infection vectors</div><h2>How malware gets in</h2><ul>
+<li><b>Infected executables and documents</b> malware in EXEs, DLLs, Office macros and JavaScript</li>
+<li><b>Drive-by downloads</b> unintentional downloads from compromised websites</li>
+<li><b>USB and shared drives</b> infected files copied or auto-executed from removable media</li>
+<li><b>Passive exploitation</b> unpatched services exploited without user interaction</li>
+<li><b>Email-based attacks</b> phishing with malicious attachments or links</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F10 · Static analysis &amp; imphash</div><h2>Reporting supports detection</h2><ul>
+<li><b>Static analysis</b> examining a file without executing it — safe and efficient</li>
+<li><b>Import hashing (imphash)</b> hashes libraries, API names and their order to group related samples</li>
+<li><b>NSRL</b> the National Software Reference Library filters out known-good files</li>
+<li><b>PEiD</b> detects packers, cryptors and compilers</li>
+<li><b>Strings utility</b> extracts printable ASCII and Unicode sequences for clues</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F11 · Binary obfuscation</div><h2>Obfuscating the binary</h2><ul>
+<li><b>Packing and compression</b> the original code is hidden until run time</li>
+<li><b>Encryption</b> payload and strings encrypted so static analysis reveals little</li>
+<li><b>String obfuscation</b> encoding strings to defeat signature and strings-utility detection</li>
+<li><b>Anti-RE integration</b> obfuscation combined with anti-disassembly and anti-debugging</li>
+<li><b>The goal</b> raise the cost of analysis and delay detection</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F12 · Behavioural analysis</div><h2>Watching the malware run</h2><ul>
+<li><b>Dynamic analysis</b> run the sample in a controlled environment and observe</li>
+<li><b>Sandbox or VM</b> isolate the sample so it cannot harm the host</li>
+<li><b>Observe behaviour</b> files created, registry keys written, processes spawned, network traffic</li>
+<li><b>Timing awareness</b> some malware sleeps or detects the sandbox to avoid revealing behaviour</li>
+<li><b>Combine with static</b> behavioural findings complement static analysis of the binary</li>
+</ul></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Course consolidation</div><h2>The six knowledge groups</h2><table><thead><tr>
+<th>Group</th>
+<th>Knowledge area</th>
+<th>Sessions</th>
+</tr></thead><tbody>
+<tr><td>A</td><td>Soft Skills &amp; Incident Handling</td><td>1</td></tr>
+<tr><td>B</td><td>Core Technical Skills</td><td>2–4</td></tr>
+<tr><td>C</td><td>Background Info Gathering &amp; OSINT</td><td>5</td></tr>
+<tr><td>D</td><td>Network Intrusion Analysis</td><td>6–8</td></tr>
+<tr><td>E</td><td>Analysing Host Intrusions</td><td>9–11</td></tr>
+<tr><td>F</td><td>Reverse Engineering Malware</td><td>12–14</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Course consolidation · Groups A &amp; B</div><h2>Soft skills, incident handling and core technical skills</h2><ul>
+<li><b>Group A</b> the analyst role, bias, IR lifecycle, kill chain, law, TAME, risk treatment</li>
+<li><b>Group B</b> IP protocols, the OSI model, HTTP, DNS, SMB, tools, fingerprinting</li>
+<li><b>Group B continued</b> cryptography, permissions and host analysis</li>
+<li><b>Exam focus</b> scenario-based application of the IR lifecycle and network fundamentals</li>
+</ul></section>
+<section class="slide"><div class="kick">Course consolidation · Groups C &amp; D</div><h2>OSINT and network intrusion analysis</h2><ul>
+<li><b>Group C</b> background information gathering and open-source investigation</li>
+<li><b>Group D</b> packet capture, logs, network configuration</li>
+<li><b>Group D continued</b> C2 detection, exfiltration, incoming attacks, internal spread, false positives</li>
+<li><b>Exam focus</b> reading captures and logs, identifying intrusion patterns</li>
+</ul></section>
+<section class="slide"><div class="kick">Course consolidation · Groups E &amp; F</div><h2>Host intrusions and reverse engineering</h2><ul>
+<li><b>Group E</b> acquisition, Windows file system, registry, memory, infection, rootkits</li>
+<li><b>Group F</b> malware analysis, anti-RE, PE format, obfuscation, behaviour</li>
+<li><b>Group F continued</b> hiding techniques, reporting, unpacking, functionality</li>
+<li><b>Exam focus</b> connecting host artefacts to malware behaviour</li>
+</ul></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Rootkits hide at kernel or user level&#x27;, &#x27;SSDT patching, filter drivers, process injection, process list manipulation&#x27;)</li><li>(&#x27;Reporting uses signatures&#x27;, &#x27;SSDeep fuzzy hashing, YARA rules, imphash and NSRL&#x27;)</li><li>(&#x27;Obfuscation raises the cost&#x27;, &#x27;packing, encryption and string obfuscation delay analysis&#x27;)</li><li>(&#x27;Behaviour complements static&#x27;, &#x27;run the sample in a sandbox and observe files, registry and network&#x27;)</li><li>(&#x27;The syllabus is complete&#x27;, &#x27;all six knowledge groups — A through F — are now covered&#x27;)</li></ul></section>
+<section class="slide"><h2>Final consolidation quiz (all groups)</h2><ul><li>Which SSDT fields hold the kernel function pointers?</li><li>What does process hollowing unmap before writing malicious code?</li><li>Why is Base64 NOT considered encryption?</li><li>Which YARA feature lets rules match a threshold of strings?</li><li>Name the IR phase that follows analysis.</li></ul></section>
+<section class="slide"><div class="kick">Exam preparation</div><h2>Your route to the CPIA exam</h2><ul>
+<li><b>Revisit every session quiz</b> retake until 70%+ without guessing</li>
+<li><b>Practise scenario reasoning</b> the exam is scenario-based — apply, don&#x27;t just recall</li>
+<li><b>Revise the six groups</b> A Soft Skills, B Core Technical, C OSINT, D Network, E Host, F Reverse Engineering</li>
+<li><b>Know your tools</b> Strings, PEiD, DumpBin, YARA, SSDeep, imphash, the debugger</li>
+<li><b>Plan the 90 minutes</b> time per question, flag and return, read every explanation</li>
+<li><b>Good luck — you are ready</b> fourteen sessions, six knowledge groups, one certification</li>
+</ul></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 70</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>
