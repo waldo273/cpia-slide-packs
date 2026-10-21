@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Reverse Engineering Malware III &amp; Exam Consolidation - slide pack</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Reverse Engineering Malware III &amp; Exam Consolidation</span></div>
+<section class="slide"><div class="kick">Session 14 of 14</div><h1>Reverse Engineering Malware III &amp; Exam Consolidation</h1><p class="sub">Hiding, reporting, obfuscation and behaviour — then a full review of all six knowledge groups and exam preparation.</p><div class="tags"><span class="tag">Group F</span><span class="tag">Malware Reporting</span><span class="tag">Exam Consolidation</span></div></section>
+<section class="slide"><div class="kick">The final session</div><h2>Completing Group F, then the whole course</h2><ul>
+<li><b>Four remaining skill areas</b> F9 hiding, F10 reporting, F11 obfuscation, F12 behaviour</li>
+<li><b>Then the consolidation</b> a review of all six knowledge groups, A to F</li>
+<li><b>Exam preparation</b> strategy, question technique and a full-length quiz</li>
+<li><b>You have covered</b> the complete CREST CPIA syllabus across 14 sessions</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F9 · Hiding techniques</div><h2>What is a rootkit?</h2><ul>
+<li><b>Administrative privilege</b> rootkits obtain administrative privileges on the system</li>
+<li><b>Origins</b> originally used by network and system administrators</li>
+<li><b>Now stealth malware</b> widely referred to as stealth-type malware</li>
+<li><b>Capabilities</b> maintain presence, execute remote commands, disable security software, alter files, install more malware</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F9 · Hiding techniques</div><h2>How rootkits remain hidden</h2><ul>
+<li><b>Clear security logs</b> erase user audit logs to hide activity</li>
+<li><b>Delete generated evidence</b> and hide files and directories</li>
+<li><b>Timing attacks</b> sleep to avoid automated malware analysis</li>
+<li><b>Process injection</b> such as DLL injection into svchost.exe or explorer.exe</li>
+<li><b>SSDT patching</b> redirect kernel-mode function pointers</li>
+<li><b>Filter drivers and process list manipulation</b> to hide their own presence</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F9 · Process injection</div><h2>Process injection techniques</h2><table><thead><tr>
+<th>Technique</th>
+<th>Approach</th>
+</tr></thead><tbody>
+<tr><td>Classic DLL injection</td><td>Find target, allocate space, load code into the target, execute it remotely</td></tr>
+<tr><td>PE injection</td><td>Find target, allocate space, copy the malicious code in, execute it remotely</td></tr>
+<tr><td>Process hollowing</td><td>Find target, unmap its legitimate code, overwrite with malicious code, execute it remotely</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F9 · SSDT and filter drivers</div><h2>Kernel hiding mechanisms</h2><ul>
+<li><b>SSDT</b> the System Service Descriptor Table holds pointers to kernel-mode functions</li>
+<li><b>SSDT fields</b> ServiceTable, CounterTable, ServiceLimit, ArgumentTable</li>
+<li><b>SSDT patching</b> redirecting those pointers so the system lies about what exists</li>
+<li><b>Filter drivers</b> sit in the driver stack and filter requests, hiding files or resources</li>
+<li><b>Process list manipulation</b> image-name and parent-process exploitation, and process hollowing</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F10 · Malware reporting</div><h2>Signatures and fuzzy hashing</h2><ul>
+<li><b>SSDeep</b> fuzzy hashing that produces comparable hashes for similar files</li>
+<li><b>Signature identification</b> identifying a sample so it can be reported and detected</li>
+<li><b>YARA</b> open-source, multi-platform pattern, string and signature matching</li>
+<li><b>YARA rules</b> logical rules using Perl-based regular expressions</li>
+<li><b>Footprint and cleanup</b> recording the sample&#x27;s footprint to support removal</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F10 · YARA in practice</div><h2>Writing effective YARA rules</h2><ol class="steps"><li><b>Identify the target</b><br>select the executable to analyse</li><li><b>Extract packed strings</b><br>run string extraction in ASCII and Unicode modes</li><li><b>Extract unpacked strings</b><br>execute the malware and gather more strings with Process Explorer</li><li><b>Develop rules</b><br>create separate rules for the packed and unpacked states</li><li><b>Match on unique strings</b><br>malware-specific and incident-specific indicators</li></ol></section>
+<section class="slide"><div class="kick">Topic F10 · Infection vectors</div><h2>How malware gets in</h2><ul>
+<li><b>Infected executables and documents</b> malware in EXEs, DLLs, Office macros and JavaScript</li>
+<li><b>Drive-by downloads</b> unintentional downloads from compromised websites</li>
+<li><b>USB and shared drives</b> infected files copied or auto-executed from removable media</li>
+<li><b>Passive exploitation</b> unpatched services exploited without user interaction</li>
+<li><b>Email-based attacks</b> phishing with malicious attachments or links</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F10 · Static analysis &amp; imphash</div><h2>Reporting supports detection</h2><ul>
+<li><b>Static analysis</b> examining a file without executing it — safe and efficient</li>
+<li><b>Import hashing (imphash)</b> hashes libraries, API names and their order to group related samples</li>
+<li><b>NSRL</b> the National Software Reference Library filters out known-good files</li>
+<li><b>PEiD</b> detects packers, cryptors and compilers</li>
+<li><b>Strings utility</b> extracts printable ASCII and Unicode sequences for clues</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F11 · Binary obfuscation</div><h2>Obfuscating the binary</h2><ul>
+<li><b>Packing and compression</b> the original code is hidden until run time</li>
+<li><b>Encryption</b> payload and strings encrypted so static analysis reveals little</li>
+<li><b>String obfuscation</b> encoding strings to defeat signature and strings-utility detection</li>
+<li><b>Anti-RE integration</b> obfuscation combined with anti-disassembly and anti-debugging</li>
+<li><b>The goal</b> raise the cost of analysis and delay detection</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F12 · Behavioural analysis</div><h2>Watching the malware run</h2><ul>
+<li><b>Dynamic analysis</b> run the sample in a controlled environment and observe</li>
+<li><b>Sandbox or VM</b> isolate the sample so it cannot harm the host</li>
+<li><b>Observe behaviour</b> files created, registry keys written, processes spawned, network traffic</li>
+<li><b>Timing awareness</b> some malware sleeps or detects the sandbox to avoid revealing behaviour</li>
+<li><b>Combine with static</b> behavioural findings complement static analysis of the binary</li>
+</ul></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Course consolidation</div><h2>The six knowledge groups</h2><table><thead><tr>
+<th>Group</th>
+<th>Knowledge area</th>
+<th>Sessions</th>
+</tr></thead><tbody>
+<tr><td>A</td><td>Soft Skills &amp; Incident Handling</td><td>1</td></tr>
+<tr><td>B</td><td>Core Technical Skills</td><td>2–4</td></tr>
+<tr><td>C</td><td>Background Info Gathering &amp; OSINT</td><td>5</td></tr>
+<tr><td>D</td><td>Network Intrusion Analysis</td><td>6–8</td></tr>
+<tr><td>E</td><td>Analysing Host Intrusions</td><td>9–11</td></tr>
+<tr><td>F</td><td>Reverse Engineering Malware</td><td>12–14</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Course consolidation · Groups A &amp; B</div><h2>Soft skills, incident handling and core technical skills</h2><ul>
+<li><b>Group A</b> the analyst role, bias, IR lifecycle, kill chain, law, TAME, risk treatment</li>
+<li><b>Group B</b> IP protocols, the OSI model, HTTP, DNS, SMB, tools, fingerprinting</li>
+<li><b>Group B continued</b> cryptography, permissions and host analysis</li>
+<li><b>Exam focus</b> scenario-based application of the IR lifecycle and network fundamentals</li>
+</ul></section>
+<section class="slide"><div class="kick">Course consolidation · Groups C &amp; D</div><h2>OSINT and network intrusion analysis</h2><ul>
+<li><b>Group C</b> background information gathering and open-source investigation</li>
+<li><b>Group D</b> packet capture, logs, network configuration</li>
+<li><b>Group D continued</b> C2 detection, exfiltration, incoming attacks, internal spread, false positives</li>
+<li><b>Exam focus</b> reading captures and logs, identifying intrusion patterns</li>
+</ul></section>
+<section class="slide"><div class="kick">Course consolidation · Groups E &amp; F</div><h2>Host intrusions and reverse engineering</h2><ul>
+<li><b>Group E</b> acquisition, Windows file system, registry, memory, infection, rootkits</li>
+<li><b>Group F</b> malware analysis, anti-RE, PE format, obfuscation, behaviour</li>
+<li><b>Group F continued</b> hiding techniques, reporting, unpacking, functionality</li>
+<li><b>Exam focus</b> connecting host artefacts to malware behaviour</li>
+</ul></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Rootkits hide at kernel or user level&#x27;, &#x27;SSDT patching, filter drivers, process injection, process list manipulation&#x27;)</li><li>(&#x27;Reporting uses signatures&#x27;, &#x27;SSDeep fuzzy hashing, YARA rules, imphash and NSRL&#x27;)</li><li>(&#x27;Obfuscation raises the cost&#x27;, &#x27;packing, encryption and string obfuscation delay analysis&#x27;)</li><li>(&#x27;Behaviour complements static&#x27;, &#x27;run the sample in a sandbox and observe files, registry and network&#x27;)</li><li>(&#x27;The syllabus is complete&#x27;, &#x27;all six knowledge groups — A through F — are now covered&#x27;)</li></ul></section>
+<section class="slide"><h2>Final consolidation quiz (all groups)</h2><ul><li>Which SSDT fields hold the kernel function pointers?</li><li>What does process hollowing unmap before writing malicious code?</li><li>Why is Base64 NOT considered encryption?</li><li>Which YARA feature lets rules match a threshold of strings?</li><li>Name the IR phase that follows analysis.</li></ul></section>
+<section class="slide"><div class="kick">Exam preparation</div><h2>Your route to the CPIA exam</h2><ul>
+<li><b>Revisit every session quiz</b> retake until 70%+ without guessing</li>
+<li><b>Practise scenario reasoning</b> the exam is scenario-based — apply, don&#x27;t just recall</li>
+<li><b>Revise the six groups</b> A Soft Skills, B Core Technical, C OSINT, D Network, E Host, F Reverse Engineering</li>
+<li><b>Know your tools</b> Strings, PEiD, DumpBin, YARA, SSDeep, imphash, the debugger</li>
+<li><b>Plan the 90 minutes</b> time per question, flag and return, read every explanation</li>
+<li><b>Good luck — you are ready</b> fourteen sessions, six knowledge groups, one certification</li>
+</ul></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 20</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>

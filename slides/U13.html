@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Reverse Engineering Malware II: Binary Structure, Crypto, Processors &amp; PE - slide pack</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Reverse Engineering Malware II: Binary Structure, Crypto, Processors &amp; PE</span></div>
+<section class="slide"><div class="kick">Session 13 of 14</div><h1>Reverse Engineering Malware II: Binary Structure, Crypto, Processors &amp; PE</h1><p class="sub">Windows internals, the API, calling conventions, cryptography, the x86/x64 processor and the PE format.</p><div class="tags"><span class="tag">Group F</span><span class="tag">PE Format</span><span class="tag">Processors</span></div></section>
+<section class="slide"><div class="kick">Knowledge Group F · The course</div><h2>Session 13 covers six skill areas</h2><table><thead><tr>
+<th>Ref</th>
+<th>Skill area</th>
+<th>Focus</th>
+</tr></thead><tbody>
+<tr><td>F3</td><td>Windows NT Architecture</td><td>Kernel vs user mode, processes</td></tr>
+<tr><td>F4</td><td>Windows API Development</td><td>How code calls the OS</td></tr>
+<tr><td>F5</td><td>Binary Code Structure</td><td>Calling conventions, compiler constructs</td></tr>
+<tr><td>F6</td><td>Cryptographic Techniques</td><td>Encryption and encoding in malware</td></tr>
+<tr><td>F7</td><td>Processor Architectures</td><td>x86/x64 registers, virtual memory</td></tr>
+<tr><td>F8</td><td>Windows Executable File Formats</td><td>The PE format in detail</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Describe Windows NT architecture</b> kernel and user mode, privilege rings, processes</li>
+<li><b>Explain the Windows API</b> and how malware calls OS functions at load and run time</li>
+<li><b>Describe binary code structure</b> calling conventions, stack frames and virtual function tables</li>
+<li><b>Recognise cryptographic techniques</b> the encryption and encoding used in malware</li>
+<li><b>Describe the x86/x64 processor</b> registers, instruction set and virtual memory</li>
+<li><b>Read the PE format</b> headers, sections, imports, exports, resources and relocations</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F3 · Windows NT architecture</div><h2>Kernel mode and user mode</h2><ul>
+<li><b>Two privilege levels</b> the processor enforces rings that control access to resources</li>
+<li><b>Kernel mode (Ring 0)</b> highest privilege — drivers, the core of the OS, direct hardware access</li>
+<li><b>User mode (Ring 3)</b> applications run here with restricted access to hardware</li>
+<li><b>Context switching</b> transitions between modes are mediated by the OS</li>
+<li><b>Malware targeting</b> kernel-mode rootkits are far harder to detect than user-mode code</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F3 · Windows NT architecture</div><h2>Processes, threads and the executive</h2><table><thead><tr>
+<th>Component</th>
+<th>Role</th>
+</tr></thead><tbody>
+<tr><td>Process</td><td>An isolated address space; each process gets its own memory segment</td></tr>
+<tr><td>Thread</td><td>The unit of execution within a process</td></tr>
+<tr><td>Executive</td><td>The kernel-mode services — memory, I/O, process and object management</td></tr>
+<tr><td>Subsystems</td><td>Environment subsystems present the Win32 API to applications</td></tr>
+<tr><td>Registry</td><td>Configuration store malware abuses for persistence</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F4 · Windows API development</div><h2>How code calls the operating system</h2><ul>
+<li><b>The Win32 API</b> the set of functions applications call to use Windows services</li>
+<li><b>Imports at load time</b> functions resolved via the import table in the PE</li>
+<li><b>Imports at run time</b> LoadLibrary / GetModuleHandle plus GetProcAddress</li>
+<li><b>Malware preference</b> run-time resolution avoids obvious import strings</li>
+<li><b>API hashing</b> malware stores a hash of the function name and resolves it dynamically</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F4 · Windows API development</div><h2>API hashing in practice</h2><ul>
+<li><b>Avoids readable strings</b> no plain-text API names for an analyst to spot</li>
+<li><b>Less data to store</b> a single 32-bit hash replaces a long name</li>
+<li><b>Bespoke resolvers</b> custom GetModuleHandle and GetProcAddress replacements</li>
+<li><b>Typical hash</b> ROL(hash, 5) XOR each byte of the name</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F5 · Binary code structure</div><h2>Calling conventions</h2><table><thead><tr>
+<th>Convention</th>
+<th>Argument passing</th>
+<th>Stack cleanup</th>
+</tr></thead><tbody>
+<tr><td>cdecl</td><td>Arguments pushed on the stack, right to left</td><td>Caller cleans up</td></tr>
+<tr><td>stdcall</td><td>Arguments pushed on the stack, right to left</td><td>Callee cleans up</td></tr>
+<tr><td>fastcall</td><td>First arguments passed in registers (ECX, EDX)</td><td>Callee cleans up</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F5 · Binary code structure</div><h2>Compiler-generated constructs</h2><ul>
+<li><b>Function prologue and epilogue</b> setup and teardown of the stack frame</li>
+<li><b>Stack frames</b> local variables, saved registers and return addresses live here</li>
+<li><b>C++ objects</b> methods compiled as functions; objects carry a pointer to their data</li>
+<li><b>Virtual function table (vtable)</b> a table of pointers to the object&#x27;s virtual methods</li>
+<li><b>Recognising these</b> lets you reconstruct high-level intent from raw assembly</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F6 · Cryptographic techniques</div><h2>Crypto in malware</h2><ul>
+<li><b>Hashing</b> fingerprinting, integrity checks, API and string obfuscation</li>
+<li><b>Symmetric encryption</b> stream and block ciphers to hide payloads and C2 traffic</li>
+<li><b>Asymmetric encryption</b> public-key crypto for key exchange and secure C2</li>
+<li><b>Encoding vs encryption</b> Base64 is encoding, not encryption — it offers no real secrecy</li>
+<li><b>Custom algorithms</b> malware authors often invent bespoke ciphers to defeat signatures</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F7 · Processor architectures</div><h2>The x86 instruction set and registers</h2><ul>
+<li><b>Instruction set</b> the interface between CPU hardware and the software running on it</li>
+<li><b>An instruction</b> a binary message to the CPU to perform an action next cycle</li>
+<li><b>OpCode and operands</b> an operation code plus addresses, representable by mnemonics</li>
+<li><b>RAX</b> 64-bit general register; splits into EAX (32), AX (16), AH and AL (8-bit halves)</li>
+<li><b>RBX / RCX / RDX</b> RCX is the loop counter; RDX is the overflow for multiply and divide</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F7 · Processor architectures</div><h2>Stack and string registers</h2><table><thead><tr>
+<th>Register</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr><td>RBP</td><td>Base pointer — stack operations and location counters</td></tr>
+<tr><td>RSP</td><td>Stack pointer — top of the stack</td></tr>
+<tr><td>RSI</td><td>Source index — source for string commands, increments when used</td></tr>
+<tr><td>RDI</td><td>Destination index — destination for string commands, increments when used</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F7 · Processor architectures</div><h2>x64 and virtual memory</h2><ul>
+<li><b>x64 registers</b> identical to x86 plus R8 to R15 — 16 general-purpose registers total</li>
+<li><b>Physical memory</b> any storage device — cache, RAM, disk, SSD — each with a physical address</li>
+<li><b>Virtual memory</b> each process gets its own segment, possibly on different physical modules, appearing continuous</li>
+<li><b>The MMU</b> Memory Management Unit translates virtual addresses into physical ones</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F7 · Processor architectures</div><h2>Virtualisation and its flaws</h2><ul>
+<li><b>Virtualisation</b> hardware virtualisation of whole machines (VMs)</li>
+<li><b>Containerisation</b> operating-system-level virtualisation</li>
+<li><b>Privilege rings</b> the host OS lives at ring 0; the guest runs at a higher ring</li>
+<li><b>Meltdown</b> a flaw letting a malicious process access all of RAM</li>
+<li><b>Spectre</b> a flaw allowing access to protected data by observing processor actions</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F8 · Windows executable formats</div><h2>The Portable Executable (PE) format</h2><ul>
+<li><b>Common PE types</b> EXE, SCR, DLL, CPL, OCX, SYS</li>
+<li><b>Three data parts</b> a single header, multiple sections, and multiple data directories</li>
+<li><b>Data directories</b> may be stored within or after the sections</li>
+<li><b>PE types</b> EXE is an executable program; DLL is a dynamically-linkable library</li>
+<li><b>Reading a PE</b> is the first step in identifying malicious structure</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F8 · Headers</div><h2>DOS, NT, file and optional headers</h2><table><thead><tr>
+<th>Header</th>
+<th>Key contents</th>
+</tr></thead><tbody>
+<tr><td>IMAGE_DOS_HEADER</td><td>Starts with &#x27;MZ&#x27;; 16-bit DOS stub; pointer to the NT headers</td></tr>
+<tr><td>IMAGE_NT_HEADERS</td><td>Starts with &#x27;PE&#x27; plus two nulls; contains the file and optional headers</td></tr>
+<tr><td>IMAGE_FILE_HEADER</td><td>CPU required, number of sections, timestamp, symbol table, EXE/DLL flag</td></tr>
+<tr><td>IMAGE_OPTIONAL_HEADER</td><td>Versions, base addresses, size of image, entry point, data directories</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F8 · Sections</div><h2>PE sections</h2><ul>
+<li><b>Code</b> executable content; every EXE has at least one code section</li>
+<li><b>Data</b> information used by the code — read-only, read-write initialised or uninitialised</li>
+<li><b>Imports</b> functions resolved from other libraries at load or run time</li>
+<li><b>Exports</b> functions callable by other executables — mostly in DLLs</li>
+<li><b>Resources</b> dialog boxes, icons, images, strings, manifests</li>
+<li><b>Relocations</b> the changes needed when a file loads away from its preferred base</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F8 · Imports and relocations</div><h2>Imports by hash and ASLR</h2><ul>
+<li><b>Imports by hash</b> malware hashes API names to avoid readable strings</li>
+<li><b>Run-time resolving</b> missing imports indicate LoadLibrary / GetProcAddress</li>
+<li><b>Relocations</b> most PEs must be relocatable</li>
+<li><b>ASLR</b> address space layout randomisation loads at a random base, triggering relocations</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F8 · The PE loader and tools</div><h2>How a PE loads, and spotting bad ones</h2><ul>
+<li><b>The PE loader</b> parse headers, parse section table, map sections, resolve imports, call entry point</li>
+<li><b>Tools</b> DumpBin (command line), PE viewer GUI, hex editor</li>
+<li><b>Indicators of a bad PE</b> multiple or bogus headers, missing or extra sections, bogus section data</li>
+<li><b>Inspection</b> check timestamps, versions, data-directory sizes, section names and permissions</li>
+</ul></section>
+<section class="slide"><div class="kick">Consolidation · Group F</div><h2>F3 to F8 at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Skill area</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>F3</td><td>Windows NT Architecture</td><td>Kernel vs user mode, processes and threads</td></tr>
+<tr><td>F4</td><td>Windows API Development</td><td>Load-time and run-time imports, API hashing</td></tr>
+<tr><td>F5</td><td>Binary Code Structure</td><td>Calling conventions, stack frames, vtables</td></tr>
+<tr><td>F6</td><td>Cryptographic Techniques</td><td>Hashing, symmetric, asymmetric, encoding</td></tr>
+<tr><td>F7</td><td>Processor Architectures</td><td>x86/x64 registers, virtual memory, MMU</td></tr>
+<tr><td>F8</td><td>Executable File Formats</td><td>PE headers, sections, imports, exports, relocations</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Windows has two modes&#x27;, &#x27;kernel (ring 0) and user (ring 3), mediated by the OS&#x27;)</li><li>(&#x27;The API is the surface&#x27;, &#x27;malware imports at load or run time, often resolving by hash&#x27;)</li><li>(&#x27;Calling conventions matter&#x27;, &#x27;cdecl, stdcall and fastcall define who cleans the stack&#x27;)</li><li>(&#x27;Crypto hides and verifies&#x27;, &#x27;hashing, symmetric and asymmetric ciphers, and encoding&#x27;)</li><li>(&#x27;The processor exposes registers&#x27;, &#x27;x86/x64 registers, virtual memory and the MMU&#x27;)</li><li>(&#x27;The PE format is readable&#x27;, &#x27;headers, sections, imports, exports, resources and relocations&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (Group F II)</h2><ul><li>Which PE header starts with the &#x27;MZ&#x27; signature?</li><li>What does the MMU translate?</li><li>In the stdcall convention, who cleans up the stack?</li><li>Which register is used as the loop counter?</li><li>What does ASLR do that requires relocations?</li></ul></section>
+<section class="slide"><h2>Next session: Hiding, Reporting, Obfuscation &amp; Behaviour</h2></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 23</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>

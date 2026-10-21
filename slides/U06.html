@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Network Intrusion Analysis I: Capture, Logs &amp; Network Config - slide pack</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Network Intrusion Analysis I: Capture, Logs &amp; Network Config</span></div>
+<section class="slide"><div class="kick">Session 6 of 14</div><h1>Network Intrusion Analysis I: Capture, Logs &amp; Network Config</h1><p class="sub">Collecting the traffic, reading the logs, and spotting the misconfigurations that let attackers in.</p><div class="tags"><span class="tag">Group D</span><span class="tag">Capture</span><span class="tag">Logs</span><span class="tag">Config</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group D</div><h2>Three sessions on network intrusion analysis</h2><table><thead><tr>
+<th>Session</th>
+<th>Focus</th>
+<th>Skill areas</th>
+</tr></thead><tbody>
+<tr><td>6</td><td>Capture, logs &amp; network config</td><td>D1 Capture, D2 Log Sources, D3 Config Issues</td></tr>
+<tr><td>7</td><td>C2, exfiltration &amp; incoming attacks</td><td>D6 Encryption, D7 C2, D8 Exfiltration, D9 Incoming Attacks</td></tr>
+<tr><td>8</td><td>Recon, spread &amp; false positives</td><td>D10 Recon, D11 Internal Spread &amp; Privilege Escalation, D13 False Positives</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Collect network traffic</b> with packet analysers, sniffing tools and switches or routers</li>
+<li><b>Design a collection system</b> so enough data is captured without overwhelming devices</li>
+<li><b>Explain SPAN ports and TAPs</b> including aggregating TAPs and fibre access</li>
+<li><b>Estimate capture requirements</b> and choose deployment locations during scoping</li>
+<li><b>Identify data and log sources</b> proxy, syslog, firewall, DHCP, DNS, VPN, web, email and more</li>
+<li><b>Spot network configuration issues</b> routing, DNS leakage, firewall evasion</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Methods of data collection</h2><ul>
+<li><b>What we collect</b> packets of data on the network, carrying source and destination information</li>
+<li><b>Tools</b> packet analysers, sniffing tools, switches and routers</li>
+<li><b>Why we collect</b> intrusions, performance, quality of service (QoS)</li>
+<li><b>The goal</b> enough data to reconstruct the incident without overwhelming the capture device</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Capture tools</h2><table><thead><tr>
+<th>Tool</th>
+<th>Type</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr><td>Wireshark</td><td>GUI packet analyser</td><td>Live capture or historical .pcap; filtering; automatic protocol analysis</td></tr>
+<tr><td>tshark</td><td>Terminal interface</td><td>The command-line version of Wireshark</td></tr>
+<tr><td>tcpdump</td><td>Terminal based</td><td>Limited in what it can decode</td></tr>
+<tr><td>Netsniff-ng</td><td>Terminal based</td><td>High-performance Linux capture</td></tr>
+<tr><td>zANTI</td><td>Android based</td><td>Network analysis and man-in-the-middle testing; wireless capture</td></tr>
+<tr><td>SwitchProbe</td><td>Fibre monitoring</td><td>Monitor, map, report; can be configured to capture</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Filtering captured traffic</h2><ul>
+<li><b>Reduce network impact</b> filtering lowers the load on the network</li>
+<li><b>Reduce the data to analyse</b> only the relevant traffic is kept</li>
+<li><b>Work within storage limits</b> the capture device&#x27;s storage is finite</li>
+<li><b>Typically at analysis stage</b> filtering is usually performed when analysing</li>
+<li><b>Filter by</b> protocol, source and destination</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Impact of traffic capture</h2><ul>
+<li><b>Bridge capture?</b> is it necessary to place a device between the target and the network?</li>
+<li><b>Transparency</b> can the capture device be made transparent to the traffic?</li>
+<li><b>Attacker awareness</b> will the attacker be alerted to the sniffing?</li>
+<li><b>Design the system</b> so that capture does not alter the very behaviour we are observing</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>SPAN ports and network TAPs</h2><table><thead><tr>
+<th>Method</th>
+<th>How it works</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr><td>SPAN port</td><td>Switched Port ANalyzer — mirrors data on one port to another</td><td>Switch-device based</td></tr>
+<tr><td>Network TAP</td><td>Traffic Analysis Point — snoops on traffic in the network</td><td>Requires no external power source</td></tr>
+<tr><td>Aggregating TAP</td><td>Combines multiple streams into one</td><td>Can allow access to fibre-optic networks</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Scope of the analysis</h2><ul>
+<li><b>Focus on data required</b> and on the suspect machines</li>
+<li><b>Only capture what is needed</b> avoid drowning the analysis in noise</li>
+<li><b>Identify</b> ports in use, network topology, security devices</li>
+<li><b>Find available logs</b> that can assist the investigation</li>
+<li><b>Deployment location</b> use network diagrams and the scope to focus the capture</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Capture options</h2><table><thead><tr>
+<th>Option</th>
+<th>Description</th>
+</tr></thead><tbody>
+<tr><td>NetFlow</td><td>Only IP traffic; requires four components — exporter, collector, storage and analysis console</td></tr>
+<tr><td>Limited capture</td><td>Capture only the traffic that fits the scope</td></tr>
+<tr><td>Full packet capture</td><td>Capture everything — most data, most storage</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D1 · Traffic capture</div><h2>Preserving network security and integrity</h2><ul>
+<li><b>Encrypt captured files</b> protect the data at rest</li>
+<li><b>Secure the capture device</b> physical and logical protection</li>
+<li><b>Limit access to TAPs</b> only authorised personnel</li>
+<li><b>Remove SPAN ports after use</b> leave the network as it was found</li>
+<li><b>Assure integrity</b> arguments and evidence that the captured data is sound</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D2 · Log sources</div><h2>Data sources and network log sources</h2><ul>
+<li><b>Identification is challenging</b> every network differs from another</li>
+<li><b>Intruders leave a trace</b> the logs capture it if they are present and retained</li>
+<li><b>Types of data source</b> routers, switches, servers, computers, IDS, databases</li>
+<li><b>Use the data</b> to reconstruct the incident timeline</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D2 · Log sources</div><h2>Log source checklist</h2><table><thead><tr>
+<th>Log type</th>
+<th>Key information</th>
+</tr></thead><tbody>
+<tr><td>Proxy</td><td>Timestamps, IPs, URLs, bandwidth usage, proxy action</td></tr>
+<tr><td>syslog</td><td>Timestamps, IPs, severity levels, descriptive messages</td></tr>
+<tr><td>Email</td><td>Timestamps, server and client IPs, sender and recipient, delivery status, error codes</td></tr>
+<tr><td>Firewall</td><td>Network activities, threats, timestamps, IPs, ports, protocols</td></tr>
+<tr><td>DHCP</td><td>Assigned IPs, client hostnames, MAC addresses, event descriptions</td></tr>
+<tr><td>VPN</td><td>External access, timestamps, external and internal IPs, ports, protocols, usernames</td></tr>
+<tr><td>Web server</td><td>Visitor IPs, device types, OS and browser versions, requested files</td></tr>
+<tr><td>Antivirus</td><td>Last scan, signature updates, found malware, actions taken</td></tr>
+<tr><td>DNS</td><td>Queries, source and destination IPs, ports, statuses</td></tr>
+<tr><td>Database</td><td>Who accessed, when, and what transactions or modifications were made</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D2 · Log sources</div><h2>Syslog and Windows event logs</h2><ul>
+<li><b>Syslog</b> a method of logging messages about a system; records timestamps, IPs, severity and descriptive messages</li>
+<li><b>Syslog server</b> receives syslogs from network devices, listens and collects — assists the investigator</li>
+<li><b>Windows event logs</b> locally stored logs on each host</li>
+<li><b>Three well-known logs</b> Application, System and Security</li>
+<li><b>Domain logs</b> record user logins, machines, sessions, password changes and accessed resources</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D2 · Log sources</div><h2>Questions to ask of any data source</h2><ul>
+<li><b>How long is the data stored?</b> retention windows vary by source</li>
+<li><b>Is it overwritten after a period?</b> older data may be gone</li>
+<li><b>Is it stored securely?</b> could it have been tampered with?</li>
+<li><b>How will we handle volume?</b> excessive data needs a plan</li>
+<li><b>Correlate across sources</b> the complete picture comes from joining many logs</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D3 · Config issues</div><h2>Network configuration security issues</h2><table><thead><tr>
+<th>Issue</th>
+<th>Examples</th>
+</tr></thead><tbody>
+<tr><td>IP routing issues</td><td>IP address spoofing, source routing</td></tr>
+<tr><td>DNS information leakage</td><td>DNS spoofing, DNS cache poisoning</td></tr>
+<tr><td>Unexpected traffic routes</td><td>man-in-the-middle via ARP poisoning or DNS spoofing</td></tr>
+<tr><td>Email routing issues</td><td>misconfigured BIND, named log anomalies</td></tr>
+<tr><td>Firewalls / rules not working</td><td>SMB, NetBIOS, tftp, RPC, rlogin, rsh, rexec exposed</td></tr>
+<tr><td>Redundant firewall rules</td><td>stale rules weaken the security posture</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D3 · Config issues</div><h2>Detecting man-in-the-middle</h2><ul>
+<li><b>ARP poisoning</b> an attacker&#x27;s MAC replaces the gateway&#x27;s in the ARP table</li>
+<li><b>Test with arp -a</b> compare the gateway MAC against the known-good value</li>
+<li><b>DNS spoofing</b> a poisoned DNS response sends traffic to the attacker</li>
+<li><b>Test with DNS lookups</b> verify the resolved address matches the legitimate one</li>
+<li><b>Compare before and after</b> a changed gateway MAC is a red flag</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D3 · Config issues</div><h2>Detecting firewall and proxy evasion</h2><ul>
+<li><b>IP address spoofing</b> forging the source address to bypass filters</li>
+<li><b>Source routing</b> forcing traffic along an unexpected path</li>
+<li><b>Fragmentation</b> splitting packets so rules miss the payload</li>
+<li><b>IP addresses to access websites</b> bypassing name-based proxy controls</li>
+<li><b>Tunnelling</b> ICMP tunnelling, ACK tunnelling, HTTP tunnelling</li>
+</ul></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Consolidation · D1–D3</div><h2>Network intrusion analysis I at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Topic</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>D1</td><td>Network traffic capture</td><td>Wireshark, tshark, tcpdump, SPAN ports, TAPs, capture options</td></tr>
+<tr><td>D2</td><td>Data &amp; log sources</td><td>Proxy, syslog, firewall, DHCP, DNS, VPN, web, email, antivirus, event logs</td></tr>
+<tr><td>D3</td><td>Network config issues</td><td>Routing, DNS leakage, firewall evasion, man-in-the-middle</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Capture is a design decision&#x27;, &#x27;scope, filter and place devices so you collect enough without overwhelming&#x27;)</li><li>(&#x27;SPAN vs TAP&#x27;, &#x27;SPAN mirrors a port; TAPs and aggregating TAPs snoop without external power&#x27;)</li><li>(&#x27;Logs tell the story&#x27;, &#x27;proxy, firewall, DNS, DHCP, VPN, syslog and event logs must be correlated&#x27;)</li><li>(&#x27;Config flaws are findings&#x27;, &#x27;routing, DNS leakage and redundant rules weaken the network&#x27;)</li><li>(&#x27;Evasion is deliberate&#x27;, &#x27;spoofing, fragmentation and tunnelling bypass firewall and proxy rules&#x27;)</li><li>(&#x27;Protect the evidence&#x27;, &#x27;encrypt captures, secure the device, remove SPAN ports after use&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (D1–D3)</h2><ul><li>Which Wireshark tool is its terminal interface?</li><li>What does a SPAN port do?</li><li>Which log records the IP addresses assigned to hosts?</li><li>What does a changed gateway MAC in arp -a suggest?</li><li>Which technique tunnels data inside ICMP to evade a firewall?</li></ul></section>
+<section class="slide"><h2>Next session: Network Intrusion Analysis II</h2></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 23</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Reverse Engineering Malware I: Intro, Anti-RE &amp; Functionality - slide pack</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Reverse Engineering Malware I: Intro, Anti-RE &amp; Functionality</span></div>
+<section class="slide"><div class="kick">Session 12 of 14</div><h1>Reverse Engineering Malware I: Intro, Anti-RE &amp; Functionality</h1><p class="sub">The goals of malware analysis, indicators of compromise, OPSEC, and the anti-reverse-engineering arms race.</p><div class="tags"><span class="tag">Group F</span><span class="tag">Malware Analysis</span><span class="tag">Anti-RE</span></div></section>
+<section class="slide"><div class="kick">Knowledge Group F · The course</div><h2>Three sessions on reverse engineering malware</h2><table><thead><tr>
+<th>Session</th>
+<th>Focus</th>
+<th>Skill areas</th>
+</tr></thead><tbody>
+<tr><td>12 · Today</td><td>Introduction, anti-RE, functionality</td><td>F0, F1, F2</td></tr>
+<tr><td>13</td><td>Binary structure, crypto, processors, PE format</td><td>F3, F4, F5, F6, F7, F8</td></tr>
+<tr><td>14</td><td>Hiding, reporting, obfuscation, behaviour</td><td>F9, F10, F11, F12</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Explain the goals of malware analysis</b> determining if a file is malicious and what it can do</li>
+<li><b>Define indicators of compromise</b> the IOC types and the signatures built from them</li>
+<li><b>Share IOCs safely</b> using STIX, TAXII, CybOX and MAEC</li>
+<li><b>Apply OPSEC</b> the do&#x27;s and don&#x27;ts that keep analysis safe</li>
+<li><b>Describe anti-reverse engineering</b> anti-disassembly, anti-debugging, anti-virtualisation, anti-sandboxing</li>
+<li><b>Explain unpacking</b> static, automatic dynamic and manual, and the role of UPX</li>
+<li><b>Identify malware functionality</b> using static analysis, strings, import hashing and PEiD</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F0 · Terms &amp; acronyms</div><h2>The vocabulary of malware analysis</h2><table><thead><tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr></thead><tbody>
+<tr><td>APT</td><td>Advanced persistent threat — a sophisticated, long-running campaign</td></tr>
+<tr><td>C2</td><td>Command and control — the channel malware uses to receive instructions</td></tr>
+<tr><td>IDS</td><td>Intrusion detection system</td></tr>
+<tr><td>IOC</td><td>Indicator of compromise</td></tr>
+<tr><td>PE</td><td>Portable executable — the Windows executable format</td></tr>
+<tr><td>VM / Vbox</td><td>Virtual machine / VirtualBox — a sandbox for safe analysis</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F0 · Goals</div><h2>Goals of malware analysis</h2><ul>
+<li><b>Determine if a file is malicious</b> the first and most important judgement</li>
+<li><b>Extract indicators of compromise</b> the artefacts that allow detection elsewhere</li>
+<li><b>Create host-based signatures</b> for AV and host intrusion detection</li>
+<li><b>Create network signatures</b> to spot C2 and exfiltration traffic</li>
+<li><b>Determine the capabilities</b> what the malicious code can actually do</li>
+<li><b>Update existing signatures</b> when a sample exposes new behaviour</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F0 · Indicators of compromise</div><h2>What counts as an IOC?</h2><ul>
+<li><b>File hashes</b> cryptographic digests such as MD5, and fuzzy hashes such as SSDeep</li>
+<li><b>Filenames and folder locations</b> the paths the malware creates or persists in</li>
+<li><b>Registry keys</b> persistence and configuration locations</li>
+<li><b>Strings</b> URLs, domains, IP addresses, commands</li>
+<li><b>Network traffic patterns</b> the shape of C2 communication</li>
+<li><b>Binary functions and encryption</b> and developer toolmarks</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F0 · Signatures</div><h2>Signatures built from IOCs</h2><table><thead><tr>
+<th>Signature type</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr><td>Anti-virus signatures</td><td>Host-based detection of known files</td></tr>
+<tr><td>IDS signatures</td><td>Snort and Suricata rules for network detection</td></tr>
+<tr><td>File / fuzzy hash databases</td><td>Rapid matching of known-good and known-bad files</td></tr>
+<tr><td>YARA signatures</td><td>Flexible pattern and rule matching</td></tr>
+<tr><td>HIDS signatures</td><td>Host intrusion detection</td></tr>
+<tr><td>SIEM signatures</td><td>Correlation across security event logs</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F0 · Sharing IOC</div><h2>Sharing indicators: STIX, TAXII, CybOX &amp; MAEC</h2><table><thead><tr>
+<th>Format</th>
+<th>What it does</th>
+</tr></thead><tbody>
+<tr><td>STIX</td><td>Structured Threat Information eXpression — a language for sharing threat intelligence</td></tr>
+<tr><td>TAXII</td><td>Trusted Automated eXchange of Indicator Information — the transport for sharing it</td></tr>
+<tr><td>CybOX</td><td>Cyber Observable eXpression — describing the observable artefacts</td></tr>
+<tr><td>MAEC</td><td>Malware Attribute Enumeration and Characterisation — describing malware attributes</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic F0 · Sharing IOC</div><h2>Common IOC file formats</h2><ul>
+<li><b>Snort and Suricata IDS signatures</b> network rule formats</li>
+<li><b>YARA signatures</b> pattern matching rules</li>
+<li><b>OpenIOC signatures</b> the Mandiant open format</li>
+<li><b>CSV</b> simple structured tabular sharing</li>
+<li><b>Stuxnet</b> a landmark case — four zero-days, industrial PLC targeting, discovered June 2010</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F0 · OPSEC</div><h2>Operations security — the don&#x27;ts</h2><ul>
+<li><b>Do not allow malware to connect back</b> to the attacker from your lab</li>
+<li><b>Do not manually connect</b> to attacker infrastructure</li>
+<li><b>Do not scan attacker infrastructure</b> no port or vulnerability scans</li>
+<li><b>Do not use discovered credentials</b> such as FTP usernames or passwords</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F0 · OPSEC</div><h2>Operations security — the do&#x27;s</h2><ul>
+<li><b>Neuter extensions</b> rename bad.exe to bad.exe_ so it cannot be run accidentally</li>
+<li><b>Password-protect archives</b> zip samples with the password &#x27;infected&#x27;</li>
+<li><b>Clearly label media</b> any portable media containing malicious code</li>
+<li><b>Use a throwaway VM</b> never your corporate gold build image</li>
+<li><b>Disable USB autorun</b> and beware browsers preloading links you search</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F0 · OPSEC</div><h2>OPSEC: staying anonymous</h2><ul>
+<li><b>Sometimes you must reach attacker infrastructure</b> for example to download exploit-kit payloads</li>
+<li><b>The Onion Router (TOR)</b> routes traffic through an anonymous overlay network</li>
+<li><b>VPN services</b> mask your true source address</li>
+<li><b>Cloud upload risk</b> files sent to VirusTotal are shared with subscribers and AV vendors</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F2 · Functionality identification</div><h2>Identifying what a sample does — statically</h2><ul>
+<li><b>Static analysis</b> examining code, binaries and headers without executing — safe and efficient</li>
+<li><b>Information extraction</b> embedded strings, imports, exports, file headers</li>
+<li><b>Strings utility</b> extracts printable ASCII and Unicode sequences — URLs, paths, commands</li>
+<li><b>Import hashing (imphash)</b> a Mandiant technique hashing libraries, API names and their order</li>
+<li><b>NSRL</b> National Software Reference Library — known-good hash sets to filter out</li>
+<li><b>PEiD</b> detects common packers, cryptors and compilers</li>
+</ul></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Topic F1 · Anti-reverse engineering</div><h2>The aim: conceal, but stay recoverable</h2><ul>
+<li><b>Concealment goals</b> most packers try to conceal information — intellectual property or malware</li>
+<li><b>Recovery requirement</b> the information must be recoverable at run time</li>
+<li><b>The unpacking code does the work</b> the packer ships a stub that restores the original code</li>
+<li><b>Anti-RE categories</b> anti-disassembly, anti-debugging, anti-virtualisation, anti-sandboxing</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F1 · Anti-disassembly</div><h2>Anti-disassembly methods</h2><ul>
+<li><b>Overlapping instructions</b> jumping into the middle of another instruction</li>
+<li><b>Linear disassembly abuse</b> garbage following a call, jump or conditional jump</li>
+<li><b>Stack abuse</b> modifying return addresses, e.g. call $+5; add [esp],5; retn</li>
+<li><b>Purpose</b> inhibits static analysis — disassembly and decompilation</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F1 · Anti-debugging</div><h2>Anti-debugging and anti-virtualisation</h2><ul>
+<li><b>Anti-debugging</b> inhibits dynamic analysis — debugging and tracing</li>
+<li><b>Anti-virtualisation</b> detects the VM and changes behaviour or refuses to run</li>
+<li><b>Anti-sandboxing</b> detects the analysis environment and evades it</li>
+<li><b>High-profile bugs</b> known flaws in common debuggers and disassemblers are weaponised</li>
+<li><b>Defeat</b> identify and neutralise the checks, then unpack and analyse</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic F1 · Unpacking</div><h2>Unpacking the binary</h2><ol class="steps"><li><b>Load the packed binary in a debugger</b><br>start execution in a controlled way</li><li><b>Identify the unpacking code</b><br>and any anti-debugging code</li><li><b>Identify the original entry point (OEP)</b><br>the start of the real program</li><li><b>Run to the OEP</b><br>let the unpacking stub do its work</li><li><b>Dump the process</b><br>capture the unpacked image from memory</li><li><b>Reconstruct the import table</b><br>restore the functions called from other libraries</li></ol></section>
+<section class="slide"><div class="kick">Topic F1 · Unpacking</div><h2>Static, dynamic and manual unpacking</h2><table><thead><tr>
+<th>Approach</th>
+<th>How it works</th>
+<th>Examples</th>
+</tr></thead><tbody>
+<tr><td>Static unpacking</td><td>Reconstructs the original from the packed binary; packed code does not run</td><td>UPX (single), PE Explorer (multiple)</td></tr>
+<tr><td>Automatic dynamic</td><td>Uses the unpacking stub so packed code potentially runs</td><td>UnASPack (single), FUU (multiple)</td></tr>
+<tr><td>Manual</td><td>Debug, dump and rebuild imports by hand</td><td>Any packer, most effort</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Consolidation · Group F</div><h2>Group F at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Skill area</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>F0</td><td>Introduction to Malware Analysis</td><td>Goals, IOCs, sharing, OPSEC</td></tr>
+<tr><td>F1</td><td>Windows Anti-Reverse Engineering</td><td>Anti-disassembly, anti-debugging, anti-virtualisation, anti-sandboxing, unpacking</td></tr>
+<tr><td>F2</td><td>Functionality Identification</td><td>Static analysis, strings, import hashing, PEiD</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Malware analysis has goals&#x27;, &#x27;judge maliciousness, extract IOCs, build signatures, assess capability&#x27;)</li><li>(&#x27;IOCs drive detection&#x27;, &#x27;hashes, filenames, registry keys, strings, network patterns, signatures&#x27;)</li><li>(&#x27;Sharing uses standards&#x27;, &#x27;STIX, TAXII, CybOX and MAEC&#x27;)</li><li>(&#x27;OPSEC protects the work&#x27;, &#x27;neuter files, protect archives, never let samples connect out&#x27;)</li><li>(&#x27;Anti-RE is an arms race&#x27;, &#x27;anti-disassembly, anti-debugging, anti-virtualisation, anti-sandboxing — beaten by unpacking&#x27;)</li><li>(&#x27;Functionality is identified&#x27;, &#x27;statically, with strings, imports, hashing and PEiD&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (Group F I)</h2><ul><li>Which sharing standard transports threat intelligence between parties?</li><li>Why must you never allow malware to connect back to its C2?</li><li>What does the Strings utility extract from a binary?</li><li>What is the original entry point (OEP)?</li><li>Which anti-RE technique inhibits static analysis?</li></ul></section>
+<section class="slide"><h2>Next session: Binary Structure, Crypto, Processors &amp; PE</h2></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 23</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>

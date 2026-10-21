@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Network Intrusion Analysis II: C2, Exfiltration &amp; Incoming Attacks - slide pack</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Network Intrusion Analysis II: C2, Exfiltration &amp; Incoming Attacks</span></div>
+<section class="slide"><div class="kick">Session 7 of 14</div><h1>Network Intrusion Analysis II: C2, Exfiltration &amp; Incoming Attacks</h1><p class="sub">Encryption and flow analysis, command-and-control, data exfiltration, and detecting the attacks coming in.</p><div class="tags"><span class="tag">Group D</span><span class="tag">Encryption</span><span class="tag">C2</span><span class="tag">Exfiltration</span><span class="tag">Attacks</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group D</div><h2>This session: D6–D9</h2><table><thead><tr>
+<th>Ref</th>
+<th>Skill area</th>
+<th>Focus</th>
+</tr></thead><tbody>
+<tr><td>D6</td><td>Encryption</td><td>Flow analysis, fingerprinting, weak obfuscation</td></tr>
+<tr><td>D7</td><td>Command and Control Channels</td><td>Botnets, C2 architectures, detection</td></tr>
+<tr><td>D8</td><td>Exfiltration of Data</td><td>Covert and open exfiltration, behavioural analysis</td></tr>
+<tr><td>D9</td><td>Incoming Attacks</td><td>DoS, IDS/IPS, signature and statistical detection</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Analyse traffic flows</b> volume, direction, QoS, timing, custom or standard encryption</li>
+<li><b>Understand channel fingerprinting</b> one source, many destinations, increasing ports, SYN flags</li>
+<li><b>Identify weak obfuscation</b> XOR, ROL, codebooks — and approaches to deobfuscation</li>
+<li><b>Detect command-and-control</b> covert and open C2 via statistics, signatures and manual review</li>
+<li><b>Recognise data exfiltration</b> covert channels, behavioural analysis, watermarking, prevention</li>
+<li><b>Detect incoming attacks</b> DoS, signature and statistical systems, email attacks</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D6 · Encryption</div><h2>Analysis of traffic flows</h2><ul>
+<li><b>Flows</b> sequences of related packets examined for patterns</li>
+<li><b>Flow analysis</b> identify traffic patterns, isolate suspicious activity, analyse higher-layer protocols, extract data</li>
+<li><b>Flow definitions</b> quality of service (QoS), volume, directionality</li>
+<li><b>Follow TCP stream</b> reassemble a conversation in Wireshark</li>
+<li><b>Flow tools</b> tcpflow, pcapcat, tcpxtract for reconstruction and carving</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D6 · Encryption</div><h2>Flow analysis techniques</h2><ol class="steps"><li><b>List conversations and flows</b><br>get an overview of who talked to whom</li><li><b>Export a flow</b><br>extract the conversation of interest</li><li><b>File and data carving</b><br>recover files and data from the stream</li><li><b>Active pattern matching</b><br>IPs, ports, protocols and flags, directionality, volume</li></ol></section>
+<section class="slide"><div class="kick">Topic D6 · Encryption</div><h2>Fingerprinting</h2><ul>
+<li><b>Channel fingerprinting</b> a pattern that identifies a remote channel or tool</li>
+<li><b>One source IP address</b> a single host beaconing out</li>
+<li><b>One or more destination IPs</b> many targets from one source</li>
+<li><b>Increasing destination ports</b> ports climbing incrementally</li>
+<li><b>Volume of packets</b> unusual packet counts</li>
+<li><b>SYN flags outbound</b> a TCP protocol signature of scanning or probing</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D6 · Encryption</div><h2>Weak obfuscation and deobfuscation</h2><table><thead><tr>
+<th>Scheme</th>
+<th>Description</th>
+</tr></thead><tbody>
+<tr><td>XOR</td><td>Byte-wise exclusive-or with a key; reversible with the same key</td></tr>
+<tr><td>ADD / SUB</td><td>Arithmetic on bytes; used in tandem since they are not reversible alone</td></tr>
+<tr><td>ROL / ROR</td><td>Circular bit rotations; used together as they are not reversible</td></tr>
+<tr><td>ROT</td><td>Caesar cipher over A–Z or the 94 printable ASCII characters</td></tr>
+<tr><td>Multibyte</td><td>Longer keys, often 4 or 8 bytes, typically XOR per block</td></tr>
+<tr><td>Chained / loopback</td><td>Encoded output becomes the key for the next character</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D6 · Encryption</div><h2>Deobfuscation</h2><ul>
+<li><b>Deobfuscation</b> making sense of something that has been encoded</li>
+<li><b>XOR</b> apply the same key again to recover the plaintext</li>
+<li><b>BASE64</b> a common encoding layer to strip before analysis</li>
+<li><b>Codebooks</b> lookup tables replacing data with codes</li>
+<li><b>The goal</b> reduce weak obfuscation to readable content for the investigation</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D7 · C2</div><h2>Botnets and command-and-control</h2><ul>
+<li><b>Botnet</b> a large network of compromised computers, infected with malicious code and remotely controlled by one or more cybercriminals</li>
+<li><b>C&amp;C servers</b> the command-and-control infrastructure</li>
+<li><b>Types</b> centralised, distributed, and hybrid C&amp;C</li>
+<li><b>Uses</b> spam distribution, DDoS, identity theft, online advertising fraud</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D7 · C2</div><h2>C2 architectures compared</h2><table><thead><tr>
+<th>Type</th>
+<th>Advantages</th>
+<th>Weakness</th>
+</tr></thead><tbody>
+<tr><td>Centralised</td><td>Low reaction time, good coordination power, easy monitoring</td><td>Single point of failure</td></tr>
+<tr><td>Distributed</td><td>High anonymity for botmasters, difficult to disarticulate, more robust</td><td>More complex to manage</td></tr>
+<tr><td>Hybrid</td><td>Combines centralised control with distributed bot groups</td><td>Servant bots and client bots add complexity</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D7 · C2</div><h2>Botnet lifecycle and detection</h2><ul>
+<li><b>Lifecycle</b> conception, recruitment, connection, marketing, execution, maintenance</li>
+<li><b>Signature-based detection</b> IDS/IPS detection of known botnets</li>
+<li><b>Anomaly-based detection</b> high latency, unusual ports, unusual system behaviour</li>
+<li><b>DNS-based detection</b> analysis of DNS traffic for bot-related names</li>
+<li><b>Review traffic and logs</b> IDS, IPS, web server access.log and error.log</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D8 · Exfiltration</div><h2>Data exfiltration</h2><ul>
+<li><b>Manual</b> by an individual with physical access to a computer</li>
+<li><b>Automated</b> through malicious programming over a network</li>
+<li><b>Access points</b> the many ways data leaves the network</li>
+<li><b>Attack paths</b> obtained passwords, remote access, APTs — advanced persistent threats</li>
+<li><b>FTP misconfiguration</b> misconfigured servers, default passwords, plaintext credentials</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D8 · Exfiltration</div><h2>Exfiltration vectors</h2><ul>
+<li><b>Web applications</b> an attacker uses their own browser to access data directly — ordinary, hard to suspect</li>
+<li><b>WMI</b> Windows Management Instrumentation used to move data</li>
+<li><b>Covert channels</b> VOIP tunnels, ICMP tunnels, DNS tunnels, HTTP tunnels</li>
+<li><b>Encrypted transport</b> all of these protocols can carry encrypted data out of the network</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D8 · Exfiltration</div><h2>Behavioural analysis and prevention</h2><ul>
+<li><b>Behavioural analysis</b> automatically detect destinations that receive far more uploaded data than typical</li>
+<li><b>Relevant fields</b> bytes sent, client host/IP, destination host/IP (e.g. in proxy logs)</li>
+<li><b>Watermarking</b> an overt detection technique — track files and monitor what happens to them</li>
+<li><b>Prevention</b> secure endpoints, stronger IT controls, physical and logical security, DLP, inspection of traffic</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D9 · Incoming attacks</div><h2>Public-facing services under attack</h2><ul>
+<li><b>Public-facing services</b> web servers, FTP servers, mail servers — accessible via the internet</li>
+<li><b>Constant threat</b> a steady stream of approaches against these services</li>
+<li><b>Impact</b> interruption and destruction</li>
+<li><b>Detect via</b> manual review of traffic, system performance, firewall and web server logs</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D9 · Incoming attacks</div><h2>Detecting denial of service</h2><ul>
+<li><b>High volume of incoming traffic</b> a classic DoS signature</li>
+<li><b>Single or multiple source IPs</b> attackers may come from one or many addresses</li>
+<li><b>Protocol abuse</b> malformed handshakes, large ping packets</li>
+<li><b>SYN flood</b> an incomplete three-way handshake saturates the server</li>
+<li><b>System performance</b> excessive CPU and memory usage indicates an attack</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic D9 · Incoming attacks</div><h2>Signature vs statistical detection</h2><table><thead><tr>
+<th>System</th>
+<th>How it works</th>
+<th>Limitations</th>
+</tr></thead><tbody>
+<tr><td>Statistical</td><td>Detects abnormal behaviour</td><td>Requires extensive configuration; false positives easy; malicious traffic may go unnoticed</td></tr>
+<tr><td>Signature</td><td>Detects known malicious activity from a signature database</td><td>Must be constantly updated; only as good as its database</td></tr>
+<tr><td>IDS / IPS</td><td>Combine statistical and signature approaches</td><td>Network-based (NIDS) or host-based (HIDS); e.g. Snort</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic D9 · Incoming attacks</div><h2>Email attacks</h2><ul>
+<li><b>Problematic</b> for both individuals and organisations</li>
+<li><b>Range</b> malicious attachments, mail bombing, phishing emails</li>
+<li><b>Detect attachments</b> with email malware scanners</li>
+<li><b>Detect mail bombing</b> the usual signs of DoS plus an increase in inbox storage</li>
+<li><b>Manual phishing detection</b> scrutinise the email for tell-tale signs</li>
+</ul></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Consolidation · D6–D9</div><h2>Network intrusion analysis II at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Topic</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>D6</td><td>Encryption</td><td>Flow analysis, fingerprinting, XOR/ROL/codebook deobfuscation</td></tr>
+<tr><td>D7</td><td>Command and control</td><td>Botnets, centralised/distributed/hybrid C2, detection</td></tr>
+<tr><td>D8</td><td>Exfiltration</td><td>Covert channels, behavioural analysis, watermarking, DLP</td></tr>
+<tr><td>D9</td><td>Incoming attacks</td><td>DoS, signature vs statistical detection, email attacks</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Flows are the unit of analysis&#x27;, &#x27;follow TCP streams, list conversations, carve files&#x27;)</li><li>(&#x27;Fingerprint the channel&#x27;, &#x27;one source, many destinations, rising ports, SYN flags&#x27;)</li><li>(&#x27;Weak obfuscation is reversible&#x27;, &#x27;XOR, ROL, codebooks and BASE64 can be deobfuscated&#x27;)</li><li>(&#x27;C2 comes in three flavours&#x27;, &#x27;centralised, distributed and hybrid — each with strengths and weaknesses&#x27;)</li><li>(&#x27;Exfiltration hides in plain sight&#x27;, &#x27;covert tunnels, web apps, WMI; detect by volume and watermark&#x27;)</li><li>(&#x27;Detect by signature and statistics&#x27;, &#x27;IDS/IPS plus manual review of traffic and logs&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (D6–D9)</h2><ul><li>Which command reassembles a TCP conversation in Wireshark?</li><li>Which obfuscation scheme uses a Caesar shift over characters?</li><li>Which C2 architecture has a single point of failure?</li><li>Which detection technique tracks watermarked files?</li><li>What is a SYN flood?</li><li>Which detection approach needs constant signature updates?</li></ul></section>
+<section class="slide"><h2>Next session: Network Intrusion Analysis III</h2></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 23</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>

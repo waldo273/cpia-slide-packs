@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Core Technical Skills III: Cryptography, Permissions &amp; Host Analysis - slide pack</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Core Technical Skills III: Cryptography, Permissions &amp; Host Analysis</span></div>
+<section class="slide"><div class="kick">Session 4 of 14</div><h1>Core Technical Skills III: Cryptography, Permissions &amp; Host Analysis</h1><p class="sub">The final core-technical session: how cryptography protects data and how it is attacked, what permissions control access, and how to interrogate a live host.</p><div class="tags"><span class="tag">Group B</span><span class="tag">Cryptography</span><span class="tag">Permissions</span><span class="tag">Host Analysis</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group B</div><h2>Completing Group B: crypto, permissions, host analysis</h2><table><thead><tr>
+<th>Area</th>
+<th>Ref</th>
+<th>Focus</th>
+</tr></thead><tbody>
+<tr><td>Cryptography</td><td>B7</td><td>Encoding vs encryption, symmetric/asymmetric, hashes, HMAC</td></tr>
+<tr><td>Applications of Crypto</td><td>B8</td><td>SSL/TLS, IPSec, SSH, PGP, WEP and WPA/WPA2</td></tr>
+<tr><td>File System Permissions</td><td>B9</td><td>NTFS permissions, ACLs, ownership and inheritance</td></tr>
+<tr><td>Host Analysis Techniques</td><td>B10</td><td>Processes, ports, patch levels, drivers, services, shares</td></tr>
+<tr><td>Common Data Formats</td><td>B11</td><td>Text, binary, timestamps, magic bytes, encodings</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Distinguish encryption from encoding</b> and state the core security services</li>
+<li><b>Explain symmetric and asymmetric ciphers</b> and the algorithms DES, 3DES, AES, RSA, RC4</li>
+<li><b>Describe hashes and HMAC</b> SHA, MD5 and message integrity</li>
+<li><b>Apply cryptography in the real world</b> SSL/TLS, IPSec, SSH, PGP, WEP and WPA/WPA2</li>
+<li><b>Analyse file system permissions</b> and interrogate a live Windows host</li>
+<li><b>Recognise common data formats</b> text, binary, timestamps and encodings</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Crypto</div><h2>Encryption versus encoding</h2><ul>
+<li><b>Both transform data</b> encryption and encoding both change data into another format</li>
+<li><b>Both can be reversed</b> neither is a one-way operation by itself</li>
+<li><b>Encoding</b> transforms data to be used on a different system; not secret; decoding methods are public</li>
+<li><b>Encryption</b> data cannot be used by unauthorised users; relies on secret keys</li>
+<li><b>Key distinction</b> encoding is reversible without a secret; encryption requires a key</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Crypto</div><h2>Threats and security services</h2><ul>
+<li><b>Threats</b> unauthorised access, disclosure and modification of information</li>
+<li><b>More threats</b> misrepresentation of origin, repudiation of a message, replay of a message</li>
+<li><b>Cryptography counters threats</b> the core mechanism against these risks</li>
+<li><b>Security services</b> confidentiality, authentication, integrity, non-repudiation</li>
+<li><b>Mechanisms</b> symmetric ciphers, hashes and MACs, asymmetric ciphers, digital signatures</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Symmetric</div><h2>Symmetric ciphers</h2><ul>
+<li><b>Confidentiality protection</b> the primary purpose</li>
+<li><b>Same key</b> the same key value is used to encipher and to decipher</li>
+<li><b>Security in the key</b> assume the attacker knows the system and algorithm — secrecy relies on key protection</li>
+<li><b>Random key generation</b> keys should be generated randomly</li>
+<li><b>Examples</b> DES, 3DES, AES and RC4</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Asymmetric</div><h2>Asymmetric ciphers</h2><ul>
+<li><b>Key pair</b> a single private key holder but many public key holders</li>
+<li><b>Mathematics</b> relies on factorisation of large primes and elliptic curves</li>
+<li><b>Dual purpose</b> provides both confidentiality and integrity protection</li>
+<li><b>Substitution risk</b> replacing the public key element requires protection</li>
+<li><b>Speed</b> very slow compared with symmetric cryptography</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Hashes</div><h2>Hash functions and HMAC</h2><ul>
+<li><b>Hashing equals integrity</b> a hash verifies data has not changed</li>
+<li><b>SHA</b> Secure Hash Algorithm family</li>
+<li><b>MD5</b> Message Digest algorithm, now considered weak</li>
+<li><b>HMAC</b> a keyed Message Authentication Code providing integrity and authentication</li>
+<li><b>Analyst use</b> hash files to verify evidence integrity during acquisition</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Signatures</div><h2>Digital signatures and certificates</h2><ul>
+<li><b>Sign and validate</b> only one entity can sign with the private key; many may validate with the public key</li>
+<li><b>Integrity and non-repudiation</b> signatures provide both and counter sender denials</li>
+<li><b>Certificates</b> hold public keys and identity, digitally signed by a trusted authority</li>
+<li><b>Why certificates</b> a bare public key is trivial to forge; a certificate ties key to identity</li>
+<li><b>Trust</b> the signing authority is recognised and trusted by the community</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Key exchange</div><h2>Key exchange and management</h2><ul>
+<li><b>Symmetric key exchange</b> manual or via PKI techniques</li>
+<li><b>Asymmetric key exchange</b> PKI, often with an LDAP server publishing certificates</li>
+<li><b>PGP</b> Pretty Good Privacy — supports signing and encrypting/decrypting</li>
+<li><b>Hybrid use</b> PGP uses both symmetric and asymmetric ciphers</li>
+<li><b>Web of trust</b> PGP&#x27;s trust model, distinct from a central CA</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B7 · Algorithms</div><h2>Encryption algorithms at a glance</h2><table><thead><tr>
+<th>Algorithm</th>
+<th>Type</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr><td>DES</td><td>Symmetric block cipher</td><td>Data Encryption Standard; legacy</td></tr>
+<tr><td>3DES (TDEA)</td><td>Symmetric block cipher</td><td>Applies DES three times per block</td></tr>
+<tr><td>AES</td><td>Symmetric block cipher</td><td>Advanced Encryption Standard; substitution-permutation network</td></tr>
+<tr><td>RSA</td><td>Asymmetric (public key)</td><td>Rivest, Shamir and Adleman; factorisation-based</td></tr>
+<tr><td>RC4</td><td>Symmetric stream cipher</td><td>Rivest Cipher 4</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B8 · Applications</div><h2>Applications of cryptography: SSL/TLS, IPSec, SSH, PGP</h2><ul>
+<li><b>SSL/TLS</b> encrypted link between client and server; SSL by Netscape, replaced by TLS</li>
+<li><b>IPSec</b> Internet Protocol Security; end-to-end scheme used in VPNs; transport and tunnel modes</li>
+<li><b>SSH</b> Secure Shell — securely log into another device via a network</li>
+<li><b>PGP</b> encrypt and decrypt email over the Internet; low-cost solution</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B8 · Wireless</div><h2>Wireless encryption: WEP, WPA/WPA2, TKIP</h2><table><thead><tr>
+<th>Scheme</th>
+<th>Encryption</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr><td>WEP</td><td>RC4 + CRC-32</td><td>Wired Equivalent Privacy; broken — passive/active decryption, injection, dictionary attacks</td></tr>
+<tr><td>WPA</td><td>TKIP/MIC</td><td>Personal uses PSK; enterprise uses 802.1X/EAP</td></tr>
+<tr><td>WPA2</td><td>AES-CCMP</td><td>Personal uses PSK; enterprise uses 802.1X/EAP</td></tr>
+<tr><td>TKIP</td><td>Temporal Key Integrity Protocol</td><td>part of IEEE 802.11i</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B9 · Permissions</div><h2>File system permissions</h2><ul>
+<li><b>NTFS permissions</b> control access to files and folders: read, write, execute, full control</li>
+<li><b>ACLs</b> access control lists bind users and groups to allowed actions</li>
+<li><b>Ownership and inheritance</b> permissions inherit down the tree; ownership grants full control</li>
+<li><b>Analyst relevance</b> permissions reveal what an intruder could read, modify or execute</li>
+<li><b>Shared vs NTFS</b> effective access is the intersection of share and NTFS permissions</li>
+</ul></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Topic B10 · Host analysis</div><h2>Sockets, ports and processes</h2><ul>
+<li><b>Sockets and ports</b> an endpoint of a two-way communication link; a point of entry into a system</li>
+<li><b>Multiple connections</b> a system can hold many simultaneous connections</li>
+<li><b>netstat -aon</b> run as administrator to identify ports and their owning processes</li>
+<li><b>tasklist</b> lists the current processes to cross-reference against netstat output</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B10 · Patch levels</div><h2>Assessing patch levels on a Windows host</h2><ul>
+<li><b>Service packs and hotfixes</b> not the whole OS receives updates</li>
+<li><b>wmic qfe list</b> use Windows Management Instrumentation to list hotfixes</li>
+<li><b>Export to HTML</b> wmic qfe list brief /format:htable &gt; output</li>
+<li><b>DISM</b> DISM /Online /Get-Packages lists installed packages</li>
+<li><b>Patch gaps</b> missing patches are a common intrusion vector</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B10 · Host state</div><h2>Drivers, services and network shares</h2><table><thead><tr>
+<th>Goal</th>
+<th>Command</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr><td>Drivers</td><td>driverquery</td><td>List the drivers installed on the host</td></tr>
+<tr><td>Services</td><td>net start</td><td>List running services</td></tr>
+<tr><td>Shares</td><td>net share</td><td>List the network shares on the host</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B10 · More commands</div><h2>Other useful commands</h2><ul>
+<li><b>systeminfo</b> OS, hardware and network details</li>
+<li><b>net file</b> shows open files on the network</li>
+<li><b>net session</b> lists active network sessions to the host</li>
+<li><b>net accounts</b> shows account and password policy settings</li>
+<li><b>Correlate them</b> combine these to reconstruct host state and attacker footholds</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B11 · Data formats</div><h2>Understanding common data formats</h2><ul>
+<li><b>Text vs binary</b> ASCII/Unicode text versus raw binary structures</li>
+<li><b>Timestamps</b> Unix epoch, Windows FILETIME and log formats need converting to reconstruct timelines</li>
+<li><b>Magic bytes / file signatures</b> the leading bytes of a file identify its true type</li>
+<li><b>Encodings</b> base64 and hex are common in malware and logs</li>
+<li><b>Analyst use</b> identify files and normalise timestamps across evidence sources</li>
+</ul></section>
+<section class="slide"><div class="kick">Consolidation · Group B</div><h2>B7 to B11 at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Topic</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>B7</td><td>Cryptography</td><td>Encryption vs encoding; symmetric/asymmetric; hashes, HMAC, signatures, certificates</td></tr>
+<tr><td>B8</td><td>Applications of Crypto</td><td>SSL/TLS, IPSec, SSH, PGP, WEP, WPA/WPA2</td></tr>
+<tr><td>B9</td><td>File System Permissions</td><td>NTFS, ACLs, ownership, inheritance</td></tr>
+<tr><td>B10</td><td>Host Analysis Techniques</td><td>Processes, ports, patch levels, drivers, services, shares</td></tr>
+<tr><td>B11</td><td>Common Data Formats</td><td>Text, binary, timestamps, magic bytes, encodings</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Encoding vs encryption&#x27;, &#x27;encoding is public and keyless; encryption needs a secret key&#x27;)</li><li>(&#x27;Symmetric vs asymmetric&#x27;, &#x27;one shared key versus a private/public key pair&#x27;)</li><li>(&#x27;Hashes give integrity&#x27;, &#x27;SHA, MD5 and HMAC verify data has not changed&#x27;)</li><li>(&#x27;Crypto in the wild&#x27;, &#x27;SSL/TLS, IPSec, SSH, PGP, WEP and WPA/WPA2 protect real traffic&#x27;)</li><li>(&#x27;Host analysis&#x27;, &quot;netstat -aon, tasklist, wmic qfe, driverquery, net start and net share reveal a host&#x27;s state&quot;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (B7 · B11)</h2><ul><li>Which algorithm is a symmetric stream cipher?</li><li>What does a hash function provide for evidence?</li><li>Which command lists hotfixes via WMI?</li><li>WPA2 personal mode uses which encryption?</li><li>What do magic bytes identify?</li></ul></section>
+<section class="slide"><h2>Next session: Background Information Gathering &amp; OSINT</h2></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 24</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>

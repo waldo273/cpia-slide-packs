@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Core Technical Skills I: IP Protocols &amp; Network Architectures - slide pack</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Core Technical Skills I: IP Protocols &amp; Network Architectures</span></div>
+<section class="slide"><div class="kick">Session 2 of 14</div><h1>Core Technical Skills I: IP Protocols &amp; Network Architectures</h1><p class="sub">The protocols and topologies that carry every intrusion — and that every network-level analysis rests on.</p><div class="tags"><span class="tag">Group B</span><span class="tag">IP Protocols</span><span class="tag">Architectures</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group B</div><h2>Group B: Core Technical Skills across three sessions</h2><table><thead><tr>
+<th>Session</th>
+<th>Areas</th>
+<th>Focus</th>
+</tr></thead><tbody>
+<tr><td>2</td><td>B1 IP Protocols, B2 Network Architectures</td><td>TCP/IP, HTTP(S), DNS, email, cabling, NAT</td></tr>
+<tr><td>3</td><td>B3–B6 Tools, Fingerprinting &amp; NAC</td><td>Tool classes, OS/application fingerprinting, NAC</td></tr>
+<tr><td>4</td><td>B7–B11 Crypto, Permissions &amp; Host</td><td>Crypto, permissions, host analysis, data formats</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Compare IPv4 and IPv6</b> address formats, sizes and address classes</li>
+<li><b>Explain TCP, UDP and ICMP</b> their roles, headers and trade-offs</li>
+<li><b>Describe the application protocols</b> HTTP(S), SMTP, DNS and how the web and email work</li>
+<li><b>State the fundamental protocols</b> IRC, DHCP, FTP, SMB, SNMP and their security implications</li>
+<li><b>Recognise network architectures</b> cabling, domains, NAT, 802.11, VLANs, subnets and routing</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · Protocols</div><h2>Understanding protocols</h2><ul>
+<li><b>Protocols govern exchange</b> networking protocols define how systems and devices exchange data</li>
+<li><b>SMTP</b> defines how email applications send email</li>
+<li><b>FTP</b> defines how files are transferred to a server</li>
+<li><b>The OSI model</b> a seven-layer reference model that frames protocol interactions</li>
+<li><b>Protocol awareness</b> is the foundation for reading captures and reconstructing attacks</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · IP</div><h2>The Internet Protocol (IP)</h2><ul>
+<li><b>Routes data</b> IP routes data from source to destination using special network addresses</li>
+<li><b>Unique numerical identifiers</b> assigned to all devices on the network, e.g. 192.168.10.2</li>
+<li><b>Two standards in use</b> IPv4 and IPv6</li>
+<li><b>IPv4</b> 32-bit address, about 4 billion addresses, split into four sections</li>
+<li><b>IPv6</b> 128-bit address, 2^128 addresses, split into eight sections</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · IP</div><h2>IPv4 address classes</h2><table><thead><tr>
+<th>Class</th>
+<th>Public range</th>
+<th>Private range</th>
+</tr></thead><tbody>
+<tr><td>A</td><td>0.0.0.0 – 126.255.255.255</td><td>10.0.0.0 – 10.255.255.255</td></tr>
+<tr><td>B</td><td>128.0.0.0 – 191.255.255.255</td><td>172.16.0.0 – 172.31.255.255</td></tr>
+<tr><td>C</td><td>192.0.0.0 – 223.255.255.255</td><td>192.168.0.0 – 192.168.255.255</td></tr>
+<tr><td>D</td><td>224.0.0.0 – 239.255.255.255</td><td>Multicast</td></tr>
+<tr><td>E</td><td>240.0.0.0 – 255.255.255.255</td><td>Reserved</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B1 · IP</div><h2>IPv6 addressing</h2><ul>
+<li><b>128-bit address</b> vast address space — 2^128 possible addresses</li>
+<li><b>Eight sections</b> an IPv6 address is written as eight groups of hex digits</li>
+<li><b>Three categories</b> unicast, multicast and anycast</li>
+<li><b>Zero compression</b> consecutive zeros are represented with &#x27;::&#x27;</li>
+<li><b>Example</b> FE80::FFFF:C0A8:0A02 (link-local address)</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · IP</div><h2>Unicast, multicast and anycast</h2><table><thead><tr>
+<th>Type</th>
+<th>Relationship</th>
+<th>Meaning</th>
+</tr></thead><tbody>
+<tr><td>Unicast</td><td>One-to-one</td><td>Packet delivered to the single network interface with that address</td></tr>
+<tr><td>Broadcast</td><td>One-to-all</td><td>Delivered to every host on the network segment</td></tr>
+<tr><td>Multicast</td><td>One-to-many</td><td>Address designates a subset of hosts that joined the group</td></tr>
+<tr><td>Anycast</td><td>One-to-nearest</td><td>Delivered to the nearest interface that is part of the group</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B1 · ICMP</div><h2>Internet Control Message Protocol</h2><ul>
+<li><b>Error reporting and diagnosis</b> ICMP provides error-reporting and helps solve network problems</li>
+<li><b>Used by ping</b> echo request/reply underpins connectivity testing</li>
+<li><b>Attacker abuse</b> attackers use ICMP to launch Denial-of-Service (DoS) attacks</li>
+<li><b>Smurf-style floods</b> broadcast amplification and ping floods are ICMP-borne</li>
+<li><b>Analyst value</b> ICMP in captures can reveal probing, reachability and covert channels</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · TCP</div><h2>Transmission Control Protocol</h2><ul>
+<li><b>Works alongside IP</b> TCP sends packets to other network devices reliably</li>
+<li><b>Three-way handshake</b> SYN, SYN-ACK, ACK establishes a connection</li>
+<li><b>Packets</b> data is divided into packets for transmission</li>
+<li><b>Checksums</b> ensure data is not corrupted in transit</li>
+<li><b>Sequence numbers</b> detect loss and rebuild data in the correct order</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · TCP/UDP</div><h2>Common uses of TCP and the UDP contrast</h2><table><thead><tr>
+<th>Protocol</th>
+<th>Reliability</th>
+<th>Common uses</th>
+</tr></thead><tbody>
+<tr><td>TCP</td><td>Reliable: handshake, checksums, sequencing</td><td>HTTP(S) port 80/443, FTP 20/21, SMTP 25</td></tr>
+<tr><td>UDP</td><td>Unreliable: no error detection, no sequencing</td><td>Online gaming, media streaming, VoIP</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B1 · DNS</div><h2>Domain Name System</h2><ul>
+<li><b>Maps names to addresses</b> www.cybercoaching.com = 198.185.159.145</li>
+<li><b>Hierarchical, distributed database</b> no single server holds all records</li>
+<li><b>Query types</b> DNS lookups and reverse DNS lookups</li>
+<li><b>Used by many applications</b> web browsers, email and utilities such as ping</li>
+<li><b>Resolution order</b> host file → local/internal DNS → public DNS (ISP)</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · HTTP</div><h2>Hypertext Transfer Protocol</h2><ul>
+<li><b>Web protocol</b> exchanges information while browsing the World Wide Web</li>
+<li><b>Runs over TCP/IP</b> port 80 by default</li>
+<li><b>GET</b> retrieve HTML documents, scripts and images</li>
+<li><b>HEAD</b> retrieve meta-information in the response headers</li>
+<li><b>POST</b> send data from web pages such as login forms</li>
+<li><b>Response codes</b> 401 Unauthorised, 404 File not found, 500 Internal server error</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · Web &amp; email</div><h2>The Internet, the WWW, and email</h2><ul>
+<li><b>Internet vs WWW</b> the Internet is the network of networks; the WWW is the collection of hypertext documents and media</li>
+<li><b>Browsing</b> the browser resolves DNS, opens a TCP connection and issues HTTP requests</li>
+<li><b>Send email</b> SMTP (Simple Mail Transfer Protocol) on port 25</li>
+<li><b>Retrieve email</b> POP (Post Office Protocol) on port 110, or IMAP on port 143</li>
+<li><b>Analyst relevance</b> Trojan malware commonly uses HTTP(S), SMTP and DNS for command and control</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B1 · Fundamental protocols</div><h2>IRC, DHCP, FTP, SMB and SNMP</h2><table><thead><tr>
+<th>Protocol</th>
+<th>Purpose</th>
+<th>Security note</th>
+</tr></thead><tbody>
+<tr><td>IRC</td><td>Messaging and data-file exchange between users</td><td>Often abused for botnet command and control</td></tr>
+<tr><td>DHCP</td><td>Automatically assigns IP configuration to devices</td><td>Rogue DHCP can redirect traffic</td></tr>
+<tr><td>FTP</td><td>Transfers files; ports 20 (data) and 21 (control)</td><td>Unencrypted — credentials sent in clear</td></tr>
+<tr><td>SMB</td><td>Shares files, printers and ports on a LAN; port 445</td><td>Historically vulnerable; &#x27;Shares&#x27; are key evidence</td></tr>
+<tr><td>SNMP</td><td>Monitors and manages network devices</td><td>&#x27;A gold mine for hackers&#x27; — information gathering</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Topic B2 · Architectures</div><h2>Network architectures you will encounter</h2><ul>
+<li><b>CAT 5/6 and fibre</b> the physical layer fundamentals of every network</li>
+<li><b>10/100/1000baseT</b> twisted-pair Ethernet speeds over IEEE 802.3</li>
+<li><b>Windows domains</b> central directory service with domain controllers</li>
+<li><b>NAT</b> Network Address Translation to reuse IP addresses</li>
+<li><b>802.11 wireless</b> Wi-Fi standards across 2.4 GHz and 5 GHz</li>
+<li><b>VLANs, subnets, routing</b> segmentation and the path packets take</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B2 · Cabling</div><h2>CAT 5/6 and Ethernet</h2><ul>
+<li><b>CAT 5</b> ANSI/TIA/EIA-568-A with clarification in TSB-95; 8P8C (RJ45) connectors</li>
+<li><b>Termination</b> T568A or T568B wiring schemes</li>
+<li><b>CAT 6</b> Gigabit Ethernet (1 Gbps), backwards compatible, faster performance</li>
+<li><b>Reduced length</b> CAT 6 is limited to 100 metres</li>
+<li><b>10/100/1000baseT</b> 10, 100 and 1000 Mbps over twisted pair (IEEE 802.3)</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B2 · Fibre</div><h2>Fibre optic cabling</h2><table><thead><tr>
+<th>Type</th>
+<th>Characteristics</th>
+<th>Typical use</th>
+</tr></thead><tbody>
+<tr><td>Single-mode</td><td>Carries a single wavelength of light; long distances (~40 km); up to 100 Gbps</td><td>WAN bearers, submarine cables</td></tr>
+<tr><td>Multi-mode</td><td>Carries multiple wavelengths; cheaper than single-mode</td><td>100 Mbps (2 km), 1 Gbps (1 km), 10 Gbps (550 m)</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B2 · Domains &amp; NAT</div><h2>Windows domains and NAT</h2><ul>
+<li><b>Windows domain</b> a central database/directory service managing a set of resources</li>
+<li><b>Domain controllers</b> authenticate users and enforce policy</li>
+<li><b>NAT</b> first defined in RFC 1631 as a short-term fix for IP address depletion</li>
+<li><b>Address reuse</b> only a subset of internal addresses need translation when talking outside</li>
+<li><b>NAT architectures</b> full cone, address-restricted cone, port-restricted cone, symmetric</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B2 · Wireless</div><h2>802.11 wireless LANs</h2><ul>
+<li><b>Standards</b> 802.11 a/b/g/n across 2.4 GHz and 5 GHz (others exist)</li>
+<li><b>New naming</b> 802.11b=Wi-Fi 1, 802.11a=Wi-Fi 2, 802.11g=Wi-Fi 3, 802.11n=Wi-Fi 4, 802.11ac=Wi-Fi 5, 802.11ax=Wi-Fi 6</li>
+<li><b>Shared media concerns</b> copyright, theft, synchronisation and infection on shared media</li>
+<li><b>VLANs</b> data-link-layer segmentation providing security and traffic management</li>
+<li><b>Analyst value</b> rogue access points and weak wireless crypto are common findings</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B2 · Subnets &amp; routing</div><h2>IP subnets and routing</h2><ul>
+<li><b>Subnet</b> an identifiable separate part of a network</li>
+<li><b>Subnet mask</b> separates the network portion from the host portion</li>
+<li><b>IPv4 subnets</b> 32-bit addresses; IPv6 uses 128 bits</li>
+<li><b>IP forwarding algorithm</b> determines how packets are routed across interconnected networks</li>
+<li><b>Routing protocols</b> BGP, IS-IS, OSPF, and RIP (15 hops maximum)</li>
+</ul></section>
+<section class="slide"><div class="kick">Consolidation · Group B</div><h2>B1 and B2 at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Topic</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>B1</td><td>IP Protocols</td><td>IPv4/IPv6, TCP/UDP/ICMP, HTTP(S), SMTP, DNS, IRC/DHCP/FTP/SMB/SNMP</td></tr>
+<tr><td>B2</td><td>Network Architectures</td><td>CAT5/6, fibre, domains, NAT, 802.11, VLANs, subnets, routing</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;IP has two flavours&#x27;, &#x27;IPv4 (32-bit, four sections) and IPv6 (128-bit, eight sections)&#x27;)</li><li>(&#x27;TCP is reliable, UDP is fast&#x27;, &#x27;handshake, checksums and sequencing versus no guarantees&#x27;)</li><li>(&#x27;Web and email&#x27;, &#x27;HTTP(S) port 80/443; SMTP 25 send; POP 110 / IMAP 143 retrieve&#x27;)</li><li>(&#x27;Protocols are attack surfaces&#x27;, &#x27;IRC, DHCP, FTP, SMB and SNMP are commonly abused&#x27;)</li><li>(&#x27;Architectures shape analysis&#x27;, &#x27;cabling, domains, NAT, wireless, VLANs, subnets and routing&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (B1 · B2)</h2><ul><li>Which protocol uses a three-way handshake to establish a connection?</li><li>An IPv6 address is how many bits long?</li><li>Which protocol sends email on port 25?</li><li>What does the subnet mask separate?</li><li>Which routing protocol is limited to 15 hops?</li></ul></section>
+<section class="slide"><h2>Next session: Core Technical Skills II</h2></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 26</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>

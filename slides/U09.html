@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Analysing Host Intrusions I: Acquisition &amp; Lab Setup - slide pack</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Analysing Host Intrusions I: Acquisition &amp; Lab Setup</span></div>
+<section class="slide"><div class="kick">Session 9 of 14</div><h1>Analysing Host Intrusions I: Acquisition &amp; Lab Setup</h1><p class="sub">From seizing a device under ACPO to a hardened analysis lab and the Windows file system.</p><div class="tags"><span class="tag">Group E</span><span class="tag">Acquisition</span><span class="tag">Lab Setup</span><span class="tag">Windows FS</span></div></section>
+<section class="slide"><div class="kick">Knowledge Group E · The map</div><h2>Fourteen sessions, six knowledge groups</h2><table><thead><tr>
+<th>Knowledge Group</th>
+<th>Focus</th>
+<th>Sessions</th>
+</tr></thead><tbody>
+<tr><td>A · Soft Skills &amp; Incident Handling</td><td>Engagement, chronology, law, threat</td><td>1</td></tr>
+<tr><td>B · Core Technical Skills</td><td>Protocols, tools, fingerprinting, crypto, host analysis</td><td>2–4</td></tr>
+<tr><td>C · Background Info Gathering &amp; OSINT</td><td>WHOIS, DNS, open-source investigation</td><td>5</td></tr>
+<tr><td>D · Network Intrusion Analysis</td><td>Capture, logs, C2, exfiltration, attacks</td><td>6–8</td></tr>
+<tr><td>E · Analysing Host Intrusions</td><td>Acquisition, Windows FS, registry, memory, malware</td><td>9–11</td></tr>
+<tr><td>F · Reverse Engineering Malware</td><td>Anti-RE, PE format, obfuscation, behaviour</td><td>12–14</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Knowledge Group E · Skill areas</div><h2>Session 9 covers E1, E2 and E3</h2><table><thead><tr>
+<th>Ref</th>
+<th>Skill area</th>
+<th>Assessment</th>
+</tr></thead><tbody>
+<tr><td>E1</td><td>Host-based Data Acquisition</td><td>MC</td></tr>
+<tr><td>E2</td><td>Live Analysis Laboratory Set-up</td><td>MC</td></tr>
+<tr><td>E3</td><td>Windows File System Essentials</td><td>MC</td></tr>
+<tr><td>E4</td><td>Windows File Structure</td><td>MC P</td></tr>
+<tr><td>E5</td><td>Application File Structures</td><td>MC P</td></tr>
+<tr><td>E6</td><td>Windows Registry Essentials</td><td>MC P</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Apply the ACPO principles</b> to seizure, preservation and examination of evidence</li>
+<li><b>Perform host-based acquisition</b> with write blockers and forensic imaging tools</li>
+<li><b>Verify image integrity</b> using MD5 and SHA1 computed hashes</li>
+<li><b>Stand up a live analysis lab</b> with a grab pack and hardened sandboxes</li>
+<li><b>Explain disk partitioning and file systems</b> FAT and NTFS, and their core structures</li>
+<li><b>Describe ACLs, SIDs, unallocated space</b> and EFS and BitLocker encryption</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic E1 · Acquisition</div><h2>Host-based data acquisition — the fundamentals</h2><ul>
+<li><b>Static and dynamic gathering</b> dead-box imaging versus live evidence capture</li>
+<li><b>Image formats</b> raw (dd), E01/EWF and others used by forensic tools</li>
+<li><b>Local acquisition</b> a write-blocked drive imaged on the bench</li>
+<li><b>Remote acquisition</b> imaging a live host across the network</li>
+<li><b>Core objective</b> a bit-for-bit copy whose integrity can be proven</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic E1 · ACPO</div><h2>ACPO Principle 1</h2><ul>
+<li><b>Principle 1</b> no action taken by Police or their agents should change data held on a computer or other storage media which may subsequently be relied upon in Court</li>
+<li><b>Isolate the device</b> remove it from the network at seizure</li>
+<li><b>Turn the device off</b> at the point of seizure where appropriate</li>
+<li><b>Consider local policies</b> before powering down</li>
+<li><b>Mobiles and tablets</b> place in a shielded Faraday container</li>
+<li><b>Use forensic software</b> and plan the examination to avoid data loss</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic E1 · ACPO</div><h2>The Faraday bag</h2><ul>
+<li><b>Purpose</b> prevents a handset communicating with a mobile phone network</li>
+<li><b>Battery drain</b> a handset inside a Faraday bag depletes rapidly</li>
+<li><b>Correct sealing</b> fold the top of the bag over, otherwise the signal may not be blocked</li>
+<li><b>Wipe mode risk</b> remote-wipe commands cannot reach a shielded device</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic E1 · ACPO</div><h2>ACPO Principles 2, 3 and 4</h2><ol class="steps"><li><b>Principle 2</b><br>in exceptional circumstances a competent person may access original data, and must be able to explain their actions</li><li><b>Principle 3</b><br>an audit trail or record of all processes applied to the evidence must be created and preserved</li><li><b>Principle 4</b><br>the case officer (OIC) is responsible for ensuring the law and these principles are adhered to</li></ol></section>
+<section class="slide"><div class="kick">Topic E1 · Acquisition</div><h2>Seizure and the audit trail</h2><ul>
+<li><b>Photograph the scene</b> record the status of the exhibit at the point of seizure</li>
+<li><b>Record on / off state</b> and the condition of the exhibit</li>
+<li><b>Maintain a log</b> of every action taken with the exhibit</li>
+<li><b>Record changes of data</b> e.g. accidental changes during acquisition</li>
+<li><b>Note tools and versions</b> including product names and version numbers</li>
+<li><b>Exhibit continuity</b> seizing personnel trained and equipped for the task</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic E1 · Imaging</div><h2>Imaging prerequisites — the jump kit</h2><ul>
+<li><b>Write blocking device</b> a hardware write blocker stops writes to the source</li>
+<li><b>Data and power cables</b> adaptors for the range of target drives</li>
+<li><b>Forensic imaging software</b> FTK Imager, dd, ddrescue, DEFT</li>
+<li><b>Verification hashes</b> MD5 and SHA1 computed and compared</li>
+<li><b>Clean media</b> target drives ready for the image</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic E1 · Imaging</div><h2>Imaging with FTK Imager and ddrescue</h2><ul>
+<li><b>FTK Imager</b> GUI-based imaging with computed MD5 and SHA1 checksums</li>
+<li><b>Image verification</b> checksums recomputed and compared after acquisition</li>
+<li><b>Hash mismatch</b> a mismatch invalidates the image and requires re-acquisition</li>
+<li><b>DEFT</b> a Linux live forensic distribution used at the bench</li>
+<li><b>ddrescue</b> recovers data from failing media; -n writes only good sectors, -d uses direct disk access on error areas</li>
+</ul></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Topic E2 · Laboratory</div><h2>Standing up a live analysis laboratory</h2><ul>
+<li><b>The grab pack</b> hardware, software, cabling and incident checklists</li>
+<li><b>Hardware</b> write blockers, SATA/PATA/IDE/SCSI adaptors, imaging laptop, storage drives</li>
+<li><b>Network infrastructure</b> an isolated or controlled lab network</li>
+<li><b>Documentation</b> incident checklist, call lists, communication plan</li>
+<li><b>Best practice</b> virtualise — fewer machines, snapshots, easy to clean</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic E2 · Laboratory</div><h2>Virtualisation versus standalone machines</h2><table><thead><tr>
+<th>Approach</th>
+<th>Advantages</th>
+<th>Disadvantages</th>
+</tr></thead><tbody>
+<tr><td>VMware server (free)</td><td>Less dedicated machines; snapshots; host-only networking; easy to clean</td><td>Complicated to configure; needs lots of RAM; detectable by malware</td></tr>
+<tr><td>Multiple standalone machines</td><td>Fast to set up; accurately reflects the original; hard to mis-set-up</td><td>Expensive; requires dedicated network infrastructure</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic E2 · Laboratory</div><h2>Host hardening and the sandbox</h2><ul>
+<li><b>What hardening is</b> increasing defences, decreasing ease of infiltration, limiting malware spread</li>
+<li><b>Why harden</b> prevent further infections and protect the analysis lab</li>
+<li><b>Methods</b> passwords and firewalls; low privileges, elevating as needed</li>
+<li><b>Air-gapped network</b> physically isolated from the corporate estate</li>
+<li><b>Sandbox environments</b> a complex network of replicable machines, normally VMs</li>
+<li><b>Disposable and realistic</b> easily re-set or rolled back, difficult to break out of</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic E2 · Laboratory</div><h2>Lab setup process and tooling</h2><ol class="steps"><li><b>Build the VMs</b><br>install multiple VMs to simulate the infected network; install OSs and applications</li><li><b>Simulate the environment</b><br>web host, DNS, FTP and file servers as needed</li><li><b>Snapshot</b><br>take a clean snapshot before installing service packs and patches</li><li><b>Install analysis tools</b><br>hash tools, rootkit identifiers; verify tool integrity</li><li><b>Snapshot again</b><br>then begin behaviour and code analysis</li><li><b>Re-hash and compare</b><br>verify tools have not been altered during the analysis</li></ol></section>
+<section class="slide"><div class="kick">Topic E2 · Laboratory</div><h2>Booting to an image</h2><ul>
+<li><b>Pros</b> realistic and fast — boots the acquired image directly</li>
+<li><b>Cons</b> licensing issues and cost; the image must be capable of booting</li>
+<li><b>Behaviour analysis tools</b> system information, process monitoring, file monitors, registry monitors</li>
+<li><b>More robust than Task Manager</b> specialist process-monitoring tools give deeper visibility</li>
+<li><b>Do not remove malware yet</b> virus and rootkit scanners identify but do not clean at this stage</li>
+<li><b>Use multiple tools</b> cross-check with ADS viewers, port scanners, hex editors</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic E3 · File systems</div><h2>Disk partitioning and file systems</h2><ul>
+<li><b>Partitioning</b> tasks to create, resize and delete partitions; logical segments of a physical device</li>
+<li><b>MBR limit</b> only room for four partition entries in the master boot record</li>
+<li><b>Partition types</b> primary, extended and logical partitions overcome the limit</li>
+<li><b>File systems</b> organise files on hard discs, USB drives and tapes</li>
+<li><b>FAT and NTFS</b> FAT12/16/32 for older and removable media; NTFS is the modern Windows default</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic E3 · FAT</div><h2>FAT and the directory entry</h2><table><thead><tr>
+<th>Variant</th>
+<th>FAT entry</th>
+<th>Max clusters</th>
+<th>Max volume</th>
+</tr></thead><tbody>
+<tr><td>FAT12</td><td>12 bits</td><td>~4,096</td><td>16 MB</td></tr>
+<tr><td>FAT16</td><td>16 bits</td><td>~65,536</td><td>2 GB</td></tr>
+<tr><td>FAT32</td><td>28 bits</td><td>~268,435,456</td><td>2 TB</td></tr>
+</tbody></table>
+<ul>
+<li><b>Directory entries</b> tell where the first cluster of a file is located</li>
+<li><b>Entry metadata</b> name, file size, extension, attributes, date and time</li>
+<li><b>Two FAT copies</b> FAT1 and FAT2 protect against table corruption</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic E3 · NTFS</div><h2>NTFS, the MFT and attributes</h2><ul>
+<li><b>NTFS</b> Microsoft&#x27;s high-performance, reliable and secure file system</li>
+<li><b>Features</b> access control lists and the encrypted file system</li>
+<li><b>Master File Table ($MFT)</b> stores file metadata as attributes</li>
+<li><b>Resident attributes</b> $STANDARD_INFORMATION, $FILE_NAME, $DATA</li>
+<li><b>Non-resident attributes</b> $BITMAP and others held outside the MFT record</li>
+<li><b>$MFT and $Bitmap</b> the metadata and allocation tables of the volume</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic E3 · NTFS</div><h2>ACLs, SIDs, unallocated space and encryption</h2><ul>
+<li><b>Access Control Lists</b> a list of permissions attached to an object — file and share permissions</li>
+<li><b>Grants access</b> to users and system processes</li>
+<li><b>Security Identifiers (SIDs)</b> uniquely identify users and groups; listed via the registry ProfileList or WMIC</li>
+<li><b>Unallocated space</b> deleted files can be recovered here by carving</li>
+<li><b>EFS</b> encrypts files on NTFS using the username and password plus DES or AES</li>
+<li><b>BitLocker</b> AES 128/256-bit volume encryption; manage-bde -status reveals volumes</li>
+</ul></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;ACPO frames acquisition&#x27;, &#x27;four principles govern seizure, examination and the audit trail&#x27;)</li><li>(&#x27;Seize and preserve&#x27;, &#x27;write blockers, Faraday bags and bit-for-bit images with verified hashes&#x27;)</li><li>(&#x27;Virtualise the lab&#x27;, &#x27;hardened, snapshot-able sandboxes beat expensive standalone machines&#x27;)</li><li>(&#x27;Know the file system&#x27;, &#x27;partitioning, FAT entries, NTFS $MFT, ACLs and SIDs&#x27;)</li><li>(&#x27;Encryption matters&#x27;, &#x27;EFS and BitLocker change what you can acquire and how&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (Group E: acquisition, lab, FS)</h2><ul><li>Which ACPO principle demands an audit trail of all processes applied to evidence?</li><li>What does a hardware write blocker prevent?</li><li>Which FAT variant is most commonly found on removable media?</li><li>Where in NTFS is file metadata stored as attributes?</li><li>What does manage-bde -status reveal?</li></ul></section>
+<section class="slide"><h2>Next session: Analysing Host Intrusions II</h2></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 24</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>

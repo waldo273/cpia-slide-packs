@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Background Information Gathering &amp; Open Source - slide pack</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Background Information Gathering &amp; Open Source</span></div>
+<section class="slide"><div class="kick">Session 5 of 14</div><h1>Background Information Gathering &amp; Open Source</h1><p class="sub">WHOIS, DNS, open-source investigation, document metadata and community knowledge.</p><div class="tags"><span class="tag">Group C</span><span class="tag">OSINT</span><span class="tag">Background Information</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group C</div><h2>Five skill areas, one open-source picture</h2><table><thead><tr>
+<th>Ref</th>
+<th>Skill area</th>
+<th>Focus</th>
+</tr></thead><tbody>
+<tr><td>C1</td><td>Registration Records</td><td>WHOIS — IP and domain registries</td></tr>
+<tr><td>C2</td><td>Domain Name Server (DNS)</td><td>Records, zone transfers, dynamic DNS, fast-flux</td></tr>
+<tr><td>C3</td><td>Open Source Investigation &amp; Web Enumeration</td><td>Search engines, online sources, theHarvester</td></tr>
+<tr><td>C4</td><td>Extraction of Document Metadata</td><td>Hidden data inside files</td></tr>
+<tr><td>C5</td><td>Community Knowledge</td><td>Threat reports, resources, false positives</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Read registration records</b> WHOIS information on IP addresses and domains</li>
+<li><b>Interpret DNS records</b> A, CNAME, NS, SOA, MX, TXT, PTR, HINFO</li>
+<li><b>Explain zone transfers and fast-flux</b> and the security implications of dynamic DNS</li>
+<li><b>Conduct open-source investigation</b> search engines, directories, people search, archives, social media</li>
+<li><b>Extract document metadata</b> and understand the risks it exposes</li>
+<li><b>Use community knowledge</b> threat reports, security resources, and eliminate false positives</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic C1 · Registration records</div><h2>What are registration records?</h2><ul>
+<li><b>Stored in the WHOIS database</b> information about IP addresses and domain names</li>
+<li><b>Used by registrars</b> GoDaddy, Fasthosts and many others</li>
+<li><b>A free resource</b> accessible to anyone without cost</li>
+<li><b>Reveals individuals and organisations</b> registrant type, address and contact details</li>
+<li><b>Looked up online</b> whois.net, whois.com, who.is, whois.domaintools.com</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic C1 · Registration records</div><h2>Information stored in registration records</h2><ul>
+<li><b>Registrant type</b> whether the holder is an individual or an organisation</li>
+<li><b>Registrant&#x27;s address</b> postal and registered address of the holder</li>
+<li><b>Registrant&#x27;s contact details</b> telephone, email and technical contacts</li>
+<li><b>Registrar</b> the company through which the domain was registered</li>
+<li><b>Registration dates</b> created, updated and expiry</li>
+<li><b>Name servers</b> the authoritative DNS servers for the domain</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic C1 · Registration records</div><h2>WHOIS in the investigation</h2><ul>
+<li><b>Valuable intelligence</b> WHOIS can hold valuable information about a target</li>
+<li><b>Privacy protection</b> registrant details can be removed from the database</li>
+<li><b>Varying depth</b> some websites retrieve more information than others</li>
+<li><b>Cross-check</b> correlate WHOIS data with DNS and other open sources</li>
+<li><b>Limits</b> anonymised and proxy-registered domains reveal little</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic C2 · DNS</div><h2>The Domain Name System</h2><ul>
+<li><b>A hierarchical, distributed database</b> shared among DNS name servers</li>
+<li><b>Forward lookups</b> resolve a name such as www.pgittl.com to an address</li>
+<li><b>Reverse lookups</b> map an address back to a name</li>
+<li><b>Widely used</b> web browsers, email clients and utilities such as ping</li>
+<li><b>Two-step resolution</b> root-level servers direct to top-level, then second-level servers</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic C2 · DNS</div><h2>Structure, interpretation and analysis of DNS records</h2><table><thead><tr>
+<th>Record</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr><td>A</td><td>Holds the fully qualified domain name → address mapping</td></tr>
+<tr><td>CNAME</td><td>Alias; multiple services via one name or address (e.g. FTP and HTTP)</td></tr>
+<tr><td>NS</td><td>Identifies the authoritative name servers for the domain</td></tr>
+<tr><td>SOA</td><td>Start of authority — variety of information about the domain and its zone</td></tr>
+<tr><td>MX</td><td>Specifies the mail server through which email should be delivered</td></tr>
+<tr><td>TXT</td><td>Free-form text of any type (often SPF / DKIM)</td></tr>
+<tr><td>PTR</td><td>Maps a network interface (IP) to a host name</td></tr>
+<tr><td>HINFO</td><td>Information about the server&#x27;s hardware and operating system</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic C2 · DNS</div><h2>DNS zone transfers</h2><ul>
+<li><b>Replication</b> transfers DNS information to another DNS server</li>
+<li><b>Full transfer</b> resource intensive and a lengthy process</li>
+<li><b>Incremental transfer</b> less resource intensive and quicker</li>
+<li><b>Facilitates attacks</b> transferred information can reveal the whole zone</li>
+<li><b>Preventive measure</b> restrict transfers to authorised DNS servers</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic C2 · DNS</div><h2>Dynamic DNS and fast-flux DNS</h2><ul>
+<li><b>Dynamic DNS (DDNS)</b> maps dynamic IP addresses to domain names</li>
+<li><b>Automation</b> DDNS providers automate the constant record updates</li>
+<li><b>Security implications</b> phishing and malicious sites that constantly change IP</li>
+<li><b>Hard to shut down</b> constantly moving targets are difficult to take offline</li>
+<li><b>Fast-flux DNS</b> changes IP addresses every couple of minutes</li>
+<li><b>Cybercriminal use</b> to hide their location and avoid detection</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic C2 · DNS</div><h2>DNS information-gathering tools</h2><table><thead><tr>
+<th>Tool</th>
+<th>Typical command</th>
+<th>Use</th>
+</tr></thead><tbody>
+<tr><td>DNSRecon</td><td>dnsrecon -d [domain]</td><td>Enumeration and zone-transfer checks</td></tr>
+<tr><td>Host</td><td>host -l [domain]</td><td>Simple lookups and zone listing</td></tr>
+<tr><td>Nslookup</td><td>nslookup [domain]</td><td>Interactive DNS queries</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Topic C3 · OSINT</div><h2>How search engines work</h2><ol class="steps"><li><b>Web crawlers hunt</b><br>for new and updated content</li><li><b>Copy pages</b><br>for the purpose of indexing</li><li><b>Users search</b><br>the indexed data</li><li><b>Garbage in, garbage out</b><br>search engines are only as good as the data collected and indexed</li></ol></section>
+<section class="slide"><div class="kick">Topic C3 · OSINT</div><h2>Advanced search operators</h2><table><thead><tr>
+<th>Operator</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr><td>intitle:</td><td>Searches page titles for the term</td></tr>
+<tr><td>inurl:</td><td>Searches URLs for the term</td></tr>
+<tr><td>filetype:</td><td>Searches a certain file type</td></tr>
+<tr><td>site:</td><td>Searches a specific website</td></tr>
+<tr><td>Google Hacking Database (GHDB)</td><td>preconfigured operators tailored to identify sensitive information — exploit-db.com</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic C3 · OSINT</div><h2>Online intelligence sources</h2><ul>
+<li><b>Meta-search engines</b> aggregate results across multiple engines</li>
+<li><b>Online directories</b> businesses by name, location and categorisation</li>
+<li><b>People-search websites</b> find a person by name and location</li>
+<li><b>Archived websites</b> free snapshots of historical web pages</li>
+<li><b>Interactive maps</b> Google Maps / Earth — street view, terrain, live traffic</li>
+<li><b>Social networking</b> Facebook, Twitter, LinkedIn — &#x27;post first, think second&#x27;</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic C3 · OSINT</div><h2>theHarvester</h2><ul>
+<li><b>Gathers from public sources</b> emails, subdomains, hosts, employee names, open ports and banners</li>
+<li><b>Time delays</b> between requests to stay under the radar</li>
+<li><b>Active enumeration</b> DNS enumeration, reverse lookups, TLD expansion</li>
+<li><b>SHODAN integration</b> open ports and banners from the computer database</li>
+<li><b>Output</b> save to XML and HTML with a basic graph and stats</li>
+<li><b>Examples</b> theharvester -d microsoft.com -l 500 -b google</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic C4 · Document metadata</div><h2>Extraction of document metadata</h2><ul>
+<li><b>Hidden data</b> documents carry metadata beyond the visible content</li>
+<li><b>Author and organisation</b> the name of the creator and their company</li>
+<li><b>Dates and times</b> created, modified and printed</li>
+<li><b>Application and paths</b> the software used and the machine / folder it came from</li>
+<li><b>Embedded objects and revisions</b> hidden sheets, tracked changes, prior text</li>
+<li><b>Tools</b> exiftool and similar metadata readers</li>
+<li><b>Risk</b> metadata leaks information the author never intended to share</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic C5 · Community knowledge</div><h2>Community knowledge and threat reports</h2><ul>
+<li><b>Threat reports</b> readily available — summaries of threats, key findings, concepts and forecasts</li>
+<li><b>VirusTotal</b> multi-engine file and URL reputation checking</li>
+<li><b>Open-source research</b> cheap, global, and tried and tested</li>
+<li><b>Public wikis</b> and open security communities</li>
+<li><b>Free investigation tools</b> Autopsy for disk analysis, Live View for imaging</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic C5 · Community knowledge</div><h2>Eliminating false positives</h2><ul>
+<li><b>False dependence on commercial tools</b> a single vendor&#x27;s verdict is not proof</li>
+<li><b>Use multiple vendors&#x27; data</b> cross-check one engine&#x27;s result against others</li>
+<li><b>Recognise and analyse results yourself</b> do not outsource judgement to a scanner</li>
+<li><b>Interpret reports</b> read the technical detail, not just the verdict</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic C5 · Community knowledge</div><h2>Open-source security resources</h2><table><thead><tr>
+<th>Resource</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr><td>OWASP</td><td>Application security guidance and the Top Ten</td></tr>
+<tr><td>OSS-Security Wiki</td><td>open-source security mailing list and wiki</td></tr>
+<tr><td>OSSTMM</td><td>Open Source Security Testing Methodology Manual</td></tr>
+<tr><td>Pentest Standard</td><td>structured penetration-testing methodology</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Consolidation · Group C</div><h2>Group C at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Topic</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>C1</td><td>Registration records</td><td>WHOIS — who registered it, where, and when</td></tr>
+<tr><td>C2</td><td>DNS</td><td>Records, zone transfers, dynamic and fast-flux DNS</td></tr>
+<tr><td>C3</td><td>OSINT &amp; web enumeration</td><td>Search operators, online sources, theHarvester</td></tr>
+<tr><td>C4</td><td>Document metadata</td><td>Hidden data inside files</td></tr>
+<tr><td>C5</td><td>Community knowledge</td><td>Threat reports, resources, false positives</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;WHOIS&#x27;, &#x27;registration records reveal registrant, registrar, dates and name servers&#x27;)</li><li>(&#x27;DNS records&#x27;, &#x27;each type — A, CNAME, NS, SOA, MX, TXT, PTR, HINFO — has a distinct role&#x27;)</li><li>(&#x27;DNS risks&#x27;, &#x27;zone transfers, dynamic DNS and fast-flux all enable attack and evasion&#x27;)</li><li>(&#x27;OSINT is layered&#x27;, &#x27;search operators, directories, archives, social media and theHarvester&#x27;)</li><li>(&#x27;Metadata leaks&#x27;, &#x27;documents carry hidden data the author never intended to share&#x27;)</li><li>(&#x27;Community knowledge&#x27;, &#x27;threat reports and multi-vendor checks eliminate false positives&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (Group C)</h2><ul><li>Which DNS record identifies the authoritative name servers for a domain?</li><li>What makes a fast-flux domain hard to shut down?</li><li>What does the intitle: operator do in a Google search?</li><li>Which tool gathers emails, subdomains and hosts from public sources?</li><li>How do you best eliminate a false positive in malware analysis?</li></ul></section>
+<section class="slide"><h2>Next session: Network Intrusion Analysis I</h2></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 24</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>

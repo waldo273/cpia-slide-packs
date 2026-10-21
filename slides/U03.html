@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Core Technical Skills II: Tools, Fingerprinting &amp; Network Access Control - slide pack</title>
+<style>
+:root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
+--muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+font-family:Arial,"Liberation Sans",sans-serif}
+.deck{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
+border-bottom:2px solid var(--orange);background:#0d0d0d;font-size:12.5px;color:var(--muted)}
+.bar b{color:#fff;font-weight:bold;letter-spacing:.6px}
+.slide{flex:1;overflow:auto;padding:34px 46px;display:none}
+.slide.on{display:block}
+.kick{display:inline-block;background:var(--orange-d);color:#fff;font-size:11px;font-weight:bold;
+letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:11px;margin-bottom:14px}
+h1{font-size:38px;line-height:1.15;color:#fff;margin:6px 0 12px}
+h2{font-size:27px;line-height:1.2;color:#fff;margin:4px 0 18px}
+.sub{font-size:16px;color:var(--muted);max-width:60ch}
+.tags{margin-top:18px}
+.tag{display:inline-block;border:1px solid var(--line);color:var(--body);font-size:12px;
+padding:3px 9px;border-radius:10px;margin:0 6px 6px 0}
+ul,ol{margin:0;padding-left:20px}
+li{margin:0 0 11px;color:var(--body);font-size:16.5px;line-height:1.45}
+li b{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:6px}
+th{background:var(--orange);color:#111;text-align:left;padding:8px 10px;font-size:12.5px;
+text-transform:uppercase;letter-spacing:.4px}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#141414}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:10px}
+.steps li{position:relative;padding-left:44px;margin:0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
+width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
+display:flex;align-items:center;justify-content:center;font-size:14px}
+.disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
+font-size:16px}
+.nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
+.nav button{background:var(--panel);color:#fff;border:1px solid var(--line);border-radius:7px;
+padding:7px 14px;font-size:13px;cursor:pointer}
+.nav button:hover{border-color:var(--orange);color:var(--orange)}
+.count{margin-left:auto;font-size:12.5px;color:var(--muted);align-self:center}
+@media print{
+ html,body{background:#fff;color:#111;height:auto}
+ .bar,.nav{display:none}
+ .deck{display:block;height:auto}
+ .slide{display:block !important;height:auto;overflow:visible;page-break-after:always;padding:20px}
+ h1,h2{color:#111} .sub,.tag{color:#333} .kick{background:#ff6600;color:#111}
+ li,td{color:#111} tr:nth-child(even) td{background:#f4f4f4}
+ th{background:#ff6600;color:#111} .steps li:before{background:#ff6600;color:#111}
+}
+</style></head>
+<body><div class="deck">
+<div class="bar"><b>MY CYBER ACADEMY</b><span>Core Technical Skills II: Tools, Fingerprinting &amp; Network Access Control</span></div>
+<section class="slide"><div class="kick">Session 3 of 14</div><h1>Core Technical Skills II: Tools, Fingerprinting &amp; Network Access Control</h1><p class="sub">The tools of the trade, how to identify a target&#x27;s operating system and applications from evidence, and the role of network access control.</p><div class="tags"><span class="tag">Group B</span><span class="tag">Tools</span><span class="tag">Fingerprinting</span><span class="tag">NAC</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group B</div><h2>Group B continues: tools, fingerprinting and NAC</h2><table><thead><tr>
+<th>Area</th>
+<th>Ref</th>
+<th>Focus</th>
+</tr></thead><tbody>
+<tr><td>Common Classes of Tools</td><td>B3</td><td>Network monitoring, memory acquisition, forensic analysis</td></tr>
+<tr><td>OS Fingerprinting</td><td>B4</td><td>Passive/active techniques; p0f, NetworkMiner</td></tr>
+<tr><td>Application Fingerprinting</td><td>B5</td><td>Metadata, banners, user-agent strings, email headers</td></tr>
+<tr><td>Network Access Control</td><td>B6</td><td>Assessing device authentication and posture before network access</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<li><b>Describe the common tool classes</b> network monitoring, memory acquisition, live collection and forensic analysis</li>
+<li><b>Name and compare key tools</b> Wireshark, NetworkMiner, FTK Imager Lite, Volatility, Memoryze, Autopsy, TSK</li>
+<li><b>Explain passive OS fingerprinting</b> and how packet values reveal the target OS</li>
+<li><b>Apply application fingerprinting</b> via metadata, service banners, user-agent strings and email headers</li>
+<li><b>Analyse network access control</b> device authentication and posture assessment</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B3 · Tools</div><h2>Common classes of tools</h2><ul>
+<li><b>Network monitoring</b> capture and inspect network traffic</li>
+<li><b>Memory acquisition</b> capture volatile memory for analysis</li>
+<li><b>Forensic analysis</b> examine artifacts and reconstruct events</li>
+<li><b>These three categories</b> form the foundation of any intrusion analysis or reverse engineering engagement</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B3 · Network tools</div><h2>Network capturing and monitoring tools</h2><table><thead><tr>
+<th>Tool</th>
+<th>Description</th>
+</tr></thead><tbody>
+<tr><td>Wireshark</td><td>Free, open source; monitor, capture and analyse network packets</td></tr>
+<tr><td>NetworkMiner</td><td>Similar to Wireshark; presents data in a human-readable format; adds fingerprinting techniques</td></tr>
+<tr><td>MS Network Monitor / Message Analyzer</td><td>Microsoft tools to troubleshoot and decipher network protocols; capture, view and analyse data</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B3 · Memory tools</div><h2>Memory acquisition tools</h2><table><thead><tr>
+<th>Tool</th>
+<th>Key features</th>
+</tr></thead><tbody>
+<tr><td>FTK Imager Lite</td><td>GUI-based; acquires physical memory and the pagefile</td></tr>
+<tr><td>Volatility</td><td>Free, open source; supports 32- and 64-bit systems; acquires and analyses live memory; Windows, Linux and macOS</td></tr>
+<tr><td>Memoryze</td><td>Free command-line utility; live memory analysis; MemoryDD acquires physical memory, ProcessDD acquires a process address space</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B3 · Live collection</div><h2>Live data collection on Windows (1)</h2><table><thead><tr>
+<th>Goal</th>
+<th>Command</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr><td>System info</td><td>systeminfo</td><td>OS details, hardware and network information</td></tr>
+<tr><td>User accounts</td><td>net user</td><td>List all local user accounts</td></tr>
+<tr><td>Groups</td><td>net group</td><td>List groups on a local server</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B3 · Live collection</div><h2>Live data collection on Windows (2)</h2><table><thead><tr>
+<th>Goal</th>
+<th>Command</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr><td>Processes</td><td>tasklist</td><td>List the current processes</td></tr>
+<tr><td>Ports &amp; processes</td><td>netstat -aon</td><td>Identify ports and their owning processes</td></tr>
+<tr><td>Scripting</td><td>PowerShell</td><td>CLI and scripting language for admins and power users</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Topic B3 · Live collection</div><h2>Autoruns, opened files and the registry</h2><ul>
+<li><b>Autoruns</b> shows automatic startup programs, services and drivers</li>
+<li><b>Opened Files View</b> lists all files currently opened on the system</li>
+<li><b>Windows Registry</b> acquire with FTK Imager Lite, analyse with Registry Browser</li>
+<li><b>Persistence insight</b> startup entries and open files reveal malware footholds</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B3 · Password &amp; forensics</div><h2>Password recovery and forensic analysis tools</h2><ul>
+<li><b>Password recovery</b> recover Windows user account passwords from the SAM and SYSTEM registry files using Ophcrack</li>
+<li><b>Autopsy</b> an open-source forensic analysis tool</li>
+<li><b>The Sleuth Kit (TSK)</b> volume and file system analysis with a plug-in framework</li>
+<li><b>Reconstruct events</b> these tools examine artifacts and rebuild what happened</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B4 · OS fingerprinting</div><h2>Passive OS fingerprinting</h2><ul>
+<li><b>Stealthy capture</b> stealthily capture network packets to avoid detection</li>
+<li><b>Gather intelligence</b> learn more information about a target without touching it</li>
+<li><b>Not 100% accurate</b> the results provide a foundation rather than certainty</li>
+<li><b>Used by attackers too</b> the same technique feeds reconnaissance</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B4 · OS fingerprinting</div><h2>Packet value matching</h2><ul>
+<li><b>Match known values</b> passive fingerprinting matches well-known values in packets</li>
+<li><b>TTL</b> time-to-live values differ by OS</li>
+<li><b>Window size</b> TCP window sizes are characteristic</li>
+<li><b>Other fields</b> don&#x27;t-fragment flag, type of service, presence or absence of options</li>
+<li><b>Tool databases</b> accuracy depends entirely on the signatures stored in the tool&#x27;s database</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B4 · p0f</div><h2>The p0f OS fingerprinting tool</h2><ul>
+<li><b>Developer</b> Michal Zalewski</li>
+<li><b>Platform</b> Linux, command-line based</li>
+<li><b>Capabilities</b> monitors, captures and examines traffic without sending any packets to the target</li>
+<li><b>Command</b> p0f -i eth0 -p</li>
+<li><b>Truly passive</b> because it sends nothing, it stays stealthy</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B4 · NetworkMiner</div><h2>NetworkMiner as a passive fingerprinting tool</h2><ul>
+<li><b>Developer</b> Netresec</li>
+<li><b>Platform</b> Windows, graphical user interface</li>
+<li><b>Passive OS fingerprinting</b> identifies the target operating system from observed traffic</li>
+<li><b>Two versions</b> an open-source version with few limitations and a professional version with additional features</li>
+<li><b>Complement to p0f</b> a GUI alternative for Windows-based analysis</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B4 · Active vs passive</div><h2>Active versus passive fingerprinting</h2><table><thead><tr>
+<th>Aspect</th>
+<th>Passive</th>
+<th>Active</th>
+</tr></thead><tbody>
+<tr><td>Traffic sent</td><td>None — observes existing traffic</td><td>Sends crafted packets to the target</td></tr>
+<tr><td>Detection risk</td><td>Low, stealthy</td><td>Higher — target may notice</td></tr>
+<tr><td>Examples</td><td>p0f, NetworkMiner passive analysis</td><td>Tools that probe and read responses</td></tr>
+<tr><td>Analyst use</td><td>Safe for sensitive engagements</td><td>Useful but noisier</td></tr>
+</tbody></table></section>
+<section class="slide"><div class="kick">Discussion</div><h2></h2><div class="disc"></div></section>
+<section class="slide"><div class="kick">Topic B5 · Application fingerprinting</div><h2>Application fingerprinting</h2><ul>
+<li><b>Identify applications and versions</b> determine server types and application versions from evidential data</li>
+<li><b>Four main methods</b> metadata, service banners, user-agent strings, email headers</li>
+<li><b>Client software</b> versions identified from metadata within common document types</li>
+<li><b>Server software</b> versions identified from banners and headers</li>
+<li><b>Legitimate and illegitimate</b> the same techniques serve both defence and attack</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B5 · Metadata</div><h2>Document metadata</h2><ul>
+<li><b>Rich in information</b> metadata yields extensive application information, often hidden from view</li>
+<li><b>Word Metadata Dumper</b> a Perl script that extracts metadata from Office documents (not the latest formats)</li>
+<li><b>DOCX files</b> latest Office types can simply be extracted with a compression tool</li>
+<li><b>app.xml</b> the docProps\app.xml file holds the application name</li>
+<li><b>PDF</b> pdfinfo is a portable document information extractor for Windows and Linux</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B5 · Banners</div><h2>Banner grabbing</h2><ul>
+<li><b>Information-gathering technique</b> gather the application name and version number</li>
+<li><b>Assess security risk</b> the banner reveals how dated or vulnerable a service may be</li>
+<li><b>Example</b> FTP on an open port returning &#x27;FileZilla 0.9.41 beta&#x27;</li>
+<li><b>Server identification</b> banners identify the application, e.g. the web server software</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B5 · User agents</div><h2>User-agent strings and spoofing</h2><ul>
+<li><b>Why they exist</b> browsers advertise themselves so servers can optimise layout, e.g. mobile versus PC</li>
+<li><b>Contains system info</b> the user-agent string includes browser and OS details</li>
+<li><b>Easily spoofed</b> anyone can modify the user-agent to pretend to be another browser or device</li>
+<li><b>Content gating</b> spoofing can reveal content restricted to certain browsers or devices</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B5 · Email headers</div><h2>Email headers</h2><ul>
+<li><b>Two parts</b> an email has a header and a body</li>
+<li><b>Tracing the sender</b> headers can be used to trace the location of the sender</li>
+<li><b>Basic fields</b> FROM, TO, DATE, SUBJECT, CC (carbon copy) and BC (blind copy)</li>
+<li><b>Viewing headers</b> Gmail &#x27;Show original&#x27;; Thunderbird &#x27;Message Source&#x27;; Outlook &#x27;Properties&#x27;</li>
+</ul></section>
+<section class="slide"><div class="kick">Topic B6 · NAC</div><h2>Network Access Control (NAC) analysis</h2><ul>
+<li><b>What NAC does</b> authenticates and authorises devices before granting network access</li>
+<li><b>Posture assessment</b> checks that a device meets policy (patches, antivirus, compliance)</li>
+<li><b>Common mechanisms</b> 802.1X port-based access control, endpoint agents, RADIUS backends</li>
+<li><b>Analyst relevance</b> assess whether NAC logs capture who and what connected, and any bypass</li>
+<li><b>Evidence value</b> NAC records tie a device identity to a time and place on the network</li>
+</ul></section>
+<section class="slide"><div class="kick">Consolidation · Group B</div><h2>B3 to B6 at a glance</h2><table><thead><tr>
+<th>Ref</th>
+<th>Topic</th>
+<th>Core idea</th>
+</tr></thead><tbody>
+<tr><td>B3</td><td>Common Classes of Tools</td><td>Network monitoring, memory acquisition, live collection, forensic analysis</td></tr>
+<tr><td>B4</td><td>OS Fingerprinting</td><td>Passive packet-value matching; p0f, NetworkMiner</td></tr>
+<tr><td>B5</td><td>Application Fingerprinting</td><td>Metadata, banners, user-agent strings, email headers</td></tr>
+<tr><td>B6</td><td>Network Access Control</td><td>Device authentication and posture assessment</td></tr>
+</tbody></table></section>
+<section class="slide"><h2></h2><ul><li>(&#x27;Tool classes&#x27;, &#x27;network monitoring, memory acquisition and forensic analysis cover most work&#x27;)</li><li>(&#x27;Live collection&#x27;, &quot;systeminfo, net user, tasklist and netstat -aon reveal a host&#x27;s state&quot;)</li><li>(&#x27;Passive fingerprinting&#x27;, &#x27;p0f and NetworkMiner identify the OS from packet values without sending traffic&#x27;)</li><li>(&#x27;Application fingerprinting&#x27;, &#x27;metadata, banners, user-agent strings and email headers reveal software versions&#x27;)</li><li>(&#x27;NAC analysis&#x27;, &#x27;device authentication and posture logs tie identity to time and place&#x27;)</li></ul></section>
+<section class="slide"><h2>Consolidation quiz (B3 · B6)</h2><ul><li>Which tool acquires physical memory and the pagefile with a GUI?</li><li>Which OS fingerprinting tool sends no packets to the target?</li><li>Where does a DOCX file store its application name?</li><li>Which live-collection command lists current processes?</li><li>What is the core purpose of network access control?</li></ul></section>
+<section class="slide"><h2>Next session: Core Technical Skills III</h2></section>
+<div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
+<span class="count" id="c">1 / 26</span></div>
+</div><script>
+let i=0;const s=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
+document.getElementById('c').textContent=(i+1)+' / '+s.length;}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);
+if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;
+if(Math.abs(d)>40)show(d<0?i+1:i-1);x0=null;});
+show(0);
+</script></body></html>
