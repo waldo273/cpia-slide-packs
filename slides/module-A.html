@@ -55,13 +55,13 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 </style></head>
 <body><div class="deck">
 <div class="bar"><b>MY CYBER ACADEMY</b><span>Slide Pack Module A</span></div>
-<section class="slide"><div class="kick">Slide pack</div><h1>Module A: Soft skills and incident handling</h1><p class="sub">1 units, 21 slides. Use the arrows or the Back and Next buttons.</p></section>
+<section class="slide"><div class="kick">Slide pack</div><h1>Module A: Soft skills and incident handling</h1><p class="sub">1 units, 22 slides. Use the arrows or the Back and Next buttons.</p></section>
 <section class="slide"><div class="kick">Unit 01 of 14</div><h1>Course introduction, soft skills and incident handling</h1><p class="sub">The deck for this unit follows.</p></section>
-<section class="slide"><div class="kick">Unit U1 of 14</div><h1>Course Introduction &amp; Soft Skills / Incident Handling</h1><p class="sub">The analyst mindset, the IR lifecycle, and the law and threat models that frame every engagement.</p><div class="tags"><span class="tag">Group A</span><span class="tag">Soft Skills</span><span class="tag">Incident Handling</span></div></section>
-<section class="slide"><div class="kick">Welcome · The course</div><h2>Fourteen sessions, six knowledge groups, one certification</h2><table><thead><tr>
+<section class="slide"><div class="kick">Unit U01</div><h1>Course Introduction &amp; Soft Skills / Incident Handling</h1><p class="sub">The analyst mindset, the IR lifecycle, and the law and threat models that frame every engagement.</p><div class="tags"><span class="tag">Group A</span><span class="tag">Soft Skills</span><span class="tag">Incident Handling</span></div></section>
+<section class="slide"><div class="kick">Welcome · The course</div><h2>Fourteen units, six knowledge groups, one certification</h2><table><thead><tr>
 <th>Knowledge Group</th>
 <th>Focus</th>
-<th>Sessions</th>
+<th>units</th>
 </tr></thead><tbody>
 <tr><td>A · Soft Skills &amp; Incident Handling</td><td>Engagement, chronology, law, threat</td><td>1</td></tr>
 <tr><td>B · Core Technical Skills</td><td>Protocols, tools, fingerprinting, crypto, host analysis</td><td>2–4</td></tr>
@@ -70,7 +70,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <tr><td>E · Analysing Host Intrusions</td><td>Acquisition, Windows FS, registry, memory, malware</td><td>9–11</td></tr>
 <tr><td>F · Reverse Engineering Malware</td><td>Anti-RE, PE format, obfuscation, behaviour</td><td>12–14</td></tr>
 </tbody></table></section>
-<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<section class="slide"><div class="kick">unit objectives</div><h2>By the end of this unit you will be able to</h2><ul>
 <li><b>Describe the CPIA exam</b> its six knowledge groups and how this course maps to them</li>
 <li><b>Explain the analyst role</b> the traits and experience that make a good analyst, and the impact of bias</li>
 <li><b>State the IR lifecycle</b> suspect, acquire, analyse, report, deploy countermeasures</li>
@@ -83,7 +83,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <li><b>Logical and independent mind</b> question assumptions and reason clearly</li>
 <li><b>Attention to detail</b> the small clues carry the investigation</li>
 <li><b>Objectivity and sensitivity</b> handle confidential information with care</li>
-<li><b>Concentration and patience</b> long analysis sessions, careful work</li>
+<li><b>Concentration and patience</b> long analysis units, careful work</li>
 <li><b>Confidence in your own judgement</b> defensible conclusions</li>
 </ul></section>
 <section class="slide"><div class="kick">Topic A1 · The analyst</div><h2>Where analyst skills come from</h2><table><thead><tr>
@@ -143,6 +143,18 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <li><b>Four stages</b> assessment scope; threat agent &amp; vulnerability analysis; scenario construction &amp; system modelling; evaluation</li>
 <li><b>Scalable</b> built for payment systems, extensible to enterprise networks</li>
 </ul></section>
+<section class="slide"><div class="kick">Topic A5 · Threat assessment</div><h2>STRIDE for the risk owner</h2><table><thead><tr>
+<th>STRIDE</th>
+<th>Threat class</th>
+<th>The owner asks</th>
+</tr></thead><tbody>
+<tr><td>S</td><td>Spoofing</td><td>Can someone claim another identity in our logs?</td></tr>
+<tr><td>T</td><td>Tampering</td><td>Can evidence be altered before the report?</td></tr>
+<tr><td>R</td><td>Repudiation</td><td>Can a party deny the action, and do we hold proof?</td></tr>
+<tr><td>I</td><td>Information disclosure</td><td>Who can read the data, at rest and in transit?</td></tr>
+<tr><td>D</td><td>Denial of service</td><td>What stops the investigation at the worst moment?</td></tr>
+<tr><td>E</td><td>Elevation of privilege</td><td>Can a low privilege account reach the evidence?</td></tr>
+</tbody></table></section>
 <section class="slide"><div class="kick">Topic A5 · Threat assessment</div><h2>Risk treatment options</h2><table><thead><tr>
 <th>Option</th>
 <th>Meaning</th>
@@ -172,9 +184,9 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 </tbody></table></section>
 <section class="slide"><h2></h2><ul><li>(&#x27;The analyst role&#x27;, &#x27;demands objectivity, attention to detail and active bias management&#x27;)</li><li>(&#x27;IR is a lifecycle&#x27;, &#x27;suspect → acquire → analyse → report → countermeasure&#x27;)</li><li>(&#x27;The kill chain&#x27;, &#x27;seven phases — recon to actions on objective&#x27;)</li><li>(&#x27;Law frames the work&#x27;, &#x27;evidence integrity, confidentiality and legality&#x27;)</li><li>(&#x27;Threats are assessed&#x27;, &#x27;with the TAME model and explicit risk treatment&#x27;)</li></ul></section>
 <section class="slide"><h2>confirmation quiz (Group A)</h2><ul><li>Which IR phase collects memory dumps and packet captures?</li><li>What is the key difference between a state and a non-state attacker?</li><li>Risk transference means the risk is:</li><li>Which kill chain phase follows &#x27;installation&#x27;?</li><li>Why does confirmation bias threaten an investigation?</li></ul></section>
-<section class="slide"><h2>Next session: Core Technical Skills I</h2></section>
+<section class="slide"><h2>Next unit: Core Technical Skills I</h2></section>
 <div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
-<span class="count" id="c">1 / 23</span></div>
+<span class="count" id="c">1 / 24</span></div>
 </div><script>
 let i=0;const s=[...document.querySelectorAll('.slide')];
 function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('on',k===i));
