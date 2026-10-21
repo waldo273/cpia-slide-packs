@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en-GB"><head><meta charset="utf-8"/>
-<meta name="robots" content="noindex,nofollow"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Reverse Engineering Malware II: Binary Structure, Crypto, Processors &amp; PE - slide pack</title>
 <style>
@@ -55,8 +54,8 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 </style></head>
 <body><div class="deck">
 <div class="bar"><b>MY CYBER ACADEMY</b><span>Reverse Engineering Malware II: Binary Structure, Crypto, Processors &amp; PE</span></div>
-<section class="slide"><div class="kick">Session 13 of 14</div><h1>Reverse Engineering Malware II: Binary Structure, Crypto, Processors &amp; PE</h1><p class="sub">Windows internals, the API, calling conventions, cryptography, the x86/x64 processor and the PE format.</p><div class="tags"><span class="tag">Group F</span><span class="tag">PE Format</span><span class="tag">Processors</span></div></section>
-<section class="slide"><div class="kick">Knowledge Group F · The course</div><h2>Session 13 covers six skill areas</h2><table><thead><tr>
+<section class="slide"><div class="kick">Unit U13 of 14</div><h1>Reverse Engineering Malware II: Binary Structure, Crypto, Processors &amp; PE</h1><p class="sub">Windows internals, the API, calling conventions, cryptography, the x86/x64 processor and the PE format.</p><div class="tags"><span class="tag">Group F</span><span class="tag">PE Format</span><span class="tag">Processors</span></div></section>
+<section class="slide"><div class="kick">Knowledge Group F · The course</div><h2>Unit U13 covers six skill areas</h2><table><thead><tr>
 <th>Ref</th>
 <th>Skill area</th>
 <th>Focus</th>
@@ -207,7 +206,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <tr><td>F8</td><td>Executable File Formats</td><td>PE headers, sections, imports, exports, relocations</td></tr>
 </tbody></table></section>
 <section class="slide"><h2></h2><ul><li>(&#x27;Windows has two modes&#x27;, &#x27;kernel (ring 0) and user (ring 3), mediated by the OS&#x27;)</li><li>(&#x27;The API is the surface&#x27;, &#x27;malware imports at load or run time, often resolving by hash&#x27;)</li><li>(&#x27;Calling conventions matter&#x27;, &#x27;cdecl, stdcall and fastcall define who cleans the stack&#x27;)</li><li>(&#x27;Crypto hides and verifies&#x27;, &#x27;hashing, symmetric and asymmetric ciphers, and encoding&#x27;)</li><li>(&#x27;The processor exposes registers&#x27;, &#x27;x86/x64 registers, virtual memory and the MMU&#x27;)</li><li>(&#x27;The PE format is readable&#x27;, &#x27;headers, sections, imports, exports, resources and relocations&#x27;)</li></ul></section>
-<section class="slide"><h2>Consolidation quiz (Group F II)</h2><ul><li>Which PE header starts with the &#x27;MZ&#x27; signature?</li><li>What does the MMU translate?</li><li>In the stdcall convention, who cleans up the stack?</li><li>Which register is used as the loop counter?</li><li>What does ASLR do that requires relocations?</li></ul></section>
+<section class="slide"><h2>confirmation quiz (Group F II)</h2><ul><li>Which PE header starts with the &#x27;MZ&#x27; signature?</li><li>What does the MMU translate?</li><li>In the stdcall convention, who cleans up the stack?</li><li>Which register is used as the loop counter?</li><li>What does ASLR do that requires relocations?</li></ul></section>
 <section class="slide"><h2>Next session: Hiding, Reporting, Obfuscation &amp; Behaviour</h2></section>
 <div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
 <span class="count" id="c">1 / 23</span></div>
