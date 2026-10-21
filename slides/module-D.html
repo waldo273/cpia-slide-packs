@@ -7,7 +7,8 @@
 :root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
 --muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+html,body{margin:0;height:100%;color:var(--body);
+background:linear-gradient(112deg,#0b0b0b 0%,#161616 38%,#4d2100 68%,#a34a00 85%,#ff6600 100%);
 font-family:Arial,"Liberation Sans",sans-serif}
 .deck{height:100%;display:flex;flex-direction:column}
 .bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
@@ -36,6 +37,9 @@ tr:nth-child(even) td{background:#141414}
 .steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
 width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
 display:flex;align-items:center;justify-content:center;font-size:14px}
+img.hero{position:absolute;right:18px;bottom:0;height:74%;width:auto;
+ filter:drop-shadow(-10px 0 24px rgba(0,0,0,.5))}
+.slide{position:relative}
 .disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
 font-size:16px}
 .nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
@@ -57,9 +61,9 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <div class="bar"><b>MY CYBER ACADEMY</b><span>Slide Pack Module D</span></div>
 <section class="slide"><div class="kick">Slide pack</div><h1>Module D: Network intrusion analysis</h1><p class="sub">3 units, 67 slides. Use the arrows or the Back and Next buttons.</p></section>
 <section class="slide"><div class="kick">Unit 06 of 14</div><h1>Network intrusion analysis I: capture, logs and network configuration</h1><p class="sub">The deck for this unit follows.</p></section>
-<section class="slide"><div class="kick">Unit U6 of 14</div><h1>Network Intrusion Analysis I: Capture, Logs &amp; Network Config</h1><p class="sub">Collecting the traffic, reading the logs, and spotting the misconfigurations that let attackers in.</p><div class="tags"><span class="tag">Group D</span><span class="tag">Capture</span><span class="tag">Logs</span><span class="tag">Config</span></div></section>
-<section class="slide"><div class="kick">Welcome · Knowledge Group D</div><h2>Three sessions on network intrusion analysis</h2><table><thead><tr>
-<th>Session</th>
+<section class="slide"><div class="kick">Unit U06</div><h1>Network Intrusion Analysis I: Capture, Logs &amp; Network Config</h1><p class="sub">Collecting the traffic, reading the logs, and spotting the misconfigurations that let attackers in.</p><div class="tags"><span class="tag">Group D</span><span class="tag">Capture</span><span class="tag">Logs</span><span class="tag">Config</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group D</div><h2>Three units on network intrusion analysis</h2><table><thead><tr>
+<th>unit</th>
 <th>Focus</th>
 <th>Skill areas</th>
 </tr></thead><tbody>
@@ -67,7 +71,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <tr><td>7</td><td>C2, exfiltration &amp; incoming attacks</td><td>D6 Encryption, D7 C2, D8 Exfiltration, D9 Incoming Attacks</td></tr>
 <tr><td>8</td><td>Recon, spread &amp; false positives</td><td>D10 Recon, D11 Internal Spread &amp; Privilege Escalation, D13 False Positives</td></tr>
 </tbody></table></section>
-<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<section class="slide"><div class="kick">unit objectives</div><h2>By the end of this unit you will be able to</h2><ul>
 <li><b>Collect network traffic</b> with packet analysers, sniffing tools and switches or routers</li>
 <li><b>Design a collection system</b> so enough data is captured without overwhelming devices</li>
 <li><b>Explain SPAN ports and TAPs</b> including aggregating TAPs and fibre access</li>
@@ -163,7 +167,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <li><b>Syslog server</b> receives syslogs from network devices, listens and collects — assists the investigator</li>
 <li><b>Windows event logs</b> locally stored logs on each host</li>
 <li><b>Three well-known logs</b> Application, System and Security</li>
-<li><b>Domain logs</b> record user logins, machines, sessions, password changes and accessed resources</li>
+<li><b>Domain logs</b> record user logins, machines, units, password changes and accessed resources</li>
 </ul></section>
 <section class="slide"><div class="kick">Topic D2 · Log sources</div><h2>Questions to ask of any data source</h2><ul>
 <li><b>How long is the data stored?</b> retention windows vary by source</li>
@@ -209,10 +213,10 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 </tbody></table></section>
 <section class="slide"><h2></h2><ul><li>(&#x27;Capture is a design decision&#x27;, &#x27;scope, filter and place devices so you collect enough without overwhelming&#x27;)</li><li>(&#x27;SPAN vs TAP&#x27;, &#x27;SPAN mirrors a port; TAPs and aggregating TAPs snoop without external power&#x27;)</li><li>(&#x27;Logs tell the story&#x27;, &#x27;proxy, firewall, DNS, DHCP, VPN, syslog and event logs must be correlated&#x27;)</li><li>(&#x27;Config flaws are findings&#x27;, &#x27;routing, DNS leakage and redundant rules weaken the network&#x27;)</li><li>(&#x27;Evasion is deliberate&#x27;, &#x27;spoofing, fragmentation and tunnelling bypass firewall and proxy rules&#x27;)</li><li>(&#x27;Protect the evidence&#x27;, &#x27;encrypt captures, secure the device, remove SPAN ports after use&#x27;)</li></ul></section>
 <section class="slide"><h2>confirmation quiz (D1–D3)</h2><ul><li>Which Wireshark tool is its terminal interface?</li><li>What does a SPAN port do?</li><li>Which log records the IP addresses assigned to hosts?</li><li>What does a changed gateway MAC in arp -a suggest?</li><li>Which technique tunnels data inside ICMP to evade a firewall?</li></ul></section>
-<section class="slide"><h2>Next session: Network Intrusion Analysis II</h2></section>
+<section class="slide"><h2>Next unit: Network Intrusion Analysis II</h2></section>
 <section class="slide"><div class="kick">Unit 07 of 14</div><h1>Network intrusion analysis II: command and control, exfiltration and incoming attacks</h1><p class="sub">The deck for this unit follows.</p></section>
-<section class="slide"><div class="kick">Unit U7 of 14</div><h1>Network Intrusion Analysis II: C2, Exfiltration &amp; Incoming Attacks</h1><p class="sub">Encryption and flow analysis, command-and-control, data exfiltration, and detecting the attacks coming in.</p><div class="tags"><span class="tag">Group D</span><span class="tag">Encryption</span><span class="tag">C2</span><span class="tag">Exfiltration</span><span class="tag">Attacks</span></div></section>
-<section class="slide"><div class="kick">Welcome · Knowledge Group D</div><h2>This session: D6–D9</h2><table><thead><tr>
+<section class="slide"><div class="kick">Unit U07</div><h1>Network Intrusion Analysis II: C2, Exfiltration &amp; Incoming Attacks</h1><p class="sub">Encryption and flow analysis, command-and-control, data exfiltration, and detecting the attacks coming in.</p><div class="tags"><span class="tag">Group D</span><span class="tag">Encryption</span><span class="tag">C2</span><span class="tag">Exfiltration</span><span class="tag">Attacks</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group D</div><h2>This unit: D6–D9</h2><table><thead><tr>
 <th>Ref</th>
 <th>Skill area</th>
 <th>Focus</th>
@@ -222,7 +226,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <tr><td>D8</td><td>Exfiltration of Data</td><td>Covert and open exfiltration, behavioural analysis</td></tr>
 <tr><td>D9</td><td>Incoming Attacks</td><td>DoS, IDS/IPS, signature and statistical detection</td></tr>
 </tbody></table></section>
-<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<section class="slide"><div class="kick">unit objectives</div><h2>By the end of this unit you will be able to</h2><ul>
 <li><b>Analyse traffic flows</b> volume, direction, QoS, timing, custom or standard encryption</li>
 <li><b>Understand channel fingerprinting</b> one source, many destinations, increasing ports, SYN flags</li>
 <li><b>Identify weak obfuscation</b> XOR, ROL, codebooks — and approaches to deobfuscation</li>
@@ -347,10 +351,10 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 </tbody></table></section>
 <section class="slide"><h2></h2><ul><li>(&#x27;Flows are the unit of analysis&#x27;, &#x27;follow TCP streams, list conversations, carve files&#x27;)</li><li>(&#x27;Fingerprint the channel&#x27;, &#x27;one source, many destinations, rising ports, SYN flags&#x27;)</li><li>(&#x27;Weak obfuscation is reversible&#x27;, &#x27;XOR, ROL, codebooks and BASE64 can be deobfuscated&#x27;)</li><li>(&#x27;C2 comes in three flavours&#x27;, &#x27;centralised, distributed and hybrid — each with strengths and weaknesses&#x27;)</li><li>(&#x27;Exfiltration hides in plain sight&#x27;, &#x27;covert tunnels, web apps, WMI; detect by volume and watermark&#x27;)</li><li>(&#x27;Detect by signature and statistics&#x27;, &#x27;IDS/IPS plus manual review of traffic and logs&#x27;)</li></ul></section>
 <section class="slide"><h2>confirmation quiz (D6–D9)</h2><ul><li>Which command reassembles a TCP conversation in Wireshark?</li><li>Which obfuscation scheme uses a Caesar shift over characters?</li><li>Which C2 architecture has a single point of failure?</li><li>Which detection technique tracks watermarked files?</li><li>What is a SYN flood?</li><li>Which detection approach needs constant signature updates?</li></ul></section>
-<section class="slide"><h2>Next session: Network Intrusion Analysis III</h2></section>
+<section class="slide"><h2>Next unit: Network Intrusion Analysis III</h2></section>
 <section class="slide"><div class="kick">Unit 08 of 14</div><h1>Network intrusion analysis III: reconnaissance, internal spread and false positives</h1><p class="sub">The deck for this unit follows.</p></section>
-<section class="slide"><div class="kick">Unit U8 of 14</div><h1>Network Intrusion Analysis III: Recon, Internal Spread &amp; False Positives</h1><p class="sub">Mapping the network, moving through it, escalating privilege, and acknowledging what the evidence really shows.</p><div class="tags"><span class="tag">Group D</span><span class="tag">Reconnaissance</span><span class="tag">Privilege Escalation</span><span class="tag">False Positives</span></div></section>
-<section class="slide"><div class="kick">Welcome · Knowledge Group D</div><h2>This session: D10, D11, D13</h2><table><thead><tr>
+<section class="slide"><div class="kick">Unit U08</div><h1>Network Intrusion Analysis III: Recon, Internal Spread &amp; False Positives</h1><p class="sub">Mapping the network, moving through it, escalating privilege, and acknowledging what the evidence really shows.</p><div class="tags"><span class="tag">Group D</span><span class="tag">Reconnaissance</span><span class="tag">Privilege Escalation</span><span class="tag">False Positives</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group D</div><h2>This unit: D10, D11, D13</h2><table><thead><tr>
 <th>Ref</th>
 <th>Skill area</th>
 <th>Focus</th>
@@ -359,7 +363,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <tr><td>D11</td><td>Internal Spread &amp; Privilege Escalation</td><td>Vertical and horizontal escalation, spread, artefacts</td></tr>
 <tr><td>D13</td><td>False Positive Acknowledgement</td><td>Interpreting results honestly and corroborating</td></tr>
 </tbody></table></section>
-<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<section class="slide"><div class="kick">unit objectives</div><h2>By the end of this unit you will be able to</h2><ul>
 <li><b>Detect reconnaissance</b> the probing that maps the network before an attack</li>
 <li><b>Detect internal spread</b> malware moving laterally across the network</li>
 <li><b>Recognise privilege escalation</b> vertical and horizontal, and how to test for it</li>
@@ -391,7 +395,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 </tbody></table></section>
 <section class="slide"><div class="kick">Topic D11 · Spread &amp; escalation</div><h2>How privileges are escalated</h2><ul>
 <li><b>Vertical methods</b> user impersonation, Linux kernel manipulation, cross-zone scripting, shell injection, jailbreaking and rooting</li>
-<li><b>Exploit common weaknesses</b> theft or hijacking of session cookies, predictable session IDs, session fixation, cross-site scripting</li>
+<li><b>Exploit common weaknesses</b> theft or hijacking of unit cookies, predictable unit IDs, unit fixation, cross-site scripting</li>
 <li><b>Weak credentials</b> easily guessable passwords</li>
 <li><b>Keystroke logging</b> capturing credentials as they are typed</li>
 <li><b>The result</b> an attacker with more privilege than they should hold</li>
@@ -399,7 +403,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <section class="slide"><div class="kick">Topic D11 · Spread &amp; escalation</div><h2>Testing for privilege escalation</h2><ul>
 <li><b>Vertical testing</b> try to reach a higher privilege level than intended</li>
 <li><b>Horizontal testing</b> attempt to access another user&#x27;s account or data</li>
-<li><b>Session weaknesses</b> predictable session IDs, session fixation, cookie theft</li>
+<li><b>unit weaknesses</b> predictable unit IDs, unit fixation, cookie theft</li>
 <li><b>Web application flaws</b> cross-site scripting and access-control failures</li>
 <li><b>Weak credentials</b> guessable passwords and keystroke logging</li>
 </ul></section>
@@ -470,7 +474,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 </tbody></table></section>
 <section class="slide"><h2></h2><ul><li>(&#x27;Recon precedes attack&#x27;, &#x27;both externally and internally, the attacker maps before moving&#x27;)</li><li>(&#x27;Escalation is vertical or horizontal&#x27;, &quot;higher privilege, or another user&#x27;s privilege&quot;)</li><li>(&#x27;Artefacts reveal the move&#x27;, &#x27;event IDs 4624/4625/4768/4672, command history, scheduled tasks&#x27;)</li><li>(&#x27;Spread shows in correlation&#x27;, &#x27;the same infection across hosts indicates lateral movement&#x27;)</li><li>(&#x27;False positives are normal&#x27;, &#x27;acknowledge, corroborate, and never over-claim&#x27;)</li><li>(&#x27;Conclusions must be defensible&#x27;, &#x27;multi-source, reproducible and honestly reported&#x27;)</li></ul></section>
 <section class="slide"><h2>confirmation quiz (D10–D13)</h2><ul><li>Which kill-chain phase precedes weaponisation?</li><li>What does Event ID 4625 indicate?</li><li>What is horizontal privilege escalation?</li><li>Which Windows command shows network configuration?</li><li>How should an analyst handle a possible false positive?</li><li>What does Event ID 106 indicate?</li></ul></section>
-<section class="slide"><h2>Next session: Analysing Host Intrusions I</h2></section>
+<section class="slide"><h2>Next unit: Analysing Host Intrusions I</h2></section>
 <div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
 <span class="count" id="c">1 / 71</span></div>
 </div><script>

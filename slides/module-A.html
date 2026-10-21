@@ -7,7 +7,8 @@
 :root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
 --muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+html,body{margin:0;height:100%;color:var(--body);
+background:linear-gradient(112deg,#0b0b0b 0%,#161616 38%,#4d2100 68%,#a34a00 85%,#ff6600 100%);
 font-family:Arial,"Liberation Sans",sans-serif}
 .deck{height:100%;display:flex;flex-direction:column}
 .bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
@@ -36,6 +37,9 @@ tr:nth-child(even) td{background:#141414}
 .steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
 width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
 display:flex;align-items:center;justify-content:center;font-size:14px}
+img.hero{position:absolute;right:18px;bottom:0;height:74%;width:auto;
+ filter:drop-shadow(-10px 0 24px rgba(0,0,0,.5))}
+.slide{position:relative}
 .disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
 font-size:16px}
 .nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}

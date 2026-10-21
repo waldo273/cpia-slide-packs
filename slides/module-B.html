@@ -7,7 +7,8 @@
 :root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
 --muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+html,body{margin:0;height:100%;color:var(--body);
+background:linear-gradient(112deg,#0b0b0b 0%,#161616 38%,#4d2100 68%,#a34a00 85%,#ff6600 100%);
 font-family:Arial,"Liberation Sans",sans-serif}
 .deck{height:100%;display:flex;flex-direction:column}
 .bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
@@ -36,6 +37,9 @@ tr:nth-child(even) td{background:#141414}
 .steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
 width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
 display:flex;align-items:center;justify-content:center;font-size:14px}
+img.hero{position:absolute;right:18px;bottom:0;height:74%;width:auto;
+ filter:drop-shadow(-10px 0 24px rgba(0,0,0,.5))}
+.slide{position:relative}
 .disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
 font-size:16px}
 .nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
@@ -57,9 +61,9 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <div class="bar"><b>MY CYBER ACADEMY</b><span>Slide Pack Module B</span></div>
 <section class="slide"><div class="kick">Slide pack</div><h1>Module B: Core technical skills</h1><p class="sub">3 units, 76 slides. Use the arrows or the Back and Next buttons.</p></section>
 <section class="slide"><div class="kick">Unit 02 of 14</div><h1>Core technical skills I: IP protocols and network architectures</h1><p class="sub">The deck for this unit follows.</p></section>
-<section class="slide"><div class="kick">Unit U2 of 14</div><h1>Core Technical Skills I: IP Protocols &amp; Network Architectures</h1><p class="sub">The protocols and topologies that carry every intrusion — and that every network-level analysis rests on.</p><div class="tags"><span class="tag">Group B</span><span class="tag">IP Protocols</span><span class="tag">Architectures</span></div></section>
-<section class="slide"><div class="kick">Welcome · Knowledge Group B</div><h2>Group B: Core Technical Skills across three sessions</h2><table><thead><tr>
-<th>Session</th>
+<section class="slide"><div class="kick">Unit U02</div><h1>Core Technical Skills I: IP Protocols &amp; Network Architectures</h1><p class="sub">The protocols and topologies that carry every intrusion — and that every network-level analysis rests on.</p><div class="tags"><span class="tag">Group B</span><span class="tag">IP Protocols</span><span class="tag">Architectures</span></div></section>
+<section class="slide"><div class="kick">Welcome · Knowledge Group B</div><h2>Group B: Core Technical Skills across three units</h2><table><thead><tr>
+<th>unit</th>
 <th>Areas</th>
 <th>Focus</th>
 </tr></thead><tbody>
@@ -67,7 +71,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <tr><td>3</td><td>B3–B6 Tools, Fingerprinting &amp; NAC</td><td>Tool classes, OS/application fingerprinting, NAC</td></tr>
 <tr><td>4</td><td>B7–B11 Crypto, Permissions &amp; Host</td><td>Crypto, permissions, host analysis, data formats</td></tr>
 </tbody></table></section>
-<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<section class="slide"><div class="kick">unit objectives</div><h2>By the end of this unit you will be able to</h2><ul>
 <li><b>Compare IPv4 and IPv6</b> address formats, sizes and address classes</li>
 <li><b>Explain TCP, UDP and ICMP</b> their roles, headers and trade-offs</li>
 <li><b>Describe the application protocols</b> HTTP(S), SMTP, DNS and how the web and email work</li>
@@ -226,9 +230,9 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 </tbody></table></section>
 <section class="slide"><h2></h2><ul><li>(&#x27;IP has two flavours&#x27;, &#x27;IPv4 (32-bit, four sections) and IPv6 (128-bit, eight sections)&#x27;)</li><li>(&#x27;TCP is reliable, UDP is fast&#x27;, &#x27;handshake, checksums and sequencing versus no guarantees&#x27;)</li><li>(&#x27;Web and email&#x27;, &#x27;HTTP(S) port 80/443; SMTP 25 send; POP 110 / IMAP 143 retrieve&#x27;)</li><li>(&#x27;Protocols are attack surfaces&#x27;, &#x27;IRC, DHCP, FTP, SMB and SNMP are commonly abused&#x27;)</li><li>(&#x27;Architectures shape analysis&#x27;, &#x27;cabling, domains, NAT, wireless, VLANs, subnets and routing&#x27;)</li></ul></section>
 <section class="slide"><h2>confirmation quiz (B1 · B2)</h2><ul><li>Which protocol uses a three-way handshake to establish a connection?</li><li>An IPv6 address is how many bits long?</li><li>Which protocol sends email on port 25?</li><li>What does the subnet mask separate?</li><li>Which routing protocol is limited to 15 hops?</li></ul></section>
-<section class="slide"><h2>Next session: Core Technical Skills II</h2></section>
+<section class="slide"><h2>Next unit: Core Technical Skills II</h2></section>
 <section class="slide"><div class="kick">Unit 03 of 14</div><h1>Core technical skills II: tooling, fingerprinting and NAC</h1><p class="sub">The deck for this unit follows.</p></section>
-<section class="slide"><div class="kick">Unit U3 of 14</div><h1>Core Technical Skills II: Tools, Fingerprinting &amp; Network Access Control</h1><p class="sub">The tools of the trade, how to identify a target&#x27;s operating system and applications from evidence, and the role of network access control.</p><div class="tags"><span class="tag">Group B</span><span class="tag">Tools</span><span class="tag">Fingerprinting</span><span class="tag">NAC</span></div></section>
+<section class="slide"><div class="kick">Unit U03</div><h1>Core Technical Skills II: Tools, Fingerprinting &amp; Network Access Control</h1><p class="sub">The tools of the trade, how to identify a target&#x27;s operating system and applications from evidence, and the role of network access control.</p><div class="tags"><span class="tag">Group B</span><span class="tag">Tools</span><span class="tag">Fingerprinting</span><span class="tag">NAC</span></div></section>
 <section class="slide"><div class="kick">Welcome · Knowledge Group B</div><h2>Group B continues: tools, fingerprinting and NAC</h2><table><thead><tr>
 <th>Area</th>
 <th>Ref</th>
@@ -239,7 +243,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <tr><td>Application Fingerprinting</td><td>B5</td><td>Metadata, banners, user-agent strings, email headers</td></tr>
 <tr><td>Network Access Control</td><td>B6</td><td>Assessing device authentication and posture before network access</td></tr>
 </tbody></table></section>
-<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<section class="slide"><div class="kick">unit objectives</div><h2>By the end of this unit you will be able to</h2><ul>
 <li><b>Describe the common tool classes</b> network monitoring, memory acquisition, live collection and forensic analysis</li>
 <li><b>Name and compare key tools</b> Wireshark, NetworkMiner, FTK Imager Lite, Volatility, Memoryze, Autopsy, TSK</li>
 <li><b>Explain passive OS fingerprinting</b> and how packet values reveal the target OS</li>
@@ -387,9 +391,9 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 </tbody></table></section>
 <section class="slide"><h2></h2><ul><li>(&#x27;Tool classes&#x27;, &#x27;network monitoring, memory acquisition and forensic analysis cover most work&#x27;)</li><li>(&#x27;Live collection&#x27;, &quot;systeminfo, net user, tasklist and netstat -aon reveal a host&#x27;s state&quot;)</li><li>(&#x27;Passive fingerprinting&#x27;, &#x27;p0f and NetworkMiner identify the OS from packet values without sending traffic&#x27;)</li><li>(&#x27;Application fingerprinting&#x27;, &#x27;metadata, banners, user-agent strings and email headers reveal software versions&#x27;)</li><li>(&#x27;NAC analysis&#x27;, &#x27;device authentication and posture logs tie identity to time and place&#x27;)</li></ul></section>
 <section class="slide"><h2>confirmation quiz (B3 · B6)</h2><ul><li>Which tool acquires physical memory and the pagefile with a GUI?</li><li>Which OS fingerprinting tool sends no packets to the target?</li><li>Where does a DOCX file store its application name?</li><li>Which live-collection command lists current processes?</li><li>What is the core purpose of network access control?</li></ul></section>
-<section class="slide"><h2>Next session: Core Technical Skills III</h2></section>
+<section class="slide"><h2>Next unit: Core Technical Skills III</h2></section>
 <section class="slide"><div class="kick">Unit 04 of 14</div><h1>Core technical skills III: cryptography, permissions and host analysis</h1><p class="sub">The deck for this unit follows.</p></section>
-<section class="slide"><div class="kick">Unit U4 of 14</div><h1>Core Technical Skills III: Cryptography, Permissions &amp; Host Analysis</h1><p class="sub">The final core-technical session: how cryptography protects data and how it is attacked, what permissions control access, and how to interrogate a live host.</p><div class="tags"><span class="tag">Group B</span><span class="tag">Cryptography</span><span class="tag">Permissions</span><span class="tag">Host Analysis</span></div></section>
+<section class="slide"><div class="kick">Unit U04</div><h1>Core Technical Skills III: Cryptography, Permissions &amp; Host Analysis</h1><p class="sub">The final core-technical unit: how cryptography protects data and how it is attacked, what permissions control access, and how to interrogate a live host.</p><div class="tags"><span class="tag">Group B</span><span class="tag">Cryptography</span><span class="tag">Permissions</span><span class="tag">Host Analysis</span></div></section>
 <section class="slide"><div class="kick">Welcome · Knowledge Group B</div><h2>Completing Group B: crypto, permissions, host analysis</h2><table><thead><tr>
 <th>Area</th>
 <th>Ref</th>
@@ -401,7 +405,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <tr><td>Host Analysis Techniques</td><td>B10</td><td>Processes, ports, patch levels, drivers, services, shares</td></tr>
 <tr><td>Common Data Formats</td><td>B11</td><td>Text, binary, timestamps, magic bytes, encodings</td></tr>
 </tbody></table></section>
-<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<section class="slide"><div class="kick">unit objectives</div><h2>By the end of this unit you will be able to</h2><ul>
 <li><b>Distinguish encryption from encoding</b> and state the core security services</li>
 <li><b>Explain symmetric and asymmetric ciphers</b> and the algorithms DES, 3DES, AES, RSA, RC4</li>
 <li><b>Describe hashes and HMAC</b> SHA, MD5 and message integrity</li>
@@ -518,7 +522,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <section class="slide"><div class="kick">Topic B10 · More commands</div><h2>Other useful commands</h2><ul>
 <li><b>systeminfo</b> OS, hardware and network details</li>
 <li><b>net file</b> shows open files on the network</li>
-<li><b>net session</b> lists active network sessions to the host</li>
+<li><b>net unit</b> lists active network units to the host</li>
 <li><b>net accounts</b> shows account and password policy settings</li>
 <li><b>Correlate them</b> combine these to reconstruct host state and attacker footholds</li>
 </ul></section>
@@ -542,7 +546,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 </tbody></table></section>
 <section class="slide"><h2></h2><ul><li>(&#x27;Encoding vs encryption&#x27;, &#x27;encoding is public and keyless; encryption needs a secret key&#x27;)</li><li>(&#x27;Symmetric vs asymmetric&#x27;, &#x27;one shared key versus a private/public key pair&#x27;)</li><li>(&#x27;Hashes give integrity&#x27;, &#x27;SHA, MD5 and HMAC verify data has not changed&#x27;)</li><li>(&#x27;Crypto in the wild&#x27;, &#x27;SSL/TLS, IPSec, SSH, PGP, WEP and WPA/WPA2 protect real traffic&#x27;)</li><li>(&#x27;Host analysis&#x27;, &quot;netstat -aon, tasklist, wmic qfe, driverquery, net start and net share reveal a host&#x27;s state&quot;)</li></ul></section>
 <section class="slide"><h2>confirmation quiz (B7 · B11)</h2><ul><li>Which algorithm is a symmetric stream cipher?</li><li>What does a hash function provide for evidence?</li><li>Which command lists hotfixes via WMI?</li><li>WPA2 personal mode uses which encryption?</li><li>What do magic bytes identify?</li></ul></section>
-<section class="slide"><h2>Next session: Background Information Gathering &amp; OSINT</h2></section>
+<section class="slide"><h2>Next unit: Background Information Gathering &amp; OSINT</h2></section>
 <div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
 <span class="count" id="c">1 / 80</span></div>
 </div><script>

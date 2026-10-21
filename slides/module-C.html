@@ -7,7 +7,8 @@
 :root{--ink:#111111;--panel:#171717;--card:#1c1c1c;--line:#3a3a3a;--text:#ffffff;--body:#d1d5db;
 --muted:#9ca3af;--orange:#ff6600;--orange-d:#b34700}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--ink);color:var(--body);
+html,body{margin:0;height:100%;color:var(--body);
+background:linear-gradient(112deg,#0b0b0b 0%,#161616 38%,#4d2100 68%,#a34a00 85%,#ff6600 100%);
 font-family:Arial,"Liberation Sans",sans-serif}
 .deck{height:100%;display:flex;flex-direction:column}
 .bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;
@@ -36,6 +37,9 @@ tr:nth-child(even) td{background:#141414}
 .steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;
 width:30px;height:30px;border-radius:50%;background:var(--orange);color:#111;font-weight:bold;
 display:flex;align-items:center;justify-content:center;font-size:14px}
+img.hero{position:absolute;right:18px;bottom:0;height:74%;width:auto;
+ filter:drop-shadow(-10px 0 24px rgba(0,0,0,.5))}
+.slide{position:relative}
 .disc{border-left:4px solid var(--orange);background:var(--panel);padding:14px 18px;border-radius:6px;
 font-size:16px}
 .nav{display:flex;gap:8px;padding:10px 18px;border-top:1px solid var(--line);background:#0d0d0d}
@@ -57,7 +61,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <div class="bar"><b>MY CYBER ACADEMY</b><span>Slide Pack Module C</span></div>
 <section class="slide"><div class="kick">Slide pack</div><h1>Module C: Background information gathering and open source</h1><p class="sub">1 units, 24 slides. Use the arrows or the Back and Next buttons.</p></section>
 <section class="slide"><div class="kick">Unit 05 of 14</div><h1>Background information gathering and open source</h1><p class="sub">The deck for this unit follows.</p></section>
-<section class="slide"><div class="kick">Unit U5 of 14</div><h1>Background Information Gathering &amp; Open Source</h1><p class="sub">WHOIS, DNS, open-source investigation, document metadata and community knowledge.</p><div class="tags"><span class="tag">Group C</span><span class="tag">OSINT</span><span class="tag">Background Information</span></div></section>
+<section class="slide"><div class="kick">Unit U05</div><h1>Background Information Gathering &amp; Open Source</h1><p class="sub">WHOIS, DNS, open-source investigation, document metadata and community knowledge.</p><div class="tags"><span class="tag">Group C</span><span class="tag">OSINT</span><span class="tag">Background Information</span></div></section>
 <section class="slide"><div class="kick">Welcome · Knowledge Group C</div><h2>Five skill areas, one open-source picture</h2><table><thead><tr>
 <th>Ref</th>
 <th>Skill area</th>
@@ -69,7 +73,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 <tr><td>C4</td><td>Extraction of Document Metadata</td><td>Hidden data inside files</td></tr>
 <tr><td>C5</td><td>Community Knowledge</td><td>Threat reports, resources, false positives</td></tr>
 </tbody></table></section>
-<section class="slide"><div class="kick">Session objectives</div><h2>By the end of this session you will be able to</h2><ul>
+<section class="slide"><div class="kick">unit objectives</div><h2>By the end of this unit you will be able to</h2><ul>
 <li><b>Read registration records</b> WHOIS information on IP addresses and domains</li>
 <li><b>Interpret DNS records</b> A, CNAME, NS, SOA, MX, TXT, PTR, HINFO</li>
 <li><b>Explain zone transfers and fast-flux</b> and the security implications of dynamic DNS</li>
@@ -215,7 +219,7 @@ padding:7px 14px;font-size:13px;cursor:pointer}
 </tbody></table></section>
 <section class="slide"><h2></h2><ul><li>(&#x27;WHOIS&#x27;, &#x27;registration records reveal registrant, registrar, dates and name servers&#x27;)</li><li>(&#x27;DNS records&#x27;, &#x27;each type — A, CNAME, NS, SOA, MX, TXT, PTR, HINFO — has a distinct role&#x27;)</li><li>(&#x27;DNS risks&#x27;, &#x27;zone transfers, dynamic DNS and fast-flux all enable attack and evasion&#x27;)</li><li>(&#x27;OSINT is layered&#x27;, &#x27;search operators, directories, archives, social media and theHarvester&#x27;)</li><li>(&#x27;Metadata leaks&#x27;, &#x27;documents carry hidden data the author never intended to share&#x27;)</li><li>(&#x27;Community knowledge&#x27;, &#x27;threat reports and multi-vendor checks eliminate false positives&#x27;)</li></ul></section>
 <section class="slide"><h2>confirmation quiz (Group C)</h2><ul><li>Which DNS record identifies the authoritative name servers for a domain?</li><li>What makes a fast-flux domain hard to shut down?</li><li>What does the intitle: operator do in a Google search?</li><li>Which tool gathers emails, subdomains and hosts from public sources?</li><li>How do you best eliminate a false positive in malware analysis?</li></ul></section>
-<section class="slide"><h2>Next session: Network Intrusion Analysis I</h2></section>
+<section class="slide"><h2>Next unit: Network Intrusion Analysis I</h2></section>
 <div class="nav"><button id="prev">&larr; Back</button><button id="next">Next &rarr;</button>
 <span class="count" id="c">1 / 26</span></div>
 </div><script>
