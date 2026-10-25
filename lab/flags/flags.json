@@ -1,0 +1,86 @@
+{
+ "L01": {
+  "title": "Chain of custody",
+  "kind": "hash",
+  "salt": "27c6101589eb8c60",
+  "sha256": "3f8c30f45b8cb6ae4388979f55200927388cd16c682524a5c0589ccf5791c3c9"
+ },
+ "L02": {
+  "title": "Host identity from traffic",
+  "kind": "mac",
+  "salt": "c57be87956a16974",
+  "sha256": "a7852c8ad6cddad6bb512632ac35cca715479eea3aa4f0d887f4f8a79291b562"
+ },
+ "L03": {
+  "title": "Service fingerprint",
+  "kind": "banner",
+  "salt": "bd2948ead1c37878",
+  "sha256": "549873c38c6e9c0df5bf0b416208ab70f396bdeb9a4f395c04eef82eb9906379"
+ },
+ "L04": {
+  "title": "Permissions that should not exist",
+  "kind": "mode",
+  "salt": "2a636f4ea389798a",
+  "sha256": "c6fc22091edf4cce7c8b21f4069e37485db7983755a6f6388e7b499c3c90c8b4"
+ },
+ "L05": {
+  "title": "Document metadata",
+  "kind": "author",
+  "salt": "48a6f495027cbc3c",
+  "sha256": "e5e0713179aa1dd5fcc090328a7b496f0cb89139ef1985c646d3bad936d955ec"
+ },
+ "L06": {
+  "title": "Logs: what the host keeps asking for",
+  "kind": "domain",
+  "salt": "f22334fed9348af1",
+  "sha256": "3ea7319c1eb175e76ff8254f0b9008fc54ad7aaa7a280bd9f4f2019963fc268c"
+ },
+ "L07": {
+  "title": "Beaconing to command and control",
+  "kind": "ip",
+  "salt": "196bec5885c5fd63",
+  "sha256": "6e9b730388f506be71130478f50d77ae5a3e3c8b4da4c8c1c5f24e65577505e7"
+ },
+ "L08": {
+  "title": "Discovery traffic and false positives",
+  "kind": "multicast",
+  "salt": "afd156098b62f17b",
+  "sha256": "52d4e51734429a20ce9e9112e073931f8b674488f8cd70d051c4bb02945dc35c"
+ },
+ "L09": {
+  "title": "Acquisition and the file system",
+  "kind": "inode",
+  "salt": "eb544cdad927562b",
+  "sha256": "a6d425191648271827d75929a50845d7aa18e9e4b2975f8ac800b655c81fe084"
+ },
+ "L10": {
+  "title": "Windows persistence",
+  "kind": "valuename",
+  "salt": "764c98d9431f4b91",
+  "sha256": "2458232eac33305a26d40b520d0a8cda31dc91a33423b926591d36873826ca96"
+ },
+ "L11": {
+  "title": "Memory: what was running",
+  "kind": "build",
+  "salt": "833bde830dcf95f7",
+  "sha256": "074684944e7072825106193aa5c956c24fa27e0c83a4d5f0502859d3bc852746"
+ },
+ "L12": {
+  "title": "Structure of a malicious library",
+  "kind": "host",
+  "salt": "790bafb2ca811fab",
+  "sha256": "c8be04930fe3eb3a074e10f6c2c30633de00d7ca78bb45ba2cb5e9472e077fe8"
+ },
+ "L13": {
+  "title": "Recognising a stripped binary",
+  "kind": "sections",
+  "salt": "2231bbb9346f6e59",
+  "sha256": "0ad2cb3f9a71df45da841e14bf579e8efe270b6c233eca58ab9c669c537a19db"
+ },
+ "L14": {
+  "title": "Capstone: reconstruct the incident",
+  "kind": "domain",
+  "salt": "c529f70e75bf5e9d",
+  "sha256": "ddc8fa9f1ef96e7f156adac76ab4e5f0e178d4f549c61442f717bcd8795c8d3c"
+ }
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CPIA Kali lab: 14 labs, one container</title>
+<style>
+  :root{--ink:#141414;--slate:#1f2937;--muted:#6b7280;--line:#d1d5db;--zebra:#f9fafb;--red:#7f1414;--ok:#1c7a4a}
+  *{box-sizing:border-box}
+  body{margin:0;font:16px/1.55 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--slate);background:#fff}
+  header{padding:26px 32px 18px;border-bottom:2px solid var(--red)}
+  header h1{margin:0;font-size:24px;color:var(--ink)}
+  header p{margin:6px 0 0;color:var(--muted);font-size:14px}
+  main{max-width:1000px;margin:0 auto;padding:24px 20px 60px}
+  .bar{display:flex;align-items:center;gap:14px;margin:0 0 22px}
+  .meter{flex:1;height:10px;background:var(--zebra);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .meter span{display:block;height:100%;width:0;background:var(--red);transition:width .35s}
+  .badge{font-weight:700;color:var(--red)}
+  .lab{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:0 0 12px;background:#fff}
+  .lab.done{border-color:var(--ok);background:#f6fbf8}
+  .lab h2{margin:0 0 4px;font-size:16px;color:var(--ink)}
+  .lab h2 .id{color:var(--muted);font-weight:600;margin-right:8px}
+  .goal{margin:0 0 10px;font-size:14px;color:var(--slate)}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  input[type=text]{flex:1;min-width:220px;padding:8px 10px;border:1px solid var(--line);border-radius:7px;font:inherit}
+  button{padding:8px 14px;border:0;border-radius:7px;background:var(--ink);color:#fff;font:inherit;cursor:pointer}
+  button.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .msg{font-size:13.5px;margin-top:8px;min-height:18px}
+  .msg.ok{color:var(--ok);font-weight:600}
+  .msg.no{color:var(--red)}
+  .reward{display:none;margin-top:10px;padding:10px 12px;border-radius:8px;background:#fff7ed;border:1px dashed var(--red);font-size:14px}
+  .lab.done .reward{display:block}
+  footer{max-width:1000px;margin:0 auto;padding:0 20px 40px;color:var(--muted);font-size:13px}
+  code{background:var(--zebra);padding:1px 5px;border-radius:4px;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>CPIA Kali lab</h1>
+  <p>Fourteen labs, one container. Find the value each lab asks for, type it in, collect the badge.</p>
+</header>
+<main>
+  <div class="bar">
+    <div class="meter"><span id="fill"></span></div>
+    <div><b id="count">0</b> of 14 &middot; <span class="badge" id="badge">Recruit</span></div>
+  </div>
+  <div id="labs"></div>
+</main>
+<footer>
+  Evidence lives in <code>/labs/work</code> and <code>/labs/artifacts</code>. Lab sheets are in
+  <code>/labs/sheets</code>. The same checks run from the shell with <code>lab check 7 &lt;value&gt;</code>.
+</footer>
+<script>
+const LABS = [
+ ["L01","Chain of custody","Hash the evidence sample and give the first eight characters of its SHA-256.","sha256sum /labs/work/samples/payload.bin"],
+ ["L02","Host identity from traffic","Name the victim host: give the client MAC address from the capture, in lowercase hex without separators.","tshark -r /labs/artifacts/2025-01-22-traffic-analysis-exercise.pcap -Y dhcp -T fields -e eth.src"],
+ ["L03","Service fingerprint","Ask the local victim web service for its version. Give the version number only, for example 2.4.52.","curl -sI http://127.0.0.1:8080/"],
+ ["L04","Permissions that should not exist","Find the script with a set-user-ID bit and give the octal mode, four digits.","find /labs/work/samples -perm -4000"],
+ ["L05","Document metadata","Open the vendor invoice and give the author surname from its metadata.","pdfinfo /labs/work/samples/vendor-invoice.pdf"],
+ ["L06","Logs: what the host keeps asking for","Give the domain the host queried most often.","sort /labs/work/logs/dns.log | uniq -c | sort -rn | head"],
+ ["L07","Beaconing to command and control","Give the address receiving the most HTTP requests.","tshark -r /labs/artifacts/2025-01-22-traffic-analysis-exercise.pcap -Y http.request -T fields -e http.host"],
+ ["L08","Discovery traffic and false positives","Give the multicast address that discovery probes are sent to.","tshark -r /labs/artifacts/2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.dst==239.0.0.0/8\" -T fields -e ip.dst"],
+ ["L09","Acquisition and the file system","Export the E01, list the MFT, and give the inode of logfile1.txt as shown, for example 48-128-6.","ewfexport -t /tmp/ntfs1 -f raw /labs/work/disk/ntfs1-gen2.E01 && fls -r -p /tmp/ntfs1.raw | grep logfile1"],
+ ["L10","Windows persistence","Read the exported Run key and give the value name that does not belong to a normal user install.","cat /labs/work/samples/run-key-export.reg"],
+ ["L11","Memory: what was running","Give the Windows build number recorded in the memory image.","vol -f /labs/work/jo-2009.mem windows.info.Info | grep -i build"],
+ ["L12","Structure of a malicious library","Give the host name inside the URL the DLL contacts, without https://.","strings -a /labs/work/samples/cobalt_like.dll | grep http"],
+ ["L13","Recognising a stripped binary","Ask file what happened to the section headers and give the two words it uses.","file /labs/work/samples/emotet_like.elf"],
+ ["L14","Capstone: reconstruct the incident","Name the proxy domain the host was steered towards.","tshark -r /labs/artifacts/2025-01-22-traffic-analysis-exercise.pcap -Y dns -T fields -e dns.qry.name | sort -u"],
+];
+const BADGES = [[0,"Recruit"],[3,"Analyst"],[7,"Senior analyst"],[11,"Incident lead"],[14,"CPIA practitioner"]];
+const REWARDS = {
+ L01:"Badge unlocked: Evidence handler. You hashed before you touched.",
+ L02:"Badge unlocked: Traffic reader. The capture gave up the host.",
+ L03:"Badge unlocked: Fingerprinter. You asked the service, not the port.",
+ L04:"Badge unlocked: Permission auditor. Set-user-ID on a script is a gift to an attacker.",
+ L05:"Badge unlocked: Document examiner. Metadata outlives the file.",
+ L06:"Badge unlocked: Log analyst. Repetition is a signal.",
+ L07:"Badge unlocked: C2 hunter. You found the phone home.",
+ L08:"Badge unlocked: Noise filter. You separated discovery chatter from an intrusion.",
+ L09:"Badge unlocked: Acquisition technician. The image is the evidence.",
+ L10:"Badge unlocked: Registry reader. Persistence leaves a name.",
+ L11:"Badge unlocked: Memory analyst. You identified the platform before the payload.",
+ L12:"Badge unlocked: Static analyst. Strings speak before code runs.",
+ L13:"Badge unlocked: Packer spotter. You recognised what was removed.",
+ L14:"Final badge: CPIA practitioner. You reconstructed an incident from evidence alone."
+};
+let done = [];
+const byId = id => document.getElementById(id);
+function badge(n){ let b="Recruit"; for(const [need,label] of BADGES){ if(n>=need) b=label; } return b; }
+function paint(){
+  byId("count").textContent = done.length;
+  byId("badge").textContent = badge(done.length);
+  byId("fill").style.width = (100*done.length/14).toFixed(1)+"%";
+  LABS.forEach(([id])=>{
+    const card = byId("card-"+id);
+    const isDone = done.includes(id);
+    card.classList.toggle("done", isDone);
+    card.querySelector("input").disabled = isDone;
+    card.querySelector("button").disabled = isDone;
+    if(isDone){ const m=card.querySelector(".msg"); m.className="msg ok"; m.textContent="Complete."; }
+  });
+}
+function render(){
+  byId("labs").innerHTML = LABS.map(([id,title,goal,hint])=>`
+    <section class="lab" id="card-${id}">
+      <h2><span class="id">${id}</span>${title}</h2>
+      <p class="goal">${goal}</p>
+      <div class="row">
+        <input type="text" id="in-${id}" placeholder="the value you found" autocomplete="off" spellcheck="false">
+        <button onclick="submitFlag('${id}')">Check</button>
+        <button class="ghost" onclick="toggleHint('${id}')">Hint</button>
+      </div>
+      <div class="msg" id="msg-${id}"></div>
+      <div class="reward" id="rw-${id}">${REWARDS[id]||""}</div>
+      <pre id="hint-${id}" style="display:none;margin:8px 0 0;background:#f9fafb;border:1px solid #d1d5db;border-radius:8px;padding:8px 10px;font-size:12.5px;overflow:auto"><code>${hint.replace(/&/g,"&amp;").replace(/</g,"&lt;")}</code></pre>
+    </section>`).join("");
+  LABS.forEach(([id])=>{ byId("in-"+id).addEventListener("keydown", e=>{ if(e.key==="Enter") submitFlag(id); }); });
+}
+function toggleHint(id){ const h=byId("hint-"+id); h.style.display = h.style.display==="none" ? "block":"none"; }
+async function submitFlag(id){
+  const input = byId("in-"+id); const msg = byId("msg-"+id);
+  const value = input.value.trim();
+  if(!value){ msg.className="msg no"; msg.textContent="Type the value first."; return; }
+  msg.className="msg"; msg.textContent="Checking...";
+  try{
+    const r = await fetch("/api/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({lab:id,value})});
+    const j = await r.json();
+    if(j.ok){
+      done = j.complete || done;
+      msg.className="msg ok"; msg.textContent = `Correct. ${j.done} of 14 complete.`;
+      paint();
+      if(j.done===14){ setTimeout(()=>alert("All fourteen labs complete. You have finished the CPIA practical track."),200); }
+    } else { msg.className="msg no"; msg.textContent="Not that value. Read the goal again, or open the hint."; }
+  }catch(e){ msg.className="msg no"; msg.textContent="Could not reach the checker. Is the container still running?"; }
+}
+async function init(){
+  render();
+  try{ const j = await (await fetch("/api/progress")).json(); done = j.done || []; }catch(e){ done=[]; }
+  paint();
+}
+init();
+</script>
+</body>
+</html>
